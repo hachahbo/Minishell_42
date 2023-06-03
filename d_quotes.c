@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   d_quote.c                                          :+:      :+:    :+:   */
+/*   d_quotes.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hachahbo <hachahbo@student.42.fr>          +#+  +:+       +#+        */
+/*   By: amoukhle <amoukhle@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/01 06:28:18 by hachahbo          #+#    #+#             */
-/*   Updated: 2023/06/01 06:29:02 by hachahbo         ###   ########.fr       */
+/*   Updated: 2023/06/03 17:17:51 by amoukhle         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ int	check_d_quote(t_list *head)
 	help = head;
 	while(head)
 	{
-		if(ft_strcmp(head->content, "\"") == 0)
+		if(ft_strcmp(head->content, "\"") == 0 && head->state == GENERAL)
 			x++;
 		head = head ->next;
 	}
@@ -30,7 +30,7 @@ int	check_d_quote(t_list *head)
 	head = help;
 	while(head)
 	{
-		if(ft_strcmp(head->content, "\'")== 0)
+		if(ft_strcmp(head->content, "\'")== 0 && head->state == GENERAL)
 			i++;
 		head = head ->next;
 	}

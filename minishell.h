@@ -6,7 +6,7 @@
 /*   By: amoukhle <amoukhle@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/21 19:11:14 by hachahbo          #+#    #+#             */
-/*   Updated: 2023/06/01 11:15:23 by amoukhle         ###   ########.fr       */
+/*   Updated: 2023/06/03 16:54:52 by amoukhle         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,5 +41,9 @@ void	printlist(t_list *head);
 void	ft_lstclear(t_list **lst);
 void	ft_env(t_list *env_list);
 void	ft_make_new_list(t_list *head, t_list **new_list);
+char	*ft_pwd(t_list *env_list);
+void	ft_cd(char *path);
+char	*delete_d_quot(char *str);
+void	ft_new_list_wihtout_d_quot(t_list *new_list, t_list **new_list_w_d_q);
 #endif
 
