@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   helper.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hachahbo <hachahbo@student.42.fr>          +#+  +:+       +#+        */
+/*   By: amoukhle <amoukhle@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/01 06:49:49 by hachahbo          #+#    #+#             */
-/*   Updated: 2023/06/01 06:50:01 by hachahbo         ###   ########.fr       */
+/*   Updated: 2023/06/01 14:04:08 by amoukhle         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,7 +42,7 @@ void printlist(t_list *head)
 	printf("command			state			token\n");
 	while(head)
 	{
-		printf("\"%s\"			%d			%d\n", head->content, head->state, head->type);
+		printf("%s			%d			%d\n", head->content, head->state, head->type);
 		head= head->next;
 	}
 	printf("\n");

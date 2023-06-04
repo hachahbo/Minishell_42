@@ -1,24 +1,22 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_strdup.c                                        :+:      :+:    :+:   */
+/*   ft_env.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: amoukhle <amoukhle@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/10/07 05:43:27 by hachahbo          #+#    #+#             */
-/*   Updated: 2023/06/03 17:10:38 by amoukhle         ###   ########.fr       */
+/*   Created: 2023/06/01 09:48:53 by amoukhle          #+#    #+#             */
+/*   Updated: 2023/06/01 09:50:53 by amoukhle         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
+#include "minishell.h"
 
-char	*ft_strdup(const char *s1)
+void	ft_env(t_list *env_list)
 {
-	char	*s2;
-
-	s2 = (char *)malloc(ft_strlen(s1) + 1);
-	if (!s2)
-		return (0);
-	ft_memcpy(s2, s1, ft_strlen(s1) + 1);
-	return (s2);
+	while (env_list)
+	{
+		printf("%s\n", env_list->content);
+		env_list = env_list->next;
+	}
 }
