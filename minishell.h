@@ -6,7 +6,7 @@
 /*   By: amoukhle <amoukhle@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/21 19:11:14 by hachahbo          #+#    #+#             */
-/*   Updated: 2023/06/04 01:00:55 by amoukhle         ###   ########.fr       */
+/*   Updated: 2023/06/05 16:23:57 by amoukhle         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,6 +46,5 @@ void	ft_cd(char *path);
 char	*delete_d_quot(char *str);
 void	ft_new_list_wihtout_d_quot(t_list *new_list, t_list **new_list_w_d_q);
 char	*ft_expand_value(char *str, t_list *env_list);
-
 #endif
 

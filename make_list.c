@@ -6,7 +6,7 @@
 /*   By: amoukhle <amoukhle@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/01 06:09:13 by hachahbo          #+#    #+#             */
-/*   Updated: 2023/06/05 17:33:05 by amoukhle         ###   ########.fr       */
+/*   Updated: 2023/06/05 17:31:24 by amoukhle         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,6 +55,29 @@ void 	ft_make_list(char *input, t_list **head)
 	}
 }
 
+char *handle_env(t_list *list, t_list *env_list)
+{
+	if (list->type == ENV && list->state == GENERAL
+		&& (list->next == NULL || list->next->type == WHITE_SPACE))
+		return (list->content);
+	else if (list->type == ENV && list->state == GENERAL
+		&& (list->next->type == QOUTE || list->next->type == DOUBLE_QUOTE))
+		return (NULL);
+	else if (list->type == ENV && list->state == IN_QUOTE)
+		return (list->content);
+	else if (list->type == ENV && list->state == IN_DQUOTE)
+	{
+		if (list->next->type == WORD)
+			return (ft_expand_value(list->next->content, env_list));
+		else
+			return (list->content);
+	}
+	else if (list->type == ENV && list->state == GENERAL
+		&& list->next->type == WORD)
+		return (ft_expand_value(list->next->content, env_list));
+	return (list->content);
+}
+
 void	ft_make_new_list(t_list *head, t_list **new_list, t_list *env_list)
 {
 	char	*str;
@@ -97,6 +120,7 @@ void	ft_make_new_list(t_list *head, t_list **new_list, t_list *env_list)
 		if (in_join == 0)
 			head = head->next;
 	}
+	
 }
 
 char *ft_expand_value(char *str, t_list *env_list)
