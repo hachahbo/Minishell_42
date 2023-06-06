@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   make_list.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: amoukhle <amoukhle@student.42.fr>          +#+  +:+       +#+        */
+/*   By: hachahbo <hachahbo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/01 06:09:13 by hachahbo          #+#    #+#             */
-/*   Updated: 2023/06/03 17:20:41 by amoukhle         ###   ########.fr       */
+/*   Updated: 2023/06/05 12:26:09 by hachahbo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -142,4 +142,5 @@ void	ft_new_list_wihtout_d_quot(t_list *new_list, t_list **new_list_w_d_q)
 		free(str);
 		new_list = new_list->next;
 	}
+	
 }

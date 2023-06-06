@@ -6,7 +6,7 @@
 /*   By: hachahbo <hachahbo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/01 06:26:17 by hachahbo          #+#    #+#             */
-/*   Updated: 2023/06/04 01:09:28 by hachahbo         ###   ########.fr       */
+/*   Updated: 2023/06/06 11:04:54 by hachahbo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,28 +70,50 @@ int  ft_search_in_env(t_list *env_list, t_list *head)
 	}
 	return (0);
 }
+int check_next_of_echo(t_list *head)
+{
+
+	head = head->next;
+	while(head && is_spaces(head->content))
+		head = head->next;
+	if(!head)
+	{
+		printf("\n");
+		return (1);
+	}
+	return (0);
+}
 int ft_echo(t_list *env_list, t_list *head)
 {
+	
 	while(head)
 	{
 		if(!ft_strcmp(head->content, "echo"))
 			break;
-
 		head = head->next;
 	}
-	if(!head)
-		return (0);
+	if(!head->next)
+	{
+		printf("\n");
+		return (1);
+	}
+	if(check_next_of_echo(head))
+		return (1);
 	if(ft_search_in_env(env_list, head))
 		return(0);
 	head = head->next;
 	while(head && is_spaces(head ->content))
 		head = head->next;
-	
 	while(head)
 	{
 		if(!is_spaces(head ->content))
 		{
-			if(head->next  == NULL)
+			if(!ft_strcmp(head->content, "-n"))
+			{
+				printf("");
+				return (0);
+			}
+			else if(head->next  == NULL)
 				printf("%s", head->content);
 			else
 				printf("%s ", head->content);
