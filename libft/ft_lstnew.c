@@ -6,7 +6,7 @@
 /*   By: amoukhle <amoukhle@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/17 12:25:26 by hachahbo          #+#    #+#             */
-/*   Updated: 2023/06/03 17:09:01 by amoukhle         ###   ########.fr       */
+/*   Updated: 2023/06/05 14:37:39 by amoukhle         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,5 +54,6 @@ t_list	*ft_lstnew(void *content)
 	tmp->content = ft_strdup(content);
 	ft_lexer(tmp);
 	tmp->next = 0;
+	tmp->prev = 0;
 	return (tmp);
 }

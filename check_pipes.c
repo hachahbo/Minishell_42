@@ -6,7 +6,7 @@
 /*   By: hachahbo <hachahbo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/01 06:31:48 by hachahbo          #+#    #+#             */
-/*   Updated: 2023/06/04 01:09:31 by hachahbo         ###   ########.fr       */
+/*   Updated: 2023/06/01 06:32:19 by hachahbo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,11 +18,7 @@ int check_pipes(t_list *head)
 	int c = 0;
 
 	x = 0;
-	if(ft_strcmp(head->content, "|") == 0)
-	{
-		printf("syntax Error\n");
-		return (1);
-	}
+	
 	while(1)
 	{
 		if(!(is_spaces(head->content)) && c == 0)

@@ -6,13 +6,13 @@
 #    By: hachahbo <hachahbo@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/05/20 15:02:26 by hachahbo          #+#    #+#              #
-#    Updated: 2023/06/06 12:47:00 by hachahbo         ###   ########.fr        #
+#    Updated: 2023/06/07 13:55:28 by hachahbo         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 NAME = minishell
 
-CFLAGS = -Wall -Werror -Wextra
+CC = cc -Wall -Werror - Wextra
 
 CC = cc
 # CFLAGS = -Werror -Wall -Wextra

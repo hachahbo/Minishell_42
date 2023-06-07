@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   make_list.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hachahbo <hachahbo@student.42.fr>          +#+  +:+       +#+        */
+/*   By: amoukhle <amoukhle@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/01 06:09:13 by hachahbo          #+#    #+#             */
-/*   Updated: 2023/06/05 12:26:09 by hachahbo         ###   ########.fr       */
+/*   Updated: 2023/06/05 17:31:24 by amoukhle         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,92 +55,84 @@ void 	ft_make_list(char *input, t_list **head)
 	}
 }
 
-void	ft_make_new_list(t_list *head, t_list **new_list)
+char *handle_env(t_list *list, t_list *env_list)
+{
+	if (list->type == ENV && list->state == GENERAL
+		&& (list->next == NULL || list->next->type == WHITE_SPACE))
+		return (list->content);
+	else if (list->type == ENV && list->state == GENERAL
+		&& (list->next->type == QOUTE || list->next->type == DOUBLE_QUOTE))
+		return (NULL);
+	else if (list->type == ENV && list->state == IN_QUOTE)
+		return (list->content);
+	else if (list->type == ENV && list->state == IN_DQUOTE)
+	{
+		if (list->next->type == WORD)
+			return (ft_expand_value(list->next->content, env_list));
+		else
+			return (list->content);
+	}
+	else if (list->type == ENV && list->state == GENERAL
+		&& list->next->type == WORD)
+		return (ft_expand_value(list->next->content, env_list));
+	return (list->content);
+}
+
+void	ft_make_new_list(t_list *head, t_list **new_list, t_list *env_list)
 {
 	char	*str;
 	t_list	*new;
-	int		start_word;
-	int		is_word;
+	char	*tmp;
+	int		in_join;
 
-	start_word = 0;
 	while (head)
 	{
-		is_word = 0;
-		if (head)
-		{
+		in_join = 0;
+		str = NULL;
+		if (head->type != WORD && head->type != QOUTE
+			&& head->type != DOUBLE_QUOTE && head->type != ENV)
 			str = head->content;
-			if (head->type == WORD || head->type == QOUTE
-				|| head->type == DOUBLE_QUOTE)
-				is_word = 1;
-			start_word = 1;
-		}
-		head = head->next;
-		while (head && is_word == 1 && (head->type == QOUTE || head->state == IN_DQUOTE
-			|| head->type == DOUBLE_QUOTE || head->type == WORD || head->state == IN_QUOTE))
+		while (head && (head->type == WORD || head->type == ENV
+			|| head->type == QOUTE || head->type == DOUBLE_QUOTE
+			|| head->state == IN_QUOTE || head->state == IN_DQUOTE))
 		{
-			str = ft_strjoin(str, head->content);
+			if ((head->type == QOUTE && head->state == GENERAL)
+				|| (head->type == DOUBLE_QUOTE && head->state == GENERAL)
+				|| (head->type == WORD && head->prev && head->prev->type == ENV && head->state != IN_QUOTE))
+			{
+				head = head->next;
+				continue;
+			}
+			if (head->type == ENV)
+			{
+				tmp = handle_env(head, env_list);
+				if (!tmp)
+					tmp = "";
+				str = ft_strjoin(str, tmp);
+			}
+			else
+				str = ft_strjoin(str, head->content);
 			head = head->next;
-			start_word = 0;
+			in_join = 1;
 		}
 		new = ft_lstnew(str);
 		ft_lstadd_back(new_list, new);
-		if (start_word == 0)
-			free(str);
+		if (in_join == 0)
+			head = head->next;
 	}
 	
 }
 
-char	*delete_d_quot(char *str)
+char *ft_expand_value(char *str, t_list *env_list)
 {
-	int		i;
-	int		j;
-	char	*new_str;
+	char	*value;
 
-	i = 0;
-	j = 0;
-	new_str = malloc(ft_strlen(str));
-	while (str[i])
+	value = NULL;
+	while (env_list)
 	{
-		if (str[i] == '\"')
-		{
-			i++;
-			while (str[i] && str[i] != '\"')
-				new_str[j++] = str[i++];
-			if (!str[i])
-				break;
-		}
-		else if (str[i] == '\'')
-		{
-			i++;
-			while (str[i] && str[i] != '\'')
-				new_str[j++] = str[i++];
-			if (!str[i])
-				break;
-		}
-		else
-		{
-			while (str[i] && str[i] != '\"' && str[i] != '\'')
-				new_str[j++] = str[i++];
-			if (!str[i])
-				break;
-			i--;
-		}
-		i++;
+		if (ft_strncmp(str, env_list->content, ft_strlen(str)) == 0 && env_list->content[ft_strlen(str)] == '=')
+			value = &env_list->content[ft_strlen(str) + 1];
+		env_list = env_list->next;
 	}
-	new_str[j] = '\0';
-	return (new_str);
-}
-
-void	ft_new_list_wihtout_d_quot(t_list *new_list, t_list **new_list_w_d_q)
-{	
-	char *str;
-
-	while (new_list)
-	{
-		str = delete_d_quot(new_list->content);
-		ft_lstadd_back(new_list_w_d_q, ft_lstnew(str));
-		free(str);
-		new_list = new_list->next;
-	}
-	
+	return (value);
 }
