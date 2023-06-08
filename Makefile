@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: amoukhle <amoukhle@student.42.fr>          +#+  +:+       +#+         #
+#    By: hachahbo <hachahbo@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/05/20 15:02:26 by hachahbo          #+#    #+#              #
-#    Updated: 2023/06/01 17:28:28 by amoukhle         ###   ########.fr        #
+#    Updated: 2023/06/07 13:55:28 by hachahbo         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -20,6 +20,7 @@ CC = cc
 OBJS = minishell.o make_list.o ft_space.o ft_echo.o \
 		d_quotes.o check_pipes.o redirections.o status.o \
 		check_data.o helper.o ft_env.o ft_pwd.o ft_cd.o \
+		builtins.o
 
 RM = rm -f
 

@@ -6,7 +6,7 @@
 /*   By: amoukhle <amoukhle@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/19 20:55:43 by hachahbo          #+#    #+#             */
-/*   Updated: 2023/06/05 14:46:34 by amoukhle         ###   ########.fr       */
+/*   Updated: 2023/06/08 10:36:12 by amoukhle         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,48 +29,45 @@ void l()
 }
 int main(int ac, char **av, char **env)
 {
-	// atexit(l);
     char *input;
 	t_list *head;
 	t_list *env_list;
 	t_list *new_list;
-	t_list *new_list_w_d_q;
+	t_list	*new_list_w_s;
 
 	head = NULL;
-	new_list_w_d_q = NULL;
+	new_list_w_s = NULL;
 	make_env_list(env, &env_list);
-    while(1)
+	while(1)
 	{
 		input = readline("[minishell][$]~> ");
-    	if (!input)
+		if (!input)
 		{
 			printf("exit\n");
 			clear_history();
 			exit (1);
 		}
-		if(ft_strisspace(input))
-			break ;
-		ft_make_list(input, &head);
-		if (ft_valid_command(head))
-			break;
-		// if(ft_valid_command(head) == 0)
-			// printlist(head);
-		ft_make_new_list(head, &new_list, env_list);
-		printlist(new_list);
-		// printf("new: %s\n", delete_d_quot(new_list->content));
-		// ft_new_list_wihtout_d_quot(new_list, &new_list_w_d_q);
-		// printf("%s\n",ft_pwd(env_list));
-		// ft_cd("..");
-		// ft_env(env_list);
-		// ft_echo(env_list, head);
-		ft_lstclear(&head);
-		ft_lstclear(&new_list);
-		ft_lstclear(&new_list_w_d_q);
-		if(strlen(input) > 0)
-			add_history(input);
-   		free(input);
+		if(ft_strisspace(input) == 0)
+		{
+			ft_make_list(input, &head);
+			if (ft_valid_command(head) == 0)
+			{
+				ft_make_new_list(head, &new_list, env_list);
+				ft_make_new_list_w_s(new_list, &new_list_w_s);
+				printlist(new_list_w_s);
+				ft_builtins(new_list_w_s, env_list);
+				ft_lstclear(&head);
+				ft_lstclear(&new_list);
+				ft_lstclear(&new_list_w_s);
+			}
+			else
+				ft_lstclear(&head);
+			if(strlen(input) > 0)
+				add_history(input);
+			free(input);
+		}
+		// system("leaks minishell");
 	}
 	ft_lstclear(&env_list);
-	exit (0);
-    return (0);
+	return (0);
 }

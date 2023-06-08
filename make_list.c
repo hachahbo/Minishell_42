@@ -6,7 +6,7 @@
 /*   By: amoukhle <amoukhle@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/01 06:09:13 by hachahbo          #+#    #+#             */
-/*   Updated: 2023/06/05 17:31:24 by amoukhle         ###   ########.fr       */
+/*   Updated: 2023/06/08 11:44:27 by amoukhle         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,26 +55,52 @@ void 	ft_make_list(char *input, t_list **head)
 	}
 }
 
-char *handle_env(t_list *list, t_list *env_list)
+int	serche_for_DOC(t_list *list)
+{
+	if (list->type == WORD)
+		list = list->prev;
+	if (list->type == ENV)
+		list = list->prev;
+	while (list && (list->type == DOUBLE_QUOTE || list->type == QOUTE))
+		list = list->prev;
+	while (list && list->type == WHITE_SPACE)
+		list = list->prev;
+	if (list && (list->type == HERE_DOC || list->type == DREDIR_OUT
+		|| list->type == REDIR_IN || list->type == REDIR_OUT) && list->state == GENERAL)
+		return (0);
+	return (1);
+}
+
+char *handle_env(t_list *list, t_list *env_list, int *num_env)
 {
 	if (list->type == ENV && list->state == GENERAL
 		&& (list->next == NULL || list->next->type == WHITE_SPACE))
 		return (list->content);
 	else if (list->type == ENV && list->state == GENERAL
 		&& (list->next->type == QOUTE || list->next->type == DOUBLE_QUOTE))
-		return (NULL);
+		return ("");
 	else if (list->type == ENV && list->state == IN_QUOTE)
 		return (list->content);
 	else if (list->type == ENV && list->state == IN_DQUOTE)
 	{
-		if (list->next->type == WORD)
-			return (ft_expand_value(list->next->content, env_list));
+		if (list->next->type == WORD && *num_env % 2 != 0)
+		{
+			if (serche_for_DOC(list) == 1)
+				return (ft_expand_value(list->next->content, env_list));
+			else
+				return (list->content);
+		}
 		else
 			return (list->content);
 	}
 	else if (list->type == ENV && list->state == GENERAL
-		&& list->next->type == WORD)
-		return (ft_expand_value(list->next->content, env_list));
+		&& list->next->type == WORD && *num_env % 2 != 0)
+	{
+		if (serche_for_DOC(list) == 1)
+			return (ft_expand_value(list->next->content, env_list));
+		else
+			return (list->content);
+	}
 	return (list->content);
 }
 
@@ -84,7 +110,9 @@ void	ft_make_new_list(t_list *head, t_list **new_list, t_list *env_list)
 	t_list	*new;
 	char	*tmp;
 	int		in_join;
+	int		num_env;
 
+	num_env = 0;
 	while (head)
 	{
 		in_join = 0;
@@ -98,16 +126,21 @@ void	ft_make_new_list(t_list *head, t_list **new_list, t_list *env_list)
 		{
 			if ((head->type == QOUTE && head->state == GENERAL)
 				|| (head->type == DOUBLE_QUOTE && head->state == GENERAL)
-				|| (head->type == WORD && head->prev && head->prev->type == ENV && head->state != IN_QUOTE))
+				|| (head->type == WORD && head->prev && head->prev->type == ENV
+				&& head->state != IN_QUOTE && num_env % 2 != 0 && serche_for_DOC(head) == 1))
 			{
 				head = head->next;
 				continue;
 			}
 			if (head->type == ENV)
 			{
-				tmp = handle_env(head, env_list);
+				num_env++;
+				tmp = handle_env(head, env_list, &num_env);
 				if (!tmp)
-					tmp = "";
+				{
+					head = head->next;
+					continue;
+				}
 				str = ft_strjoin(str, tmp);
 			}
 			else
@@ -115,12 +148,19 @@ void	ft_make_new_list(t_list *head, t_list **new_list, t_list *env_list)
 			head = head->next;
 			in_join = 1;
 		}
-		new = ft_lstnew(str);
-		ft_lstadd_back(new_list, new);
-		if (in_join == 0)
+		if (str)
+		{
+			new = ft_lstnew(str);
+			if (in_join == 0)
+				new->state = GENERAL;
+			else
+				new->state = IN_DQUOTE;
+			ft_lstadd_back(new_list, new);
+		}
+		if (in_join == 0 && head)
 			head = head->next;
+		num_env = 0;
 	}
-	
 }
 
 char *ft_expand_value(char *str, t_list *env_list)
@@ -135,4 +175,21 @@ char *ft_expand_value(char *str, t_list *env_list)
 		env_list = env_list->next;
 	}
 	return (value);
+}
+
+void	ft_make_new_list_w_s(t_list *new_list, t_list **new_list_w_s)
+{
+	t_list *new;
+
+	while (new_list)
+	{
+		if (new_list->type == WHITE_SPACE && new_list->state == GENERAL)
+		{
+			new_list = new_list->next;
+			continue;
+		}
+		new = ft_lstnew(new_list->content);
+		ft_lstadd_back(new_list_w_s, new);
+		new_list = new_list->next;
+	}
 }

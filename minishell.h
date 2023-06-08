@@ -6,7 +6,7 @@
 /*   By: amoukhle <amoukhle@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/21 19:11:14 by hachahbo          #+#    #+#             */
-/*   Updated: 2023/06/05 16:23:57 by amoukhle         ###   ########.fr       */
+/*   Updated: 2023/06/08 11:25:29 by amoukhle         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,9 +28,8 @@ char	*check_data(char *input, int *start, int *end);
 void	ft_status(t_list *new, int *flag1, int *flag2);
 int		ft_strcmp(char *s1, char *s2);
 int		is_spaces(char *str);
-int 	ft_strisspace(const char* str);
+int		ft_strisspace(const char* str);
 char	*skip_spaces(char *input);
-int		ft_echo(t_list *env_list, t_list *head);
 int		check_d_quote(t_list *head);
 int		ft_empty(t_list *head);
 int		check_pipes(t_list *head);
@@ -41,10 +40,14 @@ void	printlist(t_list *head);
 void	ft_lstclear(t_list **lst);
 void	ft_env(t_list *env_list);
 void	ft_make_new_list(t_list *head, t_list **new_list, t_list *env_list);
-char	*ft_pwd(t_list *env_list);
+void	ft_pwd(t_list *env_list);
 void	ft_cd(char *path);
-char	*delete_d_quot(char *str);
-void	ft_new_list_wihtout_d_quot(t_list *new_list, t_list **new_list_w_d_q);
 char	*ft_expand_value(char *str, t_list *env_list);
+int		rendering_cd(t_list *list);
+int		ft_echo(t_list *head);
+int		ft_builtins(t_list *list, t_list *env_list);
+char	*handle_env(t_list *list, t_list *env_list, int *num_env);
+int		serche_for_DOC(t_list *list);
+void	ft_make_new_list_w_s(t_list *new_list, t_list **new_list_w_s);
 #endif
 
