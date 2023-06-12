@@ -1,0 +1,5 @@
+'$USER'$USER
+'$USER' "'$USER'"
+>$USER'out'
+wc<<lim
+export a="ls -la s"; cat $a | cat g$a'g'

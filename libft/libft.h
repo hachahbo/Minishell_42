@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   libft.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hachahbo <hachahbo@student.42.fr>          +#+  +:+       +#+        */
+/*   By: amoukhle <amoukhle@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/10 10:20:07 by hachahbo          #+#    #+#             */
-/*   Updated: 2023/05/28 15:08:56 by hachahbo         ###   ########.fr       */
+/*   Updated: 2023/06/12 11:49:44 by amoukhle         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,24 +18,32 @@
 # include <string.h>
 # include <fcntl.h>
 
-// typedef struct s_list
-// {
-// 	void			*content;
-// 	struct s_list	*next;
-// }				t_list;
+typedef struct s_list_str
+{
+	char			*content;
+	struct s_list_str	*next;
+}				t_list_str;
+
+typedef struct s_var
+{
+	int flag1;
+	int flag2;
+	int start;
+	int end;
+}	t_var;
+
 
 enum e_token
 {
 	WORD = -1,
 	WHITE_SPACE = ' ',
-	NEW_LINE = '\n',
 	QOUTE = '\'',
 	DOUBLE_QUOTE = '\"',
-	ESCAPE = '\\',
 	ENV = '$',
-	PIPE_LINE = '|',
+	Q_MARK = '?',
 	REDIR_IN = '<',
 	REDIR_OUT = '>',
+	PIPE_LINE = '|',
 	HERE_DOC, // <<
 	DREDIR_OUT, // >>
 };
@@ -50,8 +58,10 @@ enum e_state
 typedef struct s_list
 {
 	char	*content;
+	char	**cmd;
 	int		len;
 	int		type;
+	int		type_d;
 	enum	e_state	state;
 	struct s_list *next;
 	struct s_list *prev;
@@ -91,11 +101,15 @@ void			ft_putnbr_fd(int n, int fd);
 int				ft_atoi(const char *str);
 char			*ft_itoa(int n);
 char			*ft_substr(char const *s, unsigned int start, size_t len);
-t_list			*ft_lstnew(void *content);
+t_list			*ft_lstnew(void *content, char **cmd);
+t_list_str		*new_list_str(char *content);
 void			ft_lstadd_front(t_list **lst, t_list *new);
 t_list			*ft_lstlast(t_list *lst);
+t_list_str		*list_strlast(t_list_str *lst);
 void			ft_lstadd_back(t_list **lst, t_list *new);
+void			list_stradd_back(t_list_str **lst, t_list_str *new);
 int				ft_lstsize(t_list *lst);
 char			*ft_strmapi(char const *s, char (*f)(unsigned int, char));
+void			list_strclear(t_list_str **lst);
 
 #endif
