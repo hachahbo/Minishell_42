@@ -6,7 +6,7 @@
 /*   By: amoukhle <amoukhle@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/01 06:09:13 by hachahbo          #+#    #+#             */
-/*   Updated: 2023/06/12 12:57:45 by amoukhle         ###   ########.fr       */
+/*   Updated: 2023/06/19 14:09:10 by amoukhle         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -144,56 +144,74 @@ char	*join_list_str(char *s1, char *s2, t_list_str **list_str)
 	return (s1);
 }
 
-void	ft_make_new_list(t_list *head, t_list **new_list, t_list *env_list, t_list_str **list_str)
+void	ft_skip_node(t_var *var, t_list *head)
 {
-	char	*str;
-	char	*tmp;
-	int		in_join;
-	int		num_env;
-	char	**str_split;
+	if (!var->str && (head->type == DOUBLE_QUOTE || head->type == QOUTE))
+		var->str = "";
+	var->num_env = 0;
+	var->skip = 1;
+}
 
-	num_env = 0;
+void	creat_word(t_list *head, t_list **new_list, t_list_str	**list_str, t_var *var)
+{
+	char *tmp;
+
+	var->skip = 0;
+	if (!skip_node(head, var->num_env))
+		ft_skip_node(var, head);
+	if (!var->skip && head->type == ENV)
+	{
+		var->num_env++;
+		tmp = handle_env(head, var->env_list, var->num_env);
+		if (!tmp)
+		{
+			var->in_join = 1;
+			var->skip = 1;
+		}
+		if (!var->skip && head->state == GENERAL && ft_strcmp(tmp, "$") && ft_strchr(tmp, ' '))
+			var->str = generate_value_of_env(var->str, tmp, list_str, new_list);
+		else if (!var->skip)
+			var->str = join_list_str(var->str, tmp, list_str);
+	}
+	else if (!var->skip)
+		var->str = join_list_str(var->str, head->content, list_str);
+}
+
+int	is_word(t_list *head)
+{
+	if (head->type != WORD && head->type != QOUTE && head->type != Q_MARK
+		&& head->type != DOUBLE_QUOTE && head->type != ENV)
+		return (1);
+	return (0);
+}
+
+void	ft_make_new_list(t_list *head, t_list **new_list, t_list *env_list)
+{
+	char	*tmp;
+	t_var	var;
+	t_list_str	*list_str;
+
+	list_str = NULL;
+	var.env_list = env_list;
 	while (head)
 	{
-		in_join = 0;
-		str = NULL;
-		if (head->type != WORD && head->type != QOUTE && head->type != Q_MARK
-			&& head->type != DOUBLE_QUOTE && head->type != ENV)
-			str = head->content;
+		var.num_env = 0;
+		var.in_join = 0;
+		var.str = NULL;
+		if (is_word(head))
+			var.str = head->content;
 		while (head && !join_node(head))
 		{
-			if (!skip_node(head, num_env))
-			{
-				num_env = 0;
-				head = head->next;
-				continue;
-			}
-			if (head->type == ENV)
-			{
-				num_env++;
-				tmp = handle_env(head, env_list, num_env);
-				if (!tmp)
-				{
-					head = head->next;
-					in_join = 1;
-					continue;
-				}
-				if (head->state == GENERAL && ft_strcmp(tmp, "$") && ft_strchr(tmp, ' '))
-					str = generate_value_of_env(str, tmp, list_str, new_list);
-				else
-					str = join_list_str(str, tmp, list_str);
-			}
-			else
-				str = join_list_str(str, head->content, list_str);
+			creat_word(head, new_list, &list_str, &var);
 			head = head->next;
-			in_join = 1;
+			var.in_join = 1;
 		}
-		if (str)
-			add_node(new_list, str, in_join);
-		if (in_join == 0 && head)
+		if (var.str)
+			add_node(new_list, var.str, var.in_join);
+		if (var.in_join == 0 && head)
 			head = head->next;
-		num_env = 0;
 	}
+	list_strclear(&list_str);
 }
 
 char *ft_expand_value(char *str, t_list *env_list)
@@ -279,19 +297,10 @@ int	is_DOC(t_list *list)
 	return (1);
 ;}
 
-void	get_command(t_list *new_list_w_s, t_list **last_list)
+void	get_command_and_arg(char **cmd, t_list *new_list_w_s)
 {
-	int		num_arg;
-	char	**cmd;
-	int		i;
-	int		save_state;
-	t_list	*new;
+	int	i;
 
-	save_state = new_list_w_s->state;
-	num_arg = count_arg(new_list_w_s);
-	cmd = (char **)malloc(sizeof(char *) * (num_arg + 1));
-	if (!cmd)
-		affiche_error();
 	i = 0;
 	while (new_list_w_s &&
 		(new_list_w_s->type != PIPE_LINE || new_list_w_s->state == IN_DQUOTE))
@@ -305,6 +314,22 @@ void	get_command(t_list *new_list_w_s, t_list **last_list)
 		new_list_w_s = new_list_w_s->next;
 	}
 	cmd[i] = NULL;
+}
+
+void	get_command(t_list *new_list_w_s, t_list **last_list)
+{
+	int		num_arg;
+	char	**cmd;
+	int		i;
+	int		save_state;
+	t_list	*new;
+
+	save_state = new_list_w_s->state;
+	num_arg = count_arg(new_list_w_s);
+	cmd = (char **)malloc(sizeof(char *) * (num_arg + 1));
+	if (!cmd)
+		affiche_error();
+	get_command_and_arg(cmd, new_list_w_s);
 	new = ft_lstnew(NULL, cmd);
 	if (save_state == 0)
 		new->type_d = WORD;

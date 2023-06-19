@@ -6,7 +6,7 @@
 /*   By: amoukhle <amoukhle@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/10 10:20:07 by hachahbo          #+#    #+#             */
-/*   Updated: 2023/06/12 11:49:44 by amoukhle         ###   ########.fr       */
+/*   Updated: 2023/06/19 13:48:37 by amoukhle         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,13 +24,6 @@ typedef struct s_list_str
 	struct s_list_str	*next;
 }				t_list_str;
 
-typedef struct s_var
-{
-	int flag1;
-	int flag2;
-	int start;
-	int end;
-}	t_var;
 
 
 enum e_token
@@ -66,6 +59,19 @@ typedef struct s_list
 	struct s_list *next;
 	struct s_list *prev;
 }	t_list;
+
+typedef struct s_var
+{
+	int	flag1;
+	int	flag2;
+	int	start;
+	int	end;
+	int	in_join;
+	int	num_env;
+	int	skip;
+	char	*str;
+	t_list	*env_list;
+}	t_var;
 
 int				ft_isascii(int c);
 int				ft_isprint(int c);

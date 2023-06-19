@@ -6,7 +6,7 @@
 /*   By: amoukhle <amoukhle@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/01 06:49:49 by hachahbo          #+#    #+#             */
-/*   Updated: 2023/06/11 20:14:21 by amoukhle         ###   ########.fr       */
+/*   Updated: 2023/06/19 12:22:42 by amoukhle         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,7 +75,7 @@ void print_double_list(t_list *head)
 	{
 		while (head->cmd[i])
 		{
-			printf("str: %s  ",head->cmd[i]);
+			printf("str: [%s]  ",head->cmd[i]);
 			i++;
 		}
 		i = 0;

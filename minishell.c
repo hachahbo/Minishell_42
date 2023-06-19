@@ -6,7 +6,7 @@
 /*   By: amoukhle <amoukhle@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/19 20:55:43 by hachahbo          #+#    #+#             */
-/*   Updated: 2023/06/12 15:12:50 by amoukhle         ###   ########.fr       */
+/*   Updated: 2023/06/19 14:04:08 by amoukhle         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,6 +34,9 @@ t_var *init_vars(void)
 	tmp->start = 0;
 	tmp->flag1 = 0;
 	tmp->flag2 = 0;
+	tmp->num_env = 0;
+	tmp->skip = 0;
+	tmp->in_join = 0;
 	return (tmp);
 }
 
@@ -42,18 +45,16 @@ void	parser(t_list *head, t_list *env_list, char *input)
 	t_list		*new_list;
 	t_list		*new_list_w_s;
 	t_list		*last_list;
-	t_list_str	*list_str;
 	t_var		*vars;
 
 	new_list = NULL;
 	new_list_w_s = NULL;
-	list_str = NULL;
 	last_list = NULL;
 	vars = init_vars();
 	ft_make_list(input, &head, vars);
 	if (ft_valid_command(head) == 0)
 	{
-		ft_make_new_list(head, &new_list, env_list, &list_str);
+		ft_make_new_list(head, &new_list, env_list);
 		ft_make_new_list_w_s(new_list, &new_list_w_s);
 		// printlist(new_list_w_s);
 		ft_finale_list(new_list_w_s, &last_list);
@@ -63,7 +64,6 @@ void	parser(t_list *head, t_list *env_list, char *input)
 		ft_lstclear(&new_list);
 		ft_lstclear(&new_list_w_s);
 		ft_lstclear(&last_list);
-		list_strclear(&list_str);
 		free(vars);
 	}
 	else
@@ -93,6 +93,8 @@ int main(int ac, char **av, char **env)
 		}
 		if(ft_strisspace(input) == 0)
 			parser(head, env_list, input);
+		else
+			free(input);
 		// system("leaks minishell");
 	}
 	ft_lstclear(&env_list);
