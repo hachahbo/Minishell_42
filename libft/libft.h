@@ -6,7 +6,7 @@
 /*   By: amoukhle <amoukhle@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/10 10:20:07 by hachahbo          #+#    #+#             */
-/*   Updated: 2023/06/19 13:48:37 by amoukhle         ###   ########.fr       */
+/*   Updated: 2023/06/19 23:34:59 by amoukhle         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,8 +23,6 @@ typedef struct s_list_str
 	char			*content;
 	struct s_list_str	*next;
 }				t_list_str;
-
-
 
 enum e_token
 {

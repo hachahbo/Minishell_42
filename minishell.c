@@ -6,7 +6,7 @@
 /*   By: amoukhle <amoukhle@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/19 20:55:43 by hachahbo          #+#    #+#             */
-/*   Updated: 2023/06/19 14:04:08 by amoukhle         ###   ########.fr       */
+/*   Updated: 2023/06/19 23:21:17 by amoukhle         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,7 +56,7 @@ void	parser(t_list *head, t_list *env_list, char *input)
 	{
 		ft_make_new_list(head, &new_list, env_list);
 		ft_make_new_list_w_s(new_list, &new_list_w_s);
-		// printlist(new_list_w_s);
+		printlist(head);
 		ft_finale_list(new_list_w_s, &last_list);
 		print_double_list(last_list);
 		// ft_builtins(new_list_w_s, env_list);
