@@ -6,7 +6,7 @@
 /*   By: amoukhle <amoukhle@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/19 20:55:43 by hachahbo          #+#    #+#             */
-/*   Updated: 2023/06/19 23:21:17 by amoukhle         ###   ########.fr       */
+/*   Updated: 2023/06/20 16:33:32 by amoukhle         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,10 +42,10 @@ t_var *init_vars(void)
 
 void	parser(t_list *head, t_list *env_list, char *input)
 {
-	t_list		*new_list;
-	t_list		*new_list_w_s;
-	t_list		*last_list;
-	t_var		*vars;
+	t_list	*new_list;
+	t_list	*new_list_w_s;
+	t_list	*last_list;
+	t_var	*vars;
 
 	new_list = NULL;
 	new_list_w_s = NULL;
@@ -56,9 +56,10 @@ void	parser(t_list *head, t_list *env_list, char *input)
 	{
 		ft_make_new_list(head, &new_list, env_list);
 		ft_make_new_list_w_s(new_list, &new_list_w_s);
-		printlist(head);
+		// printlist(head);
 		ft_finale_list(new_list_w_s, &last_list);
 		print_double_list(last_list);
+		ft_open_infile(last_list, vars, env_list);
 		// ft_builtins(new_list_w_s, env_list);
 		ft_lstclear(&head);
 		ft_lstclear(&new_list);
@@ -67,7 +68,10 @@ void	parser(t_list *head, t_list *env_list, char *input)
 		free(vars);
 	}
 	else
+	{
 		ft_lstclear(&head);
+		free(vars);
+	}
 	if(strlen(input) > 0)
 		add_history(input);
 	free(input);
@@ -75,10 +79,12 @@ void	parser(t_list *head, t_list *env_list, char *input)
 
 int main(int ac, char **av, char **env)
 {
-	char		*input;
-	t_list		*head;
-	t_list		*env_list;
+	char	*input;
+	t_list	*head;
+	t_list	*env_list;
 
+	(void)ac;
+	(void)av;
 	head = NULL;
 	make_env_list(env, &env_list);
 	state_exit = 0;

@@ -6,7 +6,7 @@
 /*   By: amoukhle <amoukhle@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/19 23:01:49 by amoukhle          #+#    #+#             */
-/*   Updated: 2023/06/19 23:07:57 by amoukhle         ###   ########.fr       */
+/*   Updated: 2023/06/20 11:40:45 by amoukhle         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ int	serche_for_DOC(t_list *list)
 	while (list && (list->type == WORD || list->type == QOUTE
 		|| list->type == DOUBLE_QUOTE || list->type == Q_MARK
 		|| list->state == IN_DQUOTE || list->state == IN_QUOTE
-		|| list->type == ENV))
+		|| list->type == ENV || list->type == SPECIAL_CHAR))
 		list = list->prev;
 	while (list && list->type == WHITE_SPACE && list->state == GENERAL)
 		list = list->prev;
@@ -61,7 +61,7 @@ int	is_DOC(t_list *list)
 int	is_word(t_list *head)
 {
 	if (head->type != WORD && head->type != QOUTE && head->type != Q_MARK
-		&& head->type != DOUBLE_QUOTE && head->type != ENV)
+		&& head->type != DOUBLE_QUOTE && head->type != ENV && head->type != SPECIAL_CHAR)
 		return (1);
 	return (0);
 }

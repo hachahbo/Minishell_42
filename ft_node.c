@@ -6,7 +6,7 @@
 /*   By: amoukhle <amoukhle@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/19 23:05:18 by amoukhle          #+#    #+#             */
-/*   Updated: 2023/06/19 23:06:06 by amoukhle         ###   ########.fr       */
+/*   Updated: 2023/06/20 09:19:09 by amoukhle         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@ void	add_node(t_list **new_list, char *str, int in_join)
 int	join_node(t_list *head)
 {
 	if (head->type == WORD || head->type == ENV || head->type == Q_MARK
-		|| head->type == QOUTE || head->type == DOUBLE_QUOTE
+		|| head->type == QOUTE || head->type == DOUBLE_QUOTE || head->type == SPECIAL_CHAR
 		|| head->state == IN_QUOTE || head->state == IN_DQUOTE)
 		return (0);
 	return (1);

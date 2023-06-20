@@ -6,7 +6,7 @@
 /*   By: amoukhle <amoukhle@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/19 23:06:26 by amoukhle          #+#    #+#             */
-/*   Updated: 2023/06/19 23:10:12 by amoukhle         ###   ########.fr       */
+/*   Updated: 2023/06/20 11:38:11 by amoukhle         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,6 @@
 
 void	ft_make_new_list(t_list *head, t_list **new_list, t_list *env_list)
 {
-	char	*tmp;
 	t_var	var;
 	t_list_str	*list_str;
 

@@ -6,11 +6,21 @@
 /*   By: amoukhle <amoukhle@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/01 06:09:13 by hachahbo          #+#    #+#             */
-/*   Updated: 2023/06/19 23:10:15 by amoukhle         ###   ########.fr       */
+/*   Updated: 2023/06/20 15:49:57 by amoukhle         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+
+void	ft_sit_type(t_list *node)
+{
+	if ((node->content[0] >= 'A' && node->content[0] <= 'Z')
+		|| (node->content[0] >= 'a' && node->content[0] <= 'z')
+		|| node->content[0] == '_')
+	return ;
+	if (node->type == WORD)
+		node->type = SPECIAL_CHAR;
+}
 
 void 	ft_make_list(char *input, t_list **head, t_var *vars)
 {
@@ -27,6 +37,7 @@ void 	ft_make_list(char *input, t_list **head, t_var *vars)
 			break ;
 		}
 		new = ft_lstnew(str, NULL);
+		ft_sit_type(new);
 		ft_status(new, &vars->flag1, &vars->flag2);
 		ft_lstadd_back(head, new);
 		free(str);

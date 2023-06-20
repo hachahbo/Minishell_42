@@ -6,7 +6,7 @@
 /*   By: amoukhle <amoukhle@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/19 23:08:38 by amoukhle          #+#    #+#             */
-/*   Updated: 2023/06/19 23:09:36 by amoukhle         ###   ########.fr       */
+/*   Updated: 2023/06/20 11:37:55 by amoukhle         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,9 +14,6 @@
 
 void	ft_finale_list(t_list *new_list_w_s, t_list **last_list)
 {
-	int		num_arg;
-	char	**cmd;
-	int		i;
 	int		is_cmd;
 	int		is_doc;
 
@@ -60,7 +57,6 @@ void	get_command(t_list *new_list_w_s, t_list **last_list)
 {
 	int		num_arg;
 	char	**cmd;
-	int		i;
 	int		save_state;
 	t_list	*new;
 

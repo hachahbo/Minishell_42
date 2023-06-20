@@ -6,7 +6,7 @@
 /*   By: amoukhle <amoukhle@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/01 06:40:09 by hachahbo          #+#    #+#             */
-/*   Updated: 2023/06/09 12:32:07 by amoukhle         ###   ########.fr       */
+/*   Updated: 2023/06/20 15:53:10 by amoukhle         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,8 +23,9 @@ char *check_data(char *input, int *start, int *end)
 	if(ft_strcmp(c , "\0") == 0)
 		return(0);
 	while((input[*end] >= 'a' && input[*end] <= 'z') || 
-		(input[*end] >= 'A' && input[*end] <= 'Z') 
-			|| (input[*end] >= '0' && input[*end] <= '9'))
+			(input[*end] >= 'A' && input[*end] <= 'Z') 
+			|| (input[*end] >= '0' && input[*end] <= '9')
+			|| input[*end] == '_')
 		*end += 1;
 	if (temp == *end)
 	{

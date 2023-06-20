@@ -6,7 +6,7 @@
 /*   By: amoukhle <amoukhle@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/10 10:20:07 by hachahbo          #+#    #+#             */
-/*   Updated: 2023/06/19 23:34:59 by amoukhle         ###   ########.fr       */
+/*   Updated: 2023/06/20 09:02:00 by amoukhle         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,6 +27,7 @@ typedef struct s_list_str
 enum e_token
 {
 	WORD = -1,
+	SPECIAL_CHAR = 0,
 	WHITE_SPACE = ' ',
 	QOUTE = '\'',
 	DOUBLE_QUOTE = '\"',
