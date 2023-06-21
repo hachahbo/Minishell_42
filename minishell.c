@@ -6,7 +6,7 @@
 /*   By: amoukhle <amoukhle@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/19 20:55:43 by hachahbo          #+#    #+#             */
-/*   Updated: 2023/06/20 16:33:32 by amoukhle         ###   ########.fr       */
+/*   Updated: 2023/06/21 18:07:21 by amoukhle         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@ int ft_valid_command(t_list *head)
 	return (0);
 }
 
-t_var *init_vars(void)
+t_var *init_vars(t_list *env_list)
 {
 	t_var	*tmp;
 	
@@ -37,6 +37,8 @@ t_var *init_vars(void)
 	tmp->num_env = 0;
 	tmp->skip = 0;
 	tmp->in_join = 0;
+	tmp->q_dq = 0;
+	tmp->env_list = env_list;
 	return (tmp);
 }
 
@@ -46,20 +48,23 @@ void	parser(t_list *head, t_list *env_list, char *input)
 	t_list	*new_list_w_s;
 	t_list	*last_list;
 	t_var	*vars;
+	// int		fd;
 
 	new_list = NULL;
 	new_list_w_s = NULL;
 	last_list = NULL;
-	vars = init_vars();
+	vars = init_vars(env_list);
 	ft_make_list(input, &head, vars);
 	if (ft_valid_command(head) == 0)
 	{
 		ft_make_new_list(head, &new_list, env_list);
 		ft_make_new_list_w_s(new_list, &new_list_w_s);
-		// printlist(head);
 		ft_finale_list(new_list_w_s, &last_list);
 		print_double_list(last_list);
-		ft_open_infile(last_list, vars, env_list);
+		// printlist(head);
+		// fd = ft_open_heredoc(last_list, vars);
+		// unlink("/tmp/here_doc");
+		// close(fd);
 		// ft_builtins(new_list_w_s, env_list);
 		ft_lstclear(&head);
 		ft_lstclear(&new_list);
@@ -91,7 +96,7 @@ int main(int ac, char **av, char **env)
 	while(1)
 	{
 		input = readline("[minishell][$]~> ");
-		if (!input)
+		if (!input || !ft_strcmp(input, "exit"))
 		{
 			printf("exit\n");
 			clear_history();
@@ -101,7 +106,7 @@ int main(int ac, char **av, char **env)
 			parser(head, env_list, input);
 		else
 			free(input);
-		// system("leaks minishell");
+		system("leaks minishell");
 	}
 	ft_lstclear(&env_list);
 	return (0);

@@ -1,26 +1,18 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_open_infile.c                                   :+:      :+:    :+:   */
+/*   ft_open_outfile.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: amoukhle <amoukhle@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/06/20 11:29:40 by amoukhle          #+#    #+#             */
-/*   Updated: 2023/06/21 15:05:42 by amoukhle         ###   ########.fr       */
+/*   Created: 2023/06/20 20:38:47 by amoukhle          #+#    #+#             */
+/*   Updated: 2023/06/21 15:37:35 by amoukhle         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void	ft_msg_null_DOC(t_list *node)
-{
-	write(2, "bash: ", 6);
-	write(2, node->cmd[1], ft_strlen(node->cmd[1]));
-	write(2, ": ambiguous redirect\n", 21);
-	exit(1);
-}
-
-void	ft_msg_error_infile(char *str_DOC)
+void	ft_msg_error_outfile(char *str_DOC)
 {
 	int	len_error;
 
@@ -33,24 +25,25 @@ void	ft_msg_error_infile(char *str_DOC)
 	exit(1);
 }
 
-int	ft_open_infile(t_list *node, t_var *var, t_list *env_list)
+int	ft_open_outfile(t_list *node, t_var *var, t_list *env_list)
 {
 	t_list		*list;
 	char		*str_DOC;
 	t_list_str	*list_str;
-	int			infile;
+	int			outfile;
 	
 	list = NULL;
 	list_str = NULL;
 	ft_init_var(var);
 	ft_make_list(node->cmd[1], &list, var);
 	str_DOC = get_string_DOC(list, var, env_list, &list_str);
+	printf("[%s]\n", str_DOC);
 	if (!str_DOC)
 		ft_msg_null_DOC(node);
-	infile = open(str_DOC, O_RDONLY, 0777);
-	if (infile == -1)
-		ft_msg_error_infile(str_DOC);
+	outfile = open(str_DOC, O_RDWR | O_CREAT | O_TRUNC, 0777);
+	if (outfile == -1)
+		ft_msg_error_outfile(str_DOC);
 	ft_lstclear(&list);
 	list_strclear(&list_str);
-	return (infile);
+	return (outfile);
 }

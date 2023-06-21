@@ -6,7 +6,7 @@
 /*   By: amoukhle <amoukhle@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/17 12:25:26 by hachahbo          #+#    #+#             */
-/*   Updated: 2023/06/12 12:59:15 by amoukhle         ###   ########.fr       */
+/*   Updated: 2023/06/21 17:53:07 by amoukhle         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,7 +51,7 @@ t_list_str *new_list_str(char *content)
 	tmp = (t_list_str *)malloc(sizeof(t_list_str));
 	if (!tmp)
 		return (0);
-	tmp->content = content;
+	tmp->content = ft_strdup(content);
 	tmp->next = 0;
 	return (tmp);
 }

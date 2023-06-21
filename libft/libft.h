@@ -6,7 +6,7 @@
 /*   By: amoukhle <amoukhle@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/10 10:20:07 by hachahbo          #+#    #+#             */
-/*   Updated: 2023/06/20 09:02:00 by amoukhle         ###   ########.fr       */
+/*   Updated: 2023/06/21 15:14:41 by amoukhle         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,6 +68,7 @@ typedef struct s_var
 	int	in_join;
 	int	num_env;
 	int	skip;
+	int	q_dq;
 	char	*str;
 	t_list	*env_list;
 }	t_var;

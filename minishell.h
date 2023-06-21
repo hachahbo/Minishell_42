@@ -6,7 +6,7 @@
 /*   By: amoukhle <amoukhle@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/21 19:11:14 by hachahbo          #+#    #+#             */
-/*   Updated: 2023/06/20 17:29:26 by amoukhle         ###   ########.fr       */
+/*   Updated: 2023/06/21 14:56:22 by amoukhle         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,7 @@
 # include <libc.h>
 # include <stdio.h>
 # include <ctype.h>
+# include <errno.h>
 # include <readline/readline.h>
 # include <readline/history.h>
 # include "libft/libft.h"
@@ -73,10 +74,20 @@ void	get_command_and_arg(char **cmd, t_list *new_list_w_s);
 void	get_pipe(t_list *new_list_w_s, t_list **last_list);
 void	get_DOC(t_list **new_list_w_s, t_list **last_list);
 int		ft_open_infile(t_list *node, t_var *var, t_list *env_list);
-char	*get_string_DOC(t_list *list, t_var *var, t_list *env_list, t_list_str *list_str);
+int		ft_open_outfile(t_list *node, t_var *var, t_list *env_list);
+int		ft_open_append_file(t_list *node, t_var *var, t_list *env_list);
+int		ft_open_heredoc(t_list *node, t_var *var);
+char	*get_string_DOC(t_list *list, t_var *var, t_list *env_list, t_list_str **list_str);
 void	ft_skip_node_DOC(t_list *list, t_var *var);
 int		skip_node_DOC(t_list *list, t_var *var);
 void	ft_init_var(t_var *var);
 char	*handle_env_DOC(t_list *list, t_list *env_list, int num_env);
+void	ft_msg_null_DOC(t_list *node);
+void	ft_msg_error_infile(char *str_DOC);
+void	ft_msg_error_outfile(char *str_DOC);
+char	*get_string_heredoc(t_list *list, t_var *var, t_list_str **list_str);
+void	ft_skip_node_heredoc(t_list *list, t_var *var);
+int		skip_node_heredoc(t_list *list);
+char	*handle_env_heredoc(t_list *list, t_var *var);
 #endif
 
