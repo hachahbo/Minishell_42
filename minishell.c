@@ -6,7 +6,7 @@
 /*   By: amoukhle <amoukhle@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/19 20:55:43 by hachahbo          #+#    #+#             */
-/*   Updated: 2023/06/21 18:07:21 by amoukhle         ###   ########.fr       */
+/*   Updated: 2023/06/21 21:44:37 by amoukhle         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,7 +48,7 @@ void	parser(t_list *head, t_list *env_list, char *input)
 	t_list	*new_list_w_s;
 	t_list	*last_list;
 	t_var	*vars;
-	// int		fd;
+	int		fd;
 
 	new_list = NULL;
 	new_list_w_s = NULL;

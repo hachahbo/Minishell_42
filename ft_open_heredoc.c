@@ -6,7 +6,7 @@
 /*   By: amoukhle <amoukhle@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/20 21:30:36 by amoukhle          #+#    #+#             */
-/*   Updated: 2023/06/21 18:06:44 by amoukhle         ###   ########.fr       */
+/*   Updated: 2023/06/21 21:44:22 by amoukhle         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,12 +77,10 @@ void	ft_skip_node_delimiter(t_var *var)
 	var->skip = 1;
 }
 
-char	*get_string_delimiter(t_list *list, t_var *var, t_list *env_list)
+char	*get_string_delimiter(t_list *list, t_var *var, t_list *env_list, t_list_str **list_str)
 {
 	char	*tmp;
-	t_list_str	*list_str;
 
-	list_str = NULL;
 	while (list)
 	{
 		var->skip = 0;
@@ -94,14 +92,12 @@ char	*get_string_delimiter(t_list *list, t_var *var, t_list *env_list)
 			tmp = handle_env_DOC(list, env_list, var->num_env);
 			if (!tmp)
 				tmp = "";
-			printf("tmp: %s\n", tmp);
-			var->str = join_list_str(var->str, tmp, &list_str);
+			var->str = join_list_str(var->str, tmp, list_str);
 		}
 		else if (!var->skip)
-			var->str = join_list_str(var->str, list->content, &list_str);
+			var->str = join_list_str(var->str, list->content, list_str);
 		list = list->next;
 	}
-	list_strclear(&list_str);
 	return (var->str);
 }
 
@@ -115,53 +111,76 @@ void	ft_init_var_delimiter(t_var *var)
 	var->str = NULL;
 }
 
+// void	ft_expand_heredoc()
+// {
+	
+// }
+
 void	fill_file(char *delimiter, int fd, t_var *var)
 {
 	char	*line;
 	char	*str;
 	t_list	*list;
+	t_list_str	*list_str;
 
 	list = NULL;
+	list_str = NULL;
 	while (1)
 	{
 		line = readline("> ");
 		if (!line)
 			break ;
+		if (ft_strcmp(line, delimiter) == 0)
+		{
+			free(line);
+			break ;
+		}
 		if (!var->q_dq)
 		{
 			ft_init_var_delimiter(var);
 			ft_make_list(line, &list, var);
-			str = get_string_delimiter(list, var, var->env_list);
+			str = get_string_delimiter(list, var, var->env_list, &list_str);
 			ft_lstclear(&list);
-		}
-		printf("str: %s\n", var->str);
-		printf("line: %s\n", line);
-		printf("delimiter: %s\n", delimiter);
-		if (ft_strcmp(line, delimiter) == 0)
-		{
-			free(line);
-			free(str);
-			break ;
-		}
-		if (!var->q_dq)
 			write(fd, str, ft_strlen(str));
+		}
 		else
 			write(fd, line, ft_strlen(line));
 		free(line);
-		free(str);
+		list_strclear(&list_str);
 	}
 	close (fd);
 }
 
-void	ft_msg_error_heredoc(void)
+void	ft_msg_error_heredoc(char *name)
 {
 	int	len_error;
 
 	len_error = ft_strlen(strerror(errno));
 	write(2, "bash: ", 6);
+	write(2, name, ft_strlen(name));
+	write(2, ": ", 2);
 	write(2, strerror(errno), len_error);
 	write (2, "\n", 1);
 	exit(1);
+}
+
+char	*ft_name_file(void)
+{
+	static int	i;
+	char		*name;
+	char		*num;
+	
+	num = ft_itoa(i++);
+	name = ft_strjoin("/tmp/here_doc", num);
+	free(num);
+	while (access(name, F_OK) != -1)
+	{
+		free(name);
+		num = ft_itoa(i++);
+		name = ft_strjoin("/tmp/here_doc", num);
+		free(num);
+	}
+	return (name);
 }
 
 int	ft_open_heredoc(t_list *node, t_var *var)
@@ -170,22 +189,23 @@ int	ft_open_heredoc(t_list *node, t_var *var)
 	char		*delimiter;
 	t_list_str	*list_str;
 	int			file;
-	
-	file = 0;
+	char		*name_file;
+
 	list = NULL;
 	list_str = NULL;
+	name_file = ft_name_file();
 	ft_init_var(var);
 	ft_make_list(node->cmd[1], &list, var);
 	delimiter = get_string_heredoc(list, var, &list_str);
-	file = open("/tmp/here_doc", O_WRONLY | O_CREAT, 0777);
+	file = open(name_file, O_WRONLY | O_CREAT, 0777);
 	if (file == -1)
-		ft_msg_error_heredoc();
+		ft_msg_error_heredoc(name_file);
 	fill_file(delimiter, file, var);
-	file = open("/tmp/here_doc", O_RDONLY, 0777);
+	file = open(name_file, O_RDONLY, 0777);
 	if (file == -1)
-		ft_msg_error_heredoc();
+		ft_msg_error_heredoc(name_file);
 	ft_lstclear(&list);
 	list_strclear(&list_str);
-	free(delimiter);
+	free(name_file);
 	return (file);
 }
