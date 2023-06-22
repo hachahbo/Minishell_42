@@ -6,7 +6,7 @@
 #    By: amoukhle <amoukhle@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/05/20 15:02:26 by hachahbo          #+#    #+#              #
-#    Updated: 2023/06/20 21:43:23 by amoukhle         ###   ########.fr        #
+#    Updated: 2023/06/22 15:54:23 by amoukhle         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -24,7 +24,7 @@ OBJS = minishell.o make_list.o ft_space.o ft_echo.o \
 		ft_node.o ft_expand_env.o ft_tools.o\
 		ft_open_infile.o ft_handle_option_DOC.o\
 		ft_open_outfile.o ft_open_append_file.o\
-		ft_open_heredoc.o\
+		ft_open_heredoc.o ft_in_heredoc.o ft_node_heredoc.o\
 
 RM = rm -f
 

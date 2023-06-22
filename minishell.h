@@ -6,7 +6,7 @@
 /*   By: amoukhle <amoukhle@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/21 19:11:14 by hachahbo          #+#    #+#             */
-/*   Updated: 2023/06/21 14:56:22 by amoukhle         ###   ########.fr       */
+/*   Updated: 2023/06/22 15:52:27 by amoukhle         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,5 +89,18 @@ char	*get_string_heredoc(t_list *list, t_var *var, t_list_str **list_str);
 void	ft_skip_node_heredoc(t_list *list, t_var *var);
 int		skip_node_heredoc(t_list *list);
 char	*handle_env_heredoc(t_list *list, t_var *var);
-#endif
+void	fill_file(char *delimiter, int fd, t_var *var);
+void	ft_expand_in_heredoc(t_var *var, char *line, t_list_str **list_str, int fd);
+char	*get_string_delimiter(t_list *list, t_var *var, t_list *env_list, t_list_str **list_str);
+void	ft_init_var_delimiter(t_var *var);
+char	*handle_env_in_heredoc(t_list *list, t_list *env_list, int num_env);
+int		skip_node_delimiter(t_list *list, t_var *var);
+void	ft_skip_node_delimiter(t_var *var);
+char	*handle_env_heredoc(t_list *list, t_var *var);
+int		skip_node_heredoc(t_list *list);
+void	ft_skip_node_heredoc(t_list *list, t_var *var);
+char	*get_string_heredoc(t_list *list, t_var *var, t_list_str **list_str);
+void	ft_msg_error_heredoc(char *name);
+char	*ft_name_file(void);
 
+#endif

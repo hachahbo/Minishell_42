@@ -6,7 +6,7 @@
 /*   By: amoukhle <amoukhle@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/20 20:38:47 by amoukhle          #+#    #+#             */
-/*   Updated: 2023/06/21 15:37:35 by amoukhle         ###   ########.fr       */
+/*   Updated: 2023/06/22 16:01:38 by amoukhle         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,6 @@ int	ft_open_outfile(t_list *node, t_var *var, t_list *env_list)
 	ft_init_var(var);
 	ft_make_list(node->cmd[1], &list, var);
 	str_DOC = get_string_DOC(list, var, env_list, &list_str);
-	printf("[%s]\n", str_DOC);
 	if (!str_DOC)
 		ft_msg_null_DOC(node);
 	outfile = open(str_DOC, O_RDWR | O_CREAT | O_TRUNC, 0777);

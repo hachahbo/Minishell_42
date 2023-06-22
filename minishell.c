@@ -6,7 +6,7 @@
 /*   By: amoukhle <amoukhle@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/19 20:55:43 by hachahbo          #+#    #+#             */
-/*   Updated: 2023/06/21 21:44:37 by amoukhle         ###   ########.fr       */
+/*   Updated: 2023/06/22 16:00:12 by amoukhle         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,9 +62,9 @@ void	parser(t_list *head, t_list *env_list, char *input)
 		ft_finale_list(new_list_w_s, &last_list);
 		print_double_list(last_list);
 		// printlist(head);
-		// fd = ft_open_heredoc(last_list, vars);
+		fd = ft_open_outfile(last_list, vars, env_list);
 		// unlink("/tmp/here_doc");
-		// close(fd);
+		close(fd);
 		// ft_builtins(new_list_w_s, env_list);
 		ft_lstclear(&head);
 		ft_lstclear(&new_list);
@@ -106,7 +106,7 @@ int main(int ac, char **av, char **env)
 			parser(head, env_list, input);
 		else
 			free(input);
-		system("leaks minishell");
+		// system("leaks minishell");
 	}
 	ft_lstclear(&env_list);
 	return (0);
