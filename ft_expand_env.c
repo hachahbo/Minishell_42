@@ -6,7 +6,7 @@
 /*   By: amoukhle <amoukhle@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/19 23:03:57 by amoukhle          #+#    #+#             */
-/*   Updated: 2023/06/19 23:06:55 by amoukhle         ###   ########.fr       */
+/*   Updated: 2023/06/24 16:46:59 by amoukhle         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,13 +22,13 @@ char	*generate_value_of_env(char *str, char *tmp, t_list_str **list_str, t_list 
 	while(str_split[i + 1])
 	{
 		str = ft_strjoin(str, str_split[i]);
-		list_stradd_back(list_str, new_list_str(str));
+		list_stradd_back(list_str, new_list_str(str, 0));
 		i++;
 		ft_lstadd_back(new_list, ft_lstnew(str, NULL));
 		str = NULL;
 	}
 	str = ft_strjoin(str, str_split[i]);
-	list_stradd_back(list_str, new_list_str(str));
+	list_stradd_back(list_str, new_list_str(str, 0));
 	free_double(str_split);
 	return (str);
 }

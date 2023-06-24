@@ -6,7 +6,7 @@
 /*   By: amoukhle <amoukhle@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/19 23:06:26 by amoukhle          #+#    #+#             */
-/*   Updated: 2023/06/21 20:29:51 by amoukhle         ###   ########.fr       */
+/*   Updated: 2023/06/24 16:31:11 by amoukhle         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,6 +66,6 @@ void	creat_word(t_list *head, t_list **new_list, t_list_str	**list_str, t_var *v
 char	*join_list_str(char *s1, char *s2, t_list_str **list_str)
 {
 	s1 = ft_strjoin(s1, s2);
-	list_stradd_back(list_str, new_list_str(s1));
+	list_stradd_back(list_str, new_list_str(s1, 0));
 	return (s1);
 }

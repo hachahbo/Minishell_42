@@ -6,7 +6,7 @@
 /*   By: amoukhle <amoukhle@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/22 15:53:51 by amoukhle          #+#    #+#             */
-/*   Updated: 2023/06/22 15:58:42 by amoukhle         ###   ########.fr       */
+/*   Updated: 2023/06/22 21:47:15 by amoukhle         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,4 +41,15 @@ void	ft_skip_node_delimiter(t_var *var)
 {
 	var->num_env = 0;
 	var->skip = 1;
+}
+void	ft_delete_here_doc(char *name_file)
+{
+	int	status;
+
+	status = unlink(name_file);
+	if (status == -1)
+	{
+		perror("Error deleting file");
+		exit (1);
+	}
 }

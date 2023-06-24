@@ -6,7 +6,7 @@
 /*   By: amoukhle <amoukhle@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/10 10:20:07 by hachahbo          #+#    #+#             */
-/*   Updated: 2023/06/21 15:14:41 by amoukhle         ###   ########.fr       */
+/*   Updated: 2023/06/24 16:30:49 by amoukhle         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,7 @@
 typedef struct s_list_str
 {
 	char			*content;
+	int				fd;
 	struct s_list_str	*next;
 }				t_list_str;
 
@@ -69,6 +70,11 @@ typedef struct s_var
 	int	num_env;
 	int	skip;
 	int	q_dq;
+	int	*fd;
+	int	n_cmd;
+	int	num_cmd;
+	int	std_in;
+	int	std_out;
 	char	*str;
 	t_list	*env_list;
 }	t_var;
@@ -108,7 +114,7 @@ int				ft_atoi(const char *str);
 char			*ft_itoa(int n);
 char			*ft_substr(char const *s, unsigned int start, size_t len);
 t_list			*ft_lstnew(void *content, char **cmd);
-t_list_str		*new_list_str(char *content);
+t_list_str		*new_list_str(char *content, int fd);
 void			ft_lstadd_front(t_list **lst, t_list *new);
 t_list			*ft_lstlast(t_list *lst);
 t_list_str		*list_strlast(t_list_str *lst);

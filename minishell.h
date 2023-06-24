@@ -6,7 +6,7 @@
 /*   By: amoukhle <amoukhle@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/21 19:11:14 by hachahbo          #+#    #+#             */
-/*   Updated: 2023/06/22 15:52:27 by amoukhle         ###   ########.fr       */
+/*   Updated: 2023/06/24 17:50:08 by amoukhle         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,6 +73,7 @@ int		is_word(t_list *head);
 void	get_command_and_arg(char **cmd, t_list *new_list_w_s);
 void	get_pipe(t_list *new_list_w_s, t_list **last_list);
 void	get_DOC(t_list **new_list_w_s, t_list **last_list);
+//-----------------------| execution |-----------------------------------
 int		ft_open_infile(t_list *node, t_var *var, t_list *env_list);
 int		ft_open_outfile(t_list *node, t_var *var, t_list *env_list);
 int		ft_open_append_file(t_list *node, t_var *var, t_list *env_list);
@@ -101,6 +102,20 @@ int		skip_node_heredoc(t_list *list);
 void	ft_skip_node_heredoc(t_list *list, t_var *var);
 char	*get_string_heredoc(t_list *list, t_var *var, t_list_str **list_str);
 void	ft_msg_error_heredoc(char *name);
+void	ft_delete_here_doc(char *name_file);
 char	*ft_name_file(void);
+int		ft_num_pipe(t_list *last_list);
+//---------------------------| child process |----------------------------------
+void	ft_child_proccess(t_list *last_list, t_list *env_list, t_var *var, t_list_str **list_heredoc);
+void	ft_serche_for_DOC(t_list *last_list, t_list *env_list, t_var *var, t_list_str **list_heredoc);
+int		ft_listchr(t_list *list, int type);
+void	ft_serche_for_heredoce(t_list *last_list, t_var *var, t_list_str **list_heredoc);
+int		ft_serche_for_redir_in(t_list *last_list);
+void	wait_childs(t_var *var, pid_t last_child);
+void	exec_child(t_list *last_list, t_list *env_list, t_var *var, int num_pipe);
+void	ft_position_start_end(t_list **last_list);
+void	ft_execution(t_list *last_list, t_list *env_list, t_var *var);
+void	ft_pipe(t_var *var, int num_pipe);
+void	ft_duplicate(t_var *var);
 
 #endif

@@ -6,7 +6,7 @@
 /*   By: amoukhle <amoukhle@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/19 20:55:43 by hachahbo          #+#    #+#             */
-/*   Updated: 2023/06/22 16:00:12 by amoukhle         ###   ########.fr       */
+/*   Updated: 2023/06/24 21:30:11 by amoukhle         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,7 +48,6 @@ void	parser(t_list *head, t_list *env_list, char *input)
 	t_list	*new_list_w_s;
 	t_list	*last_list;
 	t_var	*vars;
-	int		fd;
 
 	new_list = NULL;
 	new_list_w_s = NULL;
@@ -60,11 +59,9 @@ void	parser(t_list *head, t_list *env_list, char *input)
 		ft_make_new_list(head, &new_list, env_list);
 		ft_make_new_list_w_s(new_list, &new_list_w_s);
 		ft_finale_list(new_list_w_s, &last_list);
-		print_double_list(last_list);
+		// print_double_list(last_list);
 		// printlist(head);
-		fd = ft_open_outfile(last_list, vars, env_list);
-		// unlink("/tmp/here_doc");
-		close(fd);
+		ft_execution(last_list, env_list, vars);
 		// ft_builtins(new_list_w_s, env_list);
 		ft_lstclear(&head);
 		ft_lstclear(&new_list);
@@ -106,7 +103,6 @@ int main(int ac, char **av, char **env)
 			parser(head, env_list, input);
 		else
 			free(input);
-		// system("leaks minishell");
 	}
 	ft_lstclear(&env_list);
 	return (0);

@@ -6,7 +6,7 @@
 /*   By: amoukhle <amoukhle@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/20 21:30:36 by amoukhle          #+#    #+#             */
-/*   Updated: 2023/06/22 15:54:06 by amoukhle         ###   ########.fr       */
+/*   Updated: 2023/06/22 21:47:05 by amoukhle         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -101,6 +101,7 @@ int	ft_open_heredoc(t_list *node, t_var *var)
 		ft_msg_error_heredoc(name_file);
 	ft_lstclear(&list);
 	list_strclear(&list_str);
+	ft_delete_here_doc(name_file);
 	free(name_file);
 	return (file);
 }

@@ -6,7 +6,7 @@
 /*   By: amoukhle <amoukhle@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/22 15:27:30 by amoukhle          #+#    #+#             */
-/*   Updated: 2023/06/22 15:56:43 by amoukhle         ###   ########.fr       */
+/*   Updated: 2023/06/24 17:22:46 by amoukhle         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,6 +48,8 @@ void	ft_expand_in_heredoc(t_var *var, char *line, t_list_str **list_str, int fd)
 	ft_make_list(line, &list, var);
 	str = get_string_delimiter(list, var, var->env_list, list_str);
 	ft_lstclear(&list);
+	if (!str)
+		str = "";
 	write(fd, str, ft_strlen(str));
 }
 
