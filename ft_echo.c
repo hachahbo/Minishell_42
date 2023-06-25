@@ -6,7 +6,7 @@
 /*   By: hachahbo <hachahbo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/01 06:26:17 by hachahbo          #+#    #+#             */
-/*   Updated: 2023/06/07 13:52:34 by hachahbo         ###   ########.fr       */
+/*   Updated: 2023/06/21 18:25:14 by hachahbo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,53 +70,85 @@
 // 	}
 // 	return (0);
 // }
-int check_next_of_echo(t_list *head)
-{
 
-	head = head->next;
-	while(head && is_spaces(head->content))
-		head = head->next;
-	if(!head)
+
+
+// int	check_next_of_echo(t_list *head)
+// {
+// 	int	i;
+// 	int	j;
+
+// 	i = 0;
+// 	(void)head;
+// 	while(head->cmd[i])
+// 	{
+// 		j = 0;
+// 		while(head->cmd[i][j])
+// 			j++;
+// 		i++;
+// 	}
+// 	if(!head->cmd[i])
+// 	{
+// 		printf("\n");
+// 		return (1);
+// 	}
+// 	return (0);
+// }
+int	check_is_n_line(char *str)
+{
+	int i;
+
+	i = 0;
+	if(str[i] == '-')
 	{
-		printf("\n");
-		return (1);
+		while(!is_spaces_char(str[i]) && str[i])
+			i++;
+		if(is_spaces_char(str[i]) && str[i])
+			return (0);
+		i = 1;
+		if(str[i] == 'n')
+		{
+			while(str[i] == 'n' && str[i])
+				i++;
+			if(str[i] == '\0')
+				return (1);
+			if(str[i] != 'n' || is_spaces_char(str[i]))
+				return (0);
+			return (1);
+		}
 	}
 	return (0);
 }
 int ft_echo(t_list *head)
 {
-	while(head)
+	int i;
+	int j;
+	char **d_str;
+
+	i = 0;
+	j = 0;
+	
+	d_str = head->cmd;
+	i = 1;
+	while (head->cmd[i])
 	{
-		if(!ft_strcmp(head->content, "echo"))
+		if(!check_is_n_line(head->cmd[i]))
 			break;
-		head = head->next;
-	}
-	if(!head->next)
-	{
-		printf("\n");
-		return (1);
-	}
-	if(check_next_of_echo(head))
-		return (1);
-	head = head->next;
-	while(head && is_spaces(head ->content))
-		head = head->next;
-	while(head)
-	{
-		if(!is_spaces(head ->content))
+		if(head->cmd[i] && check_is_n_line(head->cmd[i]))
 		{
-			if(!ft_strcmp(head->content, "-n"))
-			{
-				printf("");
-				return (0);
-			}
-			else if(head->next  == NULL)
-				printf("%s", head->content);
-			else
-				printf("%s ", head->content);
+			j = 1;
 		}
-		head = head->next;
+		i++;
 	}
-	printf("\n");
+	while(head->cmd[i])
+	{
+		if (head->cmd[i+1]  == NULL)
+			printf("%s", head->cmd[i]);
+		else
+			printf("%s ", head->cmd[i]);
+		i++;
+	}
+	if (j == 0)
+		printf("\n");
 	return (0);
 }

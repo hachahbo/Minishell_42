@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   helper.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: amoukhle <amoukhle@student.42.fr>          +#+  +:+       +#+        */
+/*   By: hachahbo <hachahbo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/01 06:49:49 by hachahbo          #+#    #+#             */
-/*   Updated: 2023/06/01 14:04:08 by amoukhle         ###   ########.fr       */
+/*   Updated: 2023/06/21 16:46:25 by hachahbo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,10 +21,10 @@ int    ft_strcmp(char *s1, char *s2)
 	return(s1[i] - s2[i]);
 }
 
-void	ft_lstclear(t_list **lst)
+void list_strclear(t_list_str **lst)
 {
-	t_list	*temp;
-	t_list	*freed;
+	t_list_str	*temp;
+	t_list_str	*freed;
 
 	temp = *lst;
 	while (temp != NULL)
@@ -37,6 +37,24 @@ void	ft_lstclear(t_list **lst)
 	*lst = NULL;
 }
 
+void	ft_lstclear(t_list **lst)
+{
+	t_list	*temp;
+	t_list	*freed;
+
+	temp = *lst;
+	while (temp != NULL)
+	{
+		freed = temp;
+		temp = temp->next;
+		if (freed->content)
+			free(freed->content);
+		free_double(freed->cmd);
+		free(freed);
+	}
+	*lst = NULL;
+}
+
 void printlist(t_list *head)
 {
 	printf("command			state			token\n");
@@ -44,6 +62,27 @@ void printlist(t_list *head)
 	{
 		printf("%s			%d			%d\n", head->content, head->state, head->type);
 		head= head->next;
+	}
+	printf("\n");
+}
+
+void print_double_list(t_list *head)
+{
+	int	i;
+
+	i = 1;
+	while(head)
+	{
+		printf("cmd: [%s]\n",head->cmd[0]);
+		i = 1;
+		while (head->cmd[i])
+		{
+			printf("args: \"%s\"   ||   ",head->cmd[i]);
+			i++;
+		}
+		i = 0;
+		printf("\n");
+		head = head->next;
 	}
 	printf("\n");
 }

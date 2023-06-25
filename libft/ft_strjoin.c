@@ -6,11 +6,24 @@
 /*   By: amoukhle <amoukhle@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/07 16:04:36 by hachahbo          #+#    #+#             */
-/*   Updated: 2023/06/03 18:02:43 by amoukhle         ###   ########.fr       */
+/*   Updated: 2023/06/09 12:29:22 by amoukhle         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
+
+size_t	count_extralen(char const *s1, char const *s2)
+{
+	size_t	extralen;
+	
+	if (!s1)
+		extralen = ft_strlen((char *)s2);
+	else if (!s2)
+		extralen = ft_strlen((char *)s1);
+	else
+		extralen = ft_strlen((char *)s1) + ft_strlen((char *)s2);
+	return (extralen);
+}
 
 char	*ft_strjoin(char const *s1, char const *s2)
 {
@@ -21,12 +34,7 @@ char	*ft_strjoin(char const *s1, char const *s2)
 
 	if (s1 == 0 && s2 == 0)
 		return (0);
-	if (!s1)
-		extralen =ft_strlen((char *)s2);
-	else if (!s2)
-		extralen =ft_strlen((char *)s1);
-	else
-		extralen = ft_strlen((char *)s1) + ft_strlen((char *)s2);
+	extralen = count_extralen(s1, s2);
 	str = (char *)malloc(extralen + 1);
 	if (!str)
 		return (0);

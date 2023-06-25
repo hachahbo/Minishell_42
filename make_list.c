@@ -3,136 +3,101 @@
 /*                                                        :::      ::::::::   */
 /*   make_list.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: amoukhle <amoukhle@student.42.fr>          +#+  +:+       +#+        */
+/*   By: hachahbo <hachahbo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/01 06:09:13 by hachahbo          #+#    #+#             */
-/*   Updated: 2023/06/05 17:31:24 by amoukhle         ###   ########.fr       */
+/*   Updated: 2023/06/21 18:48:04 by hachahbo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void	make_env_list(char **env, t_list **env_list)
+void	ft_sit_type(t_list *node)
 {
-	int		i;
-	t_list	*new;
-
-	i = 0;
-	while(env[i])
-	{
-		new = ft_lstnew(env[i]);
-		ft_lstadd_back(env_list, new);
-		i++;
-	}
+	if ((node->content[0] >= 'A' && node->content[0] <= 'Z')
+		|| (node->content[0] >= 'a' && node->content[0] <= 'z')
+		|| node->content[0] == '_')
+	return ;
+	if (node->type == WORD)
+		node->type = SPECIAL_CHAR;
 }
 
-void 	ft_make_list(char *input, t_list **head)
+void 	ft_make_list(char *input, t_list **head, t_var *vars)
 {
-	int flag1;
-	int flag2;
 	t_list *new;
 	char  *str;
-	int start;
-	int end;
-	
-	start = 0;
-	end = 0;
-	flag1 = 0;
-	flag2 = 0;
+
 	while (1)
 	{
 		input = skip_spaces(input);
-		str = check_data(input, &start, &end);
+		str = check_data(input, &vars->start, &vars->end);
 		if(str == NULL)
 		{
 			free(str);
 			break ;
 		}
-		new = ft_lstnew(str);
-		ft_status(new, &flag1, &flag2);
+		new = ft_lstnew(str, NULL);
+		ft_sit_type(new);
+		ft_status(new, &vars->flag1, &vars->flag2);
 		ft_lstadd_back(head, new);
 		free(str);
 	}
 }
 
-char *handle_env(t_list *list, t_list *env_list)
+void	ft_make_new_list_w_s(t_list *new_list, t_list **new_list_w_s)
 {
-	if (list->type == ENV && list->state == GENERAL
-		&& (list->next == NULL || list->next->type == WHITE_SPACE))
-		return (list->content);
-	else if (list->type == ENV && list->state == GENERAL
-		&& (list->next->type == QOUTE || list->next->type == DOUBLE_QUOTE))
-		return (NULL);
-	else if (list->type == ENV && list->state == IN_QUOTE)
-		return (list->content);
-	else if (list->type == ENV && list->state == IN_DQUOTE)
-	{
-		if (list->next->type == WORD)
-			return (ft_expand_value(list->next->content, env_list));
-		else
-			return (list->content);
-	}
-	else if (list->type == ENV && list->state == GENERAL
-		&& list->next->type == WORD)
-		return (ft_expand_value(list->next->content, env_list));
-	return (list->content);
-}
+	t_list *new;
 
-void	ft_make_new_list(t_list *head, t_list **new_list, t_list *env_list)
-{
-	char	*str;
-	t_list	*new;
-	char	*tmp;
-	int		in_join;
-
-	while (head)
+	while (new_list)
 	{
-		in_join = 0;
-		str = NULL;
-		if (head->type != WORD && head->type != QOUTE
-			&& head->type != DOUBLE_QUOTE && head->type != ENV)
-			str = head->content;
-		while (head && (head->type == WORD || head->type == ENV
-			|| head->type == QOUTE || head->type == DOUBLE_QUOTE
-			|| head->state == IN_QUOTE || head->state == IN_DQUOTE))
+		if (new_list->type == WHITE_SPACE && new_list->state == GENERAL)
 		{
-			if ((head->type == QOUTE && head->state == GENERAL)
-				|| (head->type == DOUBLE_QUOTE && head->state == GENERAL)
-				|| (head->type == WORD && head->prev && head->prev->type == ENV && head->state != IN_QUOTE))
-			{
-				head = head->next;
-				continue;
-			}
-			if (head->type == ENV)
-			{
-				tmp = handle_env(head, env_list);
-				if (!tmp)
-					tmp = "";
-				str = ft_strjoin(str, tmp);
-			}
-			else
-				str = ft_strjoin(str, head->content);
-			head = head->next;
-			in_join = 1;
+			new_list = new_list->next;
+			continue;
 		}
-		new = ft_lstnew(str);
-		ft_lstadd_back(new_list, new);
-		if (in_join == 0)
-			head = head->next;
+		new = ft_lstnew(new_list->content, NULL);
+		new->state = new_list->state;
+		ft_lstadd_back(new_list_w_s, new);
+		new_list = new_list->next;
 	}
-	
 }
 
-char *ft_expand_value(char *str, t_list *env_list)
+int	count_arg(t_list *new_list_w_s)
 {
-	char	*value;
+	int	count;
 
-	value = NULL;
-	while (env_list)
+	count = 0;
+	while (new_list_w_s &&
+		(new_list_w_s->type != PIPE_LINE || new_list_w_s->state == IN_DQUOTE))
 	{
-		if (ft_strncmp(str, env_list->content, ft_strlen(str)) == 0 && env_list->content[ft_strlen(str)] == '=')
-			value = &env_list->content[ft_strlen(str) + 1];
-		env_list = env_list->next;
+		if ((new_list_w_s->type == REDIR_IN || new_list_w_s->type == REDIR_OUT
+			|| new_list_w_s->type == HERE_DOC || new_list_w_s->type == DREDIR_OUT)
+			&& new_list_w_s->state == GENERAL)
+		{
+			new_list_w_s = new_list_w_s->next->next;
+			continue;
+		}
+		count++;
+		new_list_w_s = new_list_w_s->next;
 	}
-	return (value);
+	return (count);
+}
+
+void	get_command_and_arg(char **cmd, t_list *new_list_w_s)
+{
+	int	i;
+
+	i = 0;
+	while (new_list_w_s &&
+		(new_list_w_s->type != PIPE_LINE || new_list_w_s->state == IN_DQUOTE))
+	{
+		if (!is_DOC(new_list_w_s))
+		{
+			new_list_w_s = new_list_w_s->next->next;
+			continue;
+		}
+		cmd[i++] = ft_strdup(new_list_w_s->content);
+		new_list_w_s = new_list_w_s->next;
+	}
+	cmd[i] = NULL;
 }
