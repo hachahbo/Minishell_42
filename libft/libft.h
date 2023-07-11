@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   libft.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: amoukhle <amoukhle@student.42.fr>          +#+  +:+       +#+        */
+/*   By: hachahbo <hachahbo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/10 10:20:07 by hachahbo          #+#    #+#             */
-/*   Updated: 2023/06/20 09:02:00 by amoukhle         ###   ########.fr       */
+/*   Updated: 2023/07/10 12:03:14 by hachahbo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,6 +39,14 @@ enum e_token
 	HERE_DOC, // <<
 	DREDIR_OUT, // >>
 };
+
+typedef struct s_env
+{
+	char *key;
+	char *val;
+	char *content;
+	struct s_env *next;
+}t_env;
 
 enum e_state
 {

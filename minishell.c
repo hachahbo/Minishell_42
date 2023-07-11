@@ -6,7 +6,7 @@
 /*   By: hachahbo <hachahbo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/19 20:55:43 by hachahbo          #+#    #+#             */
-/*   Updated: 2023/06/24 17:27:33 by hachahbo         ###   ########.fr       */
+/*   Updated: 2023/07/11 17:10:42 by hachahbo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,7 @@ t_var *init_vars(void)
 	return (tmp);
 }
 
-void	parser(t_list *head, t_list *env_list, char *input, char **env)
+void	parser(t_list *head, t_list *env_list, char *input, t_env *help)
 {
 	t_list	*new_list;
 	t_list	*new_list_w_s;
@@ -58,9 +58,9 @@ void	parser(t_list *head, t_list *env_list, char *input, char **env)
 		ft_make_new_list_w_s(new_list, &new_list_w_s);
 		// printlist(head);
 		ft_finale_list(new_list_w_s, &last_list);
-		print_double_list(last_list);
+		// make print_double_list(last_list);
 		// ft_open_infile(last_list, vars, env_list);
-		ft_builtins(last_list, env_list, env);
+		ft_builtins(last_list, env_list, help);
 		ft_lstclear(&head);
 		ft_lstclear(&new_list);
 		ft_lstclear(&new_list_w_s);
@@ -82,11 +82,13 @@ int main(int ac, char **av, char **env)
 	char	*input;
 	t_list	*head;
 	t_list	*env_list;
+	t_env	*help_list = NULL;
 
 	(void)ac;
 	(void)av;
 	head = NULL;
 	make_env_list(env, &env_list);
+	make_copy_env_list_char(env, &help_list);
 	state_exit = 0;
 	while(1)
 	{
@@ -98,7 +100,7 @@ int main(int ac, char **av, char **env)
 			exit (1);
 		}
 		if(ft_strisspace(input) == 0)
-			parser(head, env_list, input, env);
+			parser(head, env_list, input, help_list);
 		else
 			free(input);
 		// system("leaks minishell");
