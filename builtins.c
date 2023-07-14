@@ -6,7 +6,7 @@
 /*   By: hachahbo <hachahbo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/04 20:13:17 by hachahbo          #+#    #+#             */
-/*   Updated: 2023/07/11 14:51:54 by hachahbo         ###   ########.fr       */
+/*   Updated: 2023/07/14 10:26:48 by hachahbo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,23 +32,23 @@ int ft_builtins(t_list *list, t_list *env_list, t_env *help)
 	// printf("teste : %s\n", list->cmd[0]);
 	(void)env_list; 
 	// t_env *new_env_list = NULL;
-	
 	while(list)
 	{
-		if(!ft_strcmp(list->content, "cd"))
+		if(!ft_strcmp(list->cmd[0], "pwd"))
+			ft_pwd(env_list);
+		if(!ft_strcmp(list->cmd[0], "cd"))
 			rendering_cd(list);
-		if(!ft_strcmp(list->cmd[0], "echo"))
+		else if(!ft_strcmp(list->cmd[0], "echo"))
 			ft_echo(list);
 		else if(!ft_strcmp(list->cmd[0], "env"))
 			ft_env(help);
 		else if (!ft_strcmp(list->cmd[0], "export"))
 			ft_export(list, help);
-		// // else if(!ft_strcmp(list->content  
-		// else if(!ft_strcmp(list->content, "exit"))
-		// {
-		// 	printf("exit\n");
-		// 	exit(1);
-		// }
+		else if(!ft_strcmp(list->cmd[0], "exit"))
+		{
+			printf("exit\n");
+			exit(1);
+		}
 		list = list->next;
 	}
 	return (0);

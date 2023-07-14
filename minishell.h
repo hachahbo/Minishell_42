@@ -6,7 +6,7 @@
 /*   By: hachahbo <hachahbo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/21 19:11:14 by hachahbo          #+#    #+#             */
-/*   Updated: 2023/07/11 14:51:38 by hachahbo         ###   ########.fr       */
+/*   Updated: 2023/07/14 12:10:55 by hachahbo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,7 @@
 # include <ctype.h>
 # include <readline/readline.h>
 # include <readline/history.h>
+# include <string.h>
 # include "libft/libft.h"
 
 int	state_exit;

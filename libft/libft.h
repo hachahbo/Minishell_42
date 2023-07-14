@@ -6,7 +6,7 @@
 /*   By: hachahbo <hachahbo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/10 10:20:07 by hachahbo          #+#    #+#             */
-/*   Updated: 2023/07/10 12:03:14 by hachahbo         ###   ########.fr       */
+/*   Updated: 2023/07/14 12:38:57 by hachahbo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,6 +45,8 @@ typedef struct s_env
 	char *key;
 	char *val;
 	char *content;
+	char c;
+	char plus;
 	struct s_env *next;
 }t_env;
 
