@@ -6,7 +6,7 @@
 /*   By: amoukhle <amoukhle@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/19 23:03:57 by amoukhle          #+#    #+#             */
-/*   Updated: 2023/06/24 16:46:59 by amoukhle         ###   ########.fr       */
+/*   Updated: 2023/07/14 07:53:22 by amoukhle         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@ char	*generate_value_of_env(char *str, char *tmp, t_list_str **list_str, t_list 
 	int		i;
 	char	**str_split;
 
-	str_split = ft_split(tmp, ' ');
+	str_split = ft_spaces_split(tmp);
 	i = 0;
 	while(str_split[i + 1])
 	{

@@ -6,7 +6,7 @@
 /*   By: amoukhle <amoukhle@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/22 16:29:59 by amoukhle          #+#    #+#             */
-/*   Updated: 2023/06/24 21:18:12 by amoukhle         ###   ########.fr       */
+/*   Updated: 2023/07/14 11:20:05 by amoukhle         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,12 +59,30 @@ void	ft_execution(t_list *last_list, t_list *env_list, t_var *var)
 	if (num_pipe != 0)
 		free(var->fd);
 }
-void	ft_position_start_end(t_list **last_list)
+void	ft_position_start_end(t_list **last_list, t_list_str **list_heredoce_tmp)
 {
 	while (*last_list && (*last_list)->type_d != PIPE_LINE)
+	{
+		if ((*last_list)->type_d == HERE_DOC)
+			*list_heredoce_tmp = (*list_heredoce_tmp)->next;
 		*last_list = (*last_list)->next;
+	}
 	if (*last_list && (*last_list)->type_d == PIPE_LINE)
 		*last_list = (*last_list)->next;
+}
+
+void	error_fork(void)
+{
+	write (2, "Error: Failed to fork\n", 22);
+	exit (1);
+}
+
+void	init_var(t_var *var, int num_pipe)
+{
+	var->n_cmd = num_pipe + 1;
+	var->num_cmd = 0;
+	var->std_in = 0;
+	var->std_out = 1;
 }
 
 void	exec_child(t_list *last_list, t_list *env_list, t_var *var, int num_pipe)
@@ -77,24 +95,18 @@ void	exec_child(t_list *last_list, t_list *env_list, t_var *var, int num_pipe)
 
 	list = last_list;
 	list_heredoce = NULL;
-	var->n_cmd = num_pipe + 1;
-	var->num_cmd = 0;
-	var->std_in = 0;
-	var->std_out = 1;
+	init_var(var, num_pipe);
 	ft_serche_for_heredoce(last_list, var, &list_heredoce);
 	list_heredoce_tmp = list_heredoce;
 	while (var->num_cmd < var->n_cmd)
 	{
 		pid = fork();
 		if (pid == -1)
-		{
-			write (2, "Error: Failed to fork\n", 22);
-			exit (1);
-		}
+			error_fork();
 		if (pid == 0)
 			ft_child_proccess(list, env_list, var, &list_heredoce_tmp);
 		(var->num_cmd)++;
-		ft_position_start_end(&list);
+		ft_position_start_end(&list, &list_heredoce_tmp);
 	}
 	last_child = pid;
 	wait_childs(var, last_child);
@@ -164,9 +176,52 @@ int	ft_listchr(t_list *list, int type)
 	return (1);
 }
 
-void	ft_serche_for_DOC(t_list *last_list, t_list *env_list, t_var *var, t_list_str **list_heredoc)
+void	serch_for_heredoc(t_var *var, t_list_str **list_heredoc, int *other_inf)
+{
+	if (*other_inf == 1)
+	{
+		close(var->std_in);
+		*other_inf = 0;
+	}
+	*other_inf = 1;
+	var->std_in = (*list_heredoc)->fd;
+	*list_heredoc = (*list_heredoc)->next;
+}
+void	serch_for_inf(t_list *last_list, t_var *var, t_list *env_list, int *other_inf)
 {
 	int	file;
+
+	file = ft_open_infile(last_list, var, env_list);
+	if (ft_listchr(last_list, HERE_DOC) == 0)
+		close(file);
+	else
+	{
+		if (*other_inf == 1)
+		{
+			close(var->std_in);
+			*other_inf = 0;
+		}
+		*other_inf = 1;
+		var->std_in = file;
+	}
+}
+
+void	serch_for_outf(t_list *last_list, t_list *env_list, t_var *var, int *other_outf)
+{
+	if (*other_outf == 1)
+	{
+		close(var->std_out);
+		*other_outf = 0;
+	}
+	*other_outf = 1;
+	if (last_list->type_d == REDIR_OUT)
+		var->std_out = ft_open_outfile(last_list, var, env_list);
+	else
+		var->std_out = ft_open_append_file(last_list, var, env_list);
+}
+
+void	ft_serche_for_DOC(t_list *last_list, t_list *env_list, t_var *var, t_list_str **list_heredoc)
+{
 	int	other_inf;
 	int	other_outf;
 
@@ -175,45 +230,11 @@ void	ft_serche_for_DOC(t_list *last_list, t_list *env_list, t_var *var, t_list_s
 	while (last_list && last_list->type_d != PIPE_LINE)
 	{
 		if (last_list->type_d == HERE_DOC)
-		{
-			if (other_inf == 1)
-			{
-				close(var->std_in);
-				other_inf = 0;
-			}
-			other_inf = 1;
-			var->std_in = (*list_heredoc)->fd;
-			*list_heredoc = (*list_heredoc)->next;
-		}
+			serch_for_heredoc(var, list_heredoc, &other_inf);
 		else if (last_list->type_d == REDIR_IN)
-		{
-			file = ft_open_infile(last_list, var, env_list);
-			if (ft_listchr(last_list, HERE_DOC) == 0)
-				close(file);
-			else
-			{
-				if (other_inf == 1)
-				{
-					close(var->std_in);
-					other_inf = 0;
-				}
-				other_inf = 1;
-				var->std_in = file;
-			}
-		}
+			serch_for_inf(last_list, var, env_list, &other_inf);
 		else if (last_list->type_d == REDIR_OUT || last_list->type_d == DREDIR_OUT)
-		{
-			if (other_outf == 1)
-			{
-				close(var->std_out);
-				other_outf = 0;
-			}
-			other_outf = 1;
-			if (last_list->type_d == REDIR_OUT)
-				var->std_out = ft_open_outfile(last_list, var, env_list);
-			else
-				var->std_out = ft_open_append_file(last_list, var, env_list);
-		}
+			serch_for_outf(last_list, env_list, var, &other_outf);
 		last_list = last_list->next;
 	}
 }

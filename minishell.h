@@ -6,7 +6,7 @@
 /*   By: amoukhle <amoukhle@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/21 19:11:14 by hachahbo          #+#    #+#             */
-/*   Updated: 2023/06/24 17:50:08 by amoukhle         ###   ########.fr       */
+/*   Updated: 2023/07/14 11:09:42 by amoukhle         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -105,17 +105,22 @@ void	ft_msg_error_heredoc(char *name);
 void	ft_delete_here_doc(char *name_file);
 char	*ft_name_file(void);
 int		ft_num_pipe(t_list *last_list);
+char	**ft_spaces_split(char *s);
 //---------------------------| child process |----------------------------------
 void	ft_child_proccess(t_list *last_list, t_list *env_list, t_var *var, t_list_str **list_heredoc);
 void	ft_serche_for_DOC(t_list *last_list, t_list *env_list, t_var *var, t_list_str **list_heredoc);
+void	serch_for_heredoc(t_var *var, t_list_str **list_heredoc, int *other_inf);
+void	serch_for_inf(t_list *last_list, t_var *var, t_list *env_list, int *other_inf);
+void	serch_for_outf(t_list *last_list, t_list *env_list, t_var *var, int *other_outf);
 int		ft_listchr(t_list *list, int type);
 void	ft_serche_for_heredoce(t_list *last_list, t_var *var, t_list_str **list_heredoc);
 int		ft_serche_for_redir_in(t_list *last_list);
 void	wait_childs(t_var *var, pid_t last_child);
 void	exec_child(t_list *last_list, t_list *env_list, t_var *var, int num_pipe);
-void	ft_position_start_end(t_list **last_list);
+void	ft_position_start_end(t_list **last_list, t_list_str **list_heredoce_tmp);
 void	ft_execution(t_list *last_list, t_list *env_list, t_var *var);
 void	ft_pipe(t_var *var, int num_pipe);
 void	ft_duplicate(t_var *var);
+void	error_fork(void);
 
 #endif
