@@ -6,7 +6,7 @@
 /*   By: hachahbo <hachahbo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/14 15:44:03 by hachahbo          #+#    #+#             */
-/*   Updated: 2023/07/14 15:51:05 by hachahbo         ###   ########.fr       */
+/*   Updated: 2023/07/15 22:48:05 by hachahbo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,6 +55,30 @@ int	check_the_plus(char *str)
 	return (0);
 }
 
+char *check_is_valid(char *str)
+{
+	char	*s;
+	int		i;
+	int		j;
+
+	i = 0;
+	while(str[i])
+		i++;
+	s = (char *)malloc(i + 1);
+	j = 0; 
+	i = 0;
+	while(str[j])
+	{
+		if(str[j] == '\\')
+			j++;
+		s[i] = str[j];
+		i++;
+		j++;
+	}
+	s[i] = '\0';
+	return (s);
+}
+
 t_env	*ft_lstnew_env(char *str)
 {
 	t_env	*tmp;
@@ -73,6 +97,7 @@ t_env	*ft_lstnew_env(char *str)
 		key = until_equal_or_plus(str, '+');
 	}
 	val = ft_strchr(str, '=');
+	val = check_is_valid(val);
 	if (val)
 		tmp->c = val[0];
 	tmp->content = ft_strdup(str);

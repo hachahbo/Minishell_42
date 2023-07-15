@@ -6,7 +6,7 @@
 /*   By: hachahbo <hachahbo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/21 19:11:14 by hachahbo          #+#    #+#             */
-/*   Updated: 2023/07/14 15:47:12 by hachahbo         ###   ########.fr       */
+/*   Updated: 2023/07/15 21:15:49 by hachahbo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -94,5 +94,6 @@ t_env	*ft_lstnew_env(char *str);
 int	    check_the_plus(char *str);
 void	ft_lstadd_back_env(t_env **lst, t_env *new);
 t_env	*ft_lstlast_env(t_env *lst);
+int	    check_double_key(t_env *new_list, t_env *new_env);
 #endif
 

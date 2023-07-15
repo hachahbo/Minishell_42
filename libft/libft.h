@@ -6,7 +6,7 @@
 /*   By: hachahbo <hachahbo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/10 10:20:07 by hachahbo          #+#    #+#             */
-/*   Updated: 2023/07/14 12:38:57 by hachahbo         ###   ########.fr       */
+/*   Updated: 2023/07/15 21:14:55 by hachahbo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -126,5 +126,6 @@ void			list_stradd_back(t_list_str **lst, t_list_str *new);
 int				ft_lstsize(t_list *lst);
 char			*ft_strmapi(char const *s, char (*f)(unsigned int, char));
 void			list_strclear(t_list_str **lst);
+char			*ft_strcat(char *dest, char *src);
 
 #endif

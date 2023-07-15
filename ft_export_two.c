@@ -6,7 +6,7 @@
 /*   By: hachahbo <hachahbo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/14 15:38:31 by hachahbo          #+#    #+#             */
-/*   Updated: 2023/07/14 15:50:15 by hachahbo         ###   ########.fr       */
+/*   Updated: 2023/07/15 22:56:21 by hachahbo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,44 +49,37 @@ void	remove_node(t_env **head, char *min)
 	}
 }
 
-void	add_node_to_list(t_env **head, t_env *new)
-{
-	t_env	*current;
-
-	current = *head;
-	if (*head == NULL)
-	{
-		*head = new;
-		return ;
-	}
-	if (ft_strcmp(new->content, (*head)->content) < 0)
-	{
-		new->next = *head;
-		*head = new;
-		return ;
-	}
-	while (current->next != NULL
-		&& ft_strcmp(current->next->content, new->content) < 0)
-		current = current->next;
-	new->next = current->next;
-	current->next = new;
-}
-
 char	*until_equal_or_plus(char *big_str, char c)
 {
 	char	*str;
 	int		i;
+	int		j;
 
 	i = 0;
 	while (big_str[i] != c && big_str[i])
 		i++;
 	str = malloc(sizeof(char) * i + 1);
 	i = 0;
-	while (big_str[i] != c && big_str[i])
+	j = 0;
+	while (big_str[i] != c && big_str[j])
 	{
-		str[i] = big_str[i];
+		if(big_str[j] == '\\')
+			j++;
+		str[i] = big_str[j];
 		i++;
+		j++;
 	}
 	str[i] = '\0';
 	return (str);
+}
+
+int	check_double_key(t_env *new_list, t_env *new_env)
+{
+	while (new_list)
+	{
+		if (!ft_strcmp(new_list->key, new_env->key))
+			return (1);
+		new_list = new_list->next;
+	}
+	return (0);
 }
