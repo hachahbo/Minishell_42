@@ -6,7 +6,7 @@
 /*   By: hachahbo <hachahbo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/19 20:55:43 by hachahbo          #+#    #+#             */
-/*   Updated: 2023/07/16 23:35:44 by hachahbo         ###   ########.fr       */
+/*   Updated: 2023/07/17 08:02:44 by hachahbo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,7 +58,7 @@ void	parser(t_list *head, t_list *env_list, char *input, t_env *help)
 		ft_make_new_list_w_s(new_list, &new_list_w_s);
 		// printlist(head);
 		ft_finale_list(new_list_w_s, &last_list);
-		// make print_double_list(last_list);
+		print_double_list(last_list);
 		// ft_open_infile(last_list, vars, env_list);
 		ft_builtins(last_list, env_list, help);
 		ft_lstclear(&head);

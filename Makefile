@@ -6,7 +6,7 @@
 #    By: hachahbo <hachahbo@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/05/20 15:02:26 by hachahbo          #+#    #+#              #
-#    Updated: 2023/07/14 15:47:39 by hachahbo         ###   ########.fr        #
+#    Updated: 2023/07/17 06:25:57 by hachahbo         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -23,7 +23,7 @@ OBJS = minishell.o make_list.o ft_space.o ft_echo.o \
 		builtins.o ft_last_list.o ft_make_new_list.o\
 		ft_node.o ft_expand_env.o ft_tools.o\
 		ft_open_infile.o ft_export.o ft_export_two.o\
-		ft_export_three.o
+		ft_export_three.o ft_unset.o
 
 RM = rm -f
 
