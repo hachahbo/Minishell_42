@@ -6,7 +6,7 @@
 /*   By: hachahbo <hachahbo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/21 17:56:21 by hachahbo          #+#    #+#             */
-/*   Updated: 2023/07/17 01:06:12 by hachahbo         ###   ########.fr       */
+/*   Updated: 2023/07/17 08:54:08 by hachahbo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,9 +35,9 @@ void	insert(t_env **root, t_env *item)
 
 void	ft_print_export(t_env *export_list)
 {
-	if(!ft_strcmp(export_list->key, "000"))
+	if (!ft_strcmp(export_list->key, "000"))
 		export_list = export_list->next;
-	if(!export_list)
+	if (!export_list)
 		return ;
 	while (export_list)
 	{	
@@ -75,7 +75,6 @@ void	change_the_value(t_env **env_list, t_env *new_env)
 }
 // int first_check_the_value(t_env *new)
 // {
-	
 // }
 int	add_or_change(t_env *env_list, t_list *head)
 {
@@ -86,11 +85,11 @@ int	add_or_change(t_env *env_list, t_list *head)
 	while (head->cmd[i])
 	{
 		new_env = ft_lstnew_env(head->cmd[i]);
-		if(!new_env)
+		if (!new_env)
 			return (0);
 		if (!check_double_key(env_list, new_env))
 		{
-			if(!check_is_valid(new_env))
+			if (!check_is_valid(new_env))
 				return (0);
 			ft_lstadd_back_env(&env_list, new_env);
 		}
@@ -116,7 +115,7 @@ int	ft_export(t_list *head, t_env *env_list)
 	new_env_list = NULL;
 	export_list = NULL;
 	if (head->cmd[1])
-		if(!add_or_change(env_list, head))
+		if (!add_or_change(env_list, head))
 			return (0);
 	while (ins)
 	{

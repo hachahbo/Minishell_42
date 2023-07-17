@@ -6,7 +6,7 @@
 /*   By: hachahbo <hachahbo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/17 06:11:01 by hachahbo          #+#    #+#             */
-/*   Updated: 2023/07/17 08:04:22 by hachahbo         ###   ########.fr       */
+/*   Updated: 2023/07/17 09:17:30 by hachahbo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,10 +37,10 @@ void	remove_node_2(t_env **head, char *min)
 
 void	ft_unset(t_list *list, t_env *env_list)
 {
-	int i;
+	int	i;
 
 	i = 1;
-	while(list->cmd[i])
+	while (list->cmd[i])
 	{
 		remove_node_2(&env_list, list->cmd[i]);
 		i++;

@@ -6,7 +6,7 @@
 /*   By: hachahbo <hachahbo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/14 15:44:03 by hachahbo          #+#    #+#             */
-/*   Updated: 2023/07/17 01:38:08 by hachahbo         ###   ########.fr       */
+/*   Updated: 2023/07/17 08:58:40 by hachahbo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,21 +55,21 @@ int	check_the_plus(char *str)
 	return (0);
 }
 
-char *delete_back_slash(char *str)
+char	*delete_back_slash(char *str)
 {
 	char	*s;
 	int		i;
 	int		j;
 
 	i = 0;
-	while(str[i])
+	while (str[i])
 		i++;
 	s = (char *)malloc(i + 1);
-	j = 0; 
+	j = 0;
 	i = 0;
-	while(str[j])
+	while (str[j])
 	{
-		if(str[j] == '\\')
+		if (str[j] == '\\')
 			j++;
 		s[i] = str[j];
 		i++;
@@ -78,12 +78,14 @@ char *delete_back_slash(char *str)
 	s[i] = '\0';
 	return (s);
 }
-int check_is_valid(t_env *new_env)
-{
-	int i = 0;
-	char *str;
 
-	if(!(ft_isalpha(new_env->key[0]) || new_env->key[0] == '_'))
+int	check_is_valid(t_env *new_env)
+{
+	int		i;
+	char	*str;
+
+	i = 0;
+	if (!(ft_isalpha(new_env->key[0]) || new_env->key[0] == '_'))
 	{
 		printf("export : `%s\': not a valid identifier\n", new_env->key);
 		return (0);
@@ -91,7 +93,8 @@ int check_is_valid(t_env *new_env)
 	i = 1;
 	while (new_env->key[i])
 	{
-		if(!ft_isalpha(new_env->key[i]) && !ft_isdigit(new_env->key[i]) && !(new_env->key[i] == '_'))
+		if (!ft_isalpha(new_env->key[i])
+			&& !ft_isdigit(new_env->key[i]) && !(new_env->key[i] == '_'))
 		{
 			printf("export : `%s\': not a valid identifier\n", new_env->key);
 			return (0);
@@ -99,16 +102,16 @@ int check_is_valid(t_env *new_env)
 		i++;
 	}
 	i = ft_strlen(new_env->content);
-	if(new_env->content[i - 1] == '+' && !new_env->content[i])
+	if (new_env->content[i - 1] == '+' && !new_env->content[i])
 	{
 		printf("export : `%s\': not a valid identifier\n", new_env->content);
-			return (0);
+		return (0);
 	}
 	i = 0;
 	str = until_equal_or_plus(new_env->content, '=');
-	while(str[i])
+	while (str[i])
 	{
-		if(str[i] == '+' && str[i + 1] == '+')
+		if (str[i] == '+' && str[i + 1] == '+')
 		{
 			printf("export : `%s\': not a valid identifier\n", new_env->content);
 			return (0);
@@ -117,6 +120,7 @@ int check_is_valid(t_env *new_env)
 	}
 	return (1);
 }
+
 t_env	*ft_lstnew_env(char *str)
 {
 	t_env	*tmp;
@@ -126,7 +130,7 @@ t_env	*ft_lstnew_env(char *str)
 	tmp = (t_env *)malloc(sizeof(t_env));
 	if (!tmp)
 		return (0);
-	if(!str)
+	if (!str)
 	{
 		tmp->key = ft_strdup("000");
 		return (tmp);

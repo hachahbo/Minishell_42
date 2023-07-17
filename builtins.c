@@ -6,52 +6,51 @@
 /*   By: hachahbo <hachahbo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/04 20:13:17 by hachahbo          #+#    #+#             */
-/*   Updated: 2023/07/17 06:22:14 by hachahbo         ###   ########.fr       */
+/*   Updated: 2023/07/17 08:51:39 by hachahbo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void make_copy_env_list_char(char **env, t_env **new_env_list)
+void	make_copy_env_list_char(char **env, t_env **new_env_list)
 {
-    t_env *new_env;
-	int i;
-    
+	t_env	*new_env;
+	int		i;
+
 	i = 0;
-	if(!env[i])
+	if (!env[i])
 	{
-        new_env = ft_lstnew_env(ft_strdup("000=000"));
-        ft_lstadd_back_env(new_env_list, new_env);
+		new_env = ft_lstnew_env(ft_strdup("000=000"));
+		ft_lstadd_back_env(new_env_list, new_env);
 		return ;
 	}
-    while(env[i])
-    {
-        new_env = ft_lstnew_env(env[i]);
-        ft_lstadd_back_env(new_env_list, new_env);
-        i++;
-    }
-    
+	while (env[i])
+	{
+		new_env = ft_lstnew_env(env[i]);
+		ft_lstadd_back_env(new_env_list, new_env);
+		i++;
+	}
 }
 
-int ft_builtins(t_list *list, t_list *env_list, t_env *help)
+int	ft_builtins(t_list *list, t_list *env_list, t_env *help)
 {
-	(void)env_list; 
-		if(!ft_strcmp(list->cmd[0], "cd"))
-			rendering_cd(list);
-		else if(!ft_strcmp(list->cmd[0], "pwd"))
-			ft_pwd(env_list);
-		else if(!ft_strcmp(list->cmd[0], "echo"))
-			ft_echo(list);
-		else if(!ft_strcmp(list->cmd[0], "env"))
-			ft_env(help);
-		else if(!ft_strcmp(list->cmd[0], "unset"))
-			ft_unset(list, help);
-		else if (!ft_strcmp(list->cmd[0], "export"))
-			ft_export(list, help);
-		else if(!ft_strcmp(list->cmd[0], "exit"))
-		{
-			printf("exit\n");
-			exit(1);
-		}
+	(void)env_list;
+	if (!ft_strcmp(list->cmd[0], "cd"))
+		rendering_cd(list);
+	else if (!ft_strcmp(list->cmd[0], "pwd"))
+		ft_pwd(env_list);
+	else if (!ft_strcmp(list->cmd[0], "echo"))
+		ft_echo(list);
+	else if (!ft_strcmp(list->cmd[0], "env"))
+		ft_env(help);
+	else if (!ft_strcmp(list->cmd[0], "unset"))
+		ft_unset(list, help);
+	else if (!ft_strcmp(list->cmd[0], "export"))
+		ft_export(list, help);
+	else if (!ft_strcmp(list->cmd[0], "exit"))
+	{
+		printf("exit\n");
+		exit(1);
+	}
 	return (0);
 }

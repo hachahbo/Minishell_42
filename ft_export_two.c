@@ -6,7 +6,7 @@
 /*   By: hachahbo <hachahbo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/14 15:38:31 by hachahbo          #+#    #+#             */
-/*   Updated: 2023/07/17 08:04:17 by hachahbo         ###   ########.fr       */
+/*   Updated: 2023/07/17 09:00:50 by hachahbo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,13 +63,13 @@ char	*until_equal_or_plus(char *big_str, char c)
 	j = 0;
 	while (big_str[i] != c && big_str[j])
 	{
-		if(big_str[j] == '\\')
+		if (big_str[j] == '\\')
 			j++;
 		str[i] = big_str[j];
 		i++;
 		j++;
 	}
-	if(ft_strchr(big_str, '\\'))
+	if (ft_strchr(big_str, '\\'))
 		i--;
 	str[i] = '\0';
 	return (str);

@@ -6,7 +6,7 @@
 /*   By: hachahbo <hachahbo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/01 15:43:57 by amoukhle          #+#    #+#             */
-/*   Updated: 2023/06/05 17:02:47 by hachahbo         ###   ########.fr       */
+/*   Updated: 2023/07/17 09:16:51 by hachahbo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,5 @@
 void	ft_pwd(t_list *env_list)
 {
     (void) env_list;
-    
     printf("%s\n", getcwd(NULL, 0));
 }
