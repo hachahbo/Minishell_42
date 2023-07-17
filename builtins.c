@@ -6,7 +6,7 @@
 /*   By: hachahbo <hachahbo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/04 20:13:17 by hachahbo          #+#    #+#             */
-/*   Updated: 2023/07/14 10:26:48 by hachahbo         ###   ########.fr       */
+/*   Updated: 2023/07/17 01:04:36 by hachahbo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,12 @@ void make_copy_env_list_char(char **env, t_env **new_env_list)
 	int i;
     
 	i = 0;
+	if(!env[i])
+	{
+        new_env = ft_lstnew_env(ft_strdup("000=000"));
+        ft_lstadd_back_env(new_env_list, new_env);
+		return ;
+	}
     while(env[i])
     {
         new_env = ft_lstnew_env(env[i]);

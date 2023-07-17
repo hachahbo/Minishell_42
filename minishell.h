@@ -6,7 +6,7 @@
 /*   By: hachahbo <hachahbo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/21 19:11:14 by hachahbo          #+#    #+#             */
-/*   Updated: 2023/07/15 21:15:49 by hachahbo         ###   ########.fr       */
+/*   Updated: 2023/07/16 23:20:44 by hachahbo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,19 +81,20 @@ int		skip_node_DOC(t_list *list, t_var *var);
 void	ft_init_var(t_var *var);
 char	*handle_env_DOC(t_list *list, t_list *env_list, int num_env);
 int     is_spaces_char(char c);
-void    ft_export(t_list *head, t_env *env_list);
+int		ft_export(t_list *head, t_env *env_list);
 void	ft_lstclear_env(t_env **lst);
 void    make_copy_env_list(t_list *env_list, t_env **new_env_list);
 void    make_copy_env_list_char(char **env, t_env **new_env_list);
-char    *until_equal_or_plus(char *big_str, char c);
-void    add_node_to_list(t_env **head, t_env *new);
-void    remove_node(t_env **head, char *min);
-t_env   *find_small(t_env *list);
-int	    check_double_nodes(t_list *new, t_list **env_list);
+char	*until_equal_or_plus(char *big_str, char c);
+void	add_node_to_list(t_env **head, t_env *new);
+void	remove_node(t_env **head, char *min);
+t_env	*find_small(t_env *list);
+int		check_double_nodes(t_list *new, t_list **env_list);
 t_env	*ft_lstnew_env(char *str);
 int	    check_the_plus(char *str);
 void	ft_lstadd_back_env(t_env **lst, t_env *new);
 t_env	*ft_lstlast_env(t_env *lst);
 int	    check_double_key(t_env *new_list, t_env *new_env);
+int		check_is_valid(t_env *new_env);
 #endif
 

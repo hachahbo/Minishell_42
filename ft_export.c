@@ -6,7 +6,7 @@
 /*   By: hachahbo <hachahbo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/21 17:56:21 by hachahbo          #+#    #+#             */
-/*   Updated: 2023/07/15 22:49:51 by hachahbo         ###   ########.fr       */
+/*   Updated: 2023/07/17 01:06:12 by hachahbo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,8 +35,12 @@ void	insert(t_env **root, t_env *item)
 
 void	ft_print_export(t_env *export_list)
 {
+	if(!ft_strcmp(export_list->key, "000"))
+		export_list = export_list->next;
+	if(!export_list)
+		return ;
 	while (export_list)
-	{
+	{	
 		if (!ft_strchr(export_list->content, '='))
 			printf("declare -x %s\n", export_list->key);
 		else
@@ -69,8 +73,11 @@ void	change_the_value(t_env **env_list, t_env *new_env)
 	}
 	env_list = &save;
 }
-
-void	add_or_change(t_env *env_list, t_list *head)
+// int first_check_the_value(t_env *new)
+// {
+	
+// }
+int	add_or_change(t_env *env_list, t_list *head)
 {
 	t_env	*new_env;
 	int		i;
@@ -79,18 +86,26 @@ void	add_or_change(t_env *env_list, t_list *head)
 	while (head->cmd[i])
 	{
 		new_env = ft_lstnew_env(head->cmd[i]);
-		printf("hada teste %s\n", new_env->key);
 		if(!new_env)
-			return ;
+			return (0);
 		if (!check_double_key(env_list, new_env))
+		{
+			if(!check_is_valid(new_env))
+				return (0);
 			ft_lstadd_back_env(&env_list, new_env);
+		}
 		else
+		{
+			// if(first_check_the_value(new_env))
+			// 	return(0);
 			change_the_value(&env_list, new_env);
+		}
 		i++;
 	}
+	return (1);
 }
 
-void	ft_export(t_list *head, t_env *env_list)
+int	ft_export(t_list *head, t_env *env_list)
 {
 	t_env	*min;
 	t_env	*new_env_list;
@@ -101,7 +116,8 @@ void	ft_export(t_list *head, t_env *env_list)
 	new_env_list = NULL;
 	export_list = NULL;
 	if (head->cmd[1])
-		add_or_change(env_list, head);
+		if(!add_or_change(env_list, head))
+			return (0);
 	while (ins)
 	{
 		insert(&new_env_list, ins);
@@ -117,4 +133,5 @@ void	ft_export(t_list *head, t_env *env_list)
 	}
 	if (!head->cmd[1])
 		ft_print_export(export_list);
+	return (1);
 }

@@ -6,7 +6,7 @@
 /*   By: hachahbo <hachahbo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/14 15:38:31 by hachahbo          #+#    #+#             */
-/*   Updated: 2023/07/15 22:56:21 by hachahbo         ###   ########.fr       */
+/*   Updated: 2023/07/15 23:56:01 by hachahbo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,6 +69,8 @@ char	*until_equal_or_plus(char *big_str, char c)
 		i++;
 		j++;
 	}
+	if(ft_strchr(big_str, '\\'))
+		i--;
 	str[i] = '\0';
 	return (str);
 }

@@ -6,7 +6,7 @@
 /*   By: hachahbo <hachahbo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/14 15:44:03 by hachahbo          #+#    #+#             */
-/*   Updated: 2023/07/15 22:48:05 by hachahbo         ###   ########.fr       */
+/*   Updated: 2023/07/17 01:38:08 by hachahbo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,7 +55,7 @@ int	check_the_plus(char *str)
 	return (0);
 }
 
-char *check_is_valid(char *str)
+char *delete_back_slash(char *str)
 {
 	char	*s;
 	int		i;
@@ -78,7 +78,45 @@ char *check_is_valid(char *str)
 	s[i] = '\0';
 	return (s);
 }
+int check_is_valid(t_env *new_env)
+{
+	int i = 0;
+	char *str;
 
+	if(!(ft_isalpha(new_env->key[0]) || new_env->key[0] == '_'))
+	{
+		printf("export : `%s\': not a valid identifier\n", new_env->key);
+		return (0);
+	}
+	i = 1;
+	while (new_env->key[i])
+	{
+		if(!ft_isalpha(new_env->key[i]) && !ft_isdigit(new_env->key[i]) && !(new_env->key[i] == '_'))
+		{
+			printf("export : `%s\': not a valid identifier\n", new_env->key);
+			return (0);
+		}
+		i++;
+	}
+	i = ft_strlen(new_env->content);
+	if(new_env->content[i - 1] == '+' && !new_env->content[i])
+	{
+		printf("export : `%s\': not a valid identifier\n", new_env->content);
+			return (0);
+	}
+	i = 0;
+	str = until_equal_or_plus(new_env->content, '=');
+	while(str[i])
+	{
+		if(str[i] == '+' && str[i + 1] == '+')
+		{
+			printf("export : `%s\': not a valid identifier\n", new_env->content);
+			return (0);
+		}
+		i++;
+	}
+	return (1);
+}
 t_env	*ft_lstnew_env(char *str)
 {
 	t_env	*tmp;
@@ -88,6 +126,11 @@ t_env	*ft_lstnew_env(char *str)
 	tmp = (t_env *)malloc(sizeof(t_env));
 	if (!tmp)
 		return (0);
+	if(!str)
+	{
+		tmp->key = ft_strdup("000");
+		return (tmp);
+	}
 	key = until_equal_or_plus(str, '=');
 	tmp->plus = 0;
 	if (check_the_plus(key))
@@ -97,9 +140,11 @@ t_env	*ft_lstnew_env(char *str)
 		key = until_equal_or_plus(str, '+');
 	}
 	val = ft_strchr(str, '=');
-	val = check_is_valid(val);
 	if (val)
+	{
+		val = delete_back_slash(val);
 		tmp->c = val[0];
+	}
 	tmp->content = ft_strdup(str);
 	tmp->key = ft_strdup(key);
 	if (val == 0)
