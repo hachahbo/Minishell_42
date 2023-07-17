@@ -6,7 +6,7 @@
 /*   By: amoukhle <amoukhle@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/22 16:29:59 by amoukhle          #+#    #+#             */
-/*   Updated: 2023/07/14 11:20:05 by amoukhle         ###   ########.fr       */
+/*   Updated: 2023/07/17 05:13:49 by amoukhle         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -356,9 +356,10 @@ void	ft_serche_for_cmd(t_list **last_list)
 
 void	ft_child_proccess(t_list *last_list, t_list *env_list, t_var *var, t_list_str **list_heredoc)
 {
-	int	j;
-	int	len_error;
+	int		j;
+	int		len_error;
 	char	**cmd;
+	DIR		*dir;
 
 	ft_serche_for_DOC(last_list, env_list, var, list_heredoc);
 	ft_serche_for_cmd(&last_list);
@@ -369,14 +370,24 @@ void	ft_child_proccess(t_list *last_list, t_list *env_list, t_var *var, t_list_s
 	j = 0;
 	while (j < (var->n_cmd - 1) * 2)
 		close(var->fd[j++]);
-	if (execve(cmd[0], cmd, NULL) == -1)
+	if (!cmd)
+		exit(127);
+	if (execve(cmd[0], cmd, env_list->cmd) == -1)
 	{
+		dir = opendir(cmd[0]);
+		if (dir)
+		{
+			write (2, "bash: ", 6);
+			write (2, cmd[0], ft_strlen(cmd[0]));
+			write (2, ": is a directory\n", 17);
+			exit (126);
+		}
 		len_error = ft_strlen(strerror(errno));
 		write(2, "bash: ", 6);
 		write (2, cmd[0], ft_strlen(cmd[0]));
 		write (2, ": ", 2);
 		write(2, strerror(errno), len_error);
 		write (2, "\n", 1);
-		exit (1);
+		exit (127);
 	}
 }

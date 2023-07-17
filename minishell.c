@@ -6,7 +6,7 @@
 /*   By: amoukhle <amoukhle@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/19 20:55:43 by hachahbo          #+#    #+#             */
-/*   Updated: 2023/06/24 21:30:11 by amoukhle         ###   ########.fr       */
+/*   Updated: 2023/07/17 05:27:49 by amoukhle         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,6 +79,18 @@ void	parser(t_list *head, t_list *env_list, char *input)
 	free(input);
 }
 
+void	sig_handler(int sig)
+	{
+		if (sig == SIGINT)
+		{
+			state_exit = 131;
+			ioctl(STDIN_FILENO, TIOCSTI, "\n");
+			rl_on_new_line();
+			rl_replace_line("", 0);
+		}
+	}
+
+
 int main(int ac, char **av, char **env)
 {
 	char	*input;
@@ -89,7 +101,11 @@ int main(int ac, char **av, char **env)
 	(void)av;
 	head = NULL;
 	make_env_list(env, &env_list);
+	env_list->cmd = env;
 	state_exit = 0;
+	
+	signal(SIGINT, sig_handler);
+	
 	while(1)
 	{
 		input = readline("[minishell][$]~> ");

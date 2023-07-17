@@ -6,7 +6,7 @@
 #    By: amoukhle <amoukhle@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/05/20 15:02:26 by hachahbo          #+#    #+#              #
-#    Updated: 2023/07/14 07:51:00 by amoukhle         ###   ########.fr        #
+#    Updated: 2023/07/17 02:49:15 by amoukhle         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -41,10 +41,11 @@ all : $(NAME)
 
 $(NAME) : $(OBJS)
 	@cd libft && make
-	@$(CC) $(CFLAGS) $(OBJS) ./libft/libft.a -o $(NAME) -lreadline
+	@$(CC) $(CFLAGS) $(OBJS) ./libft/libft.a -o $(NAME) -lreadline -L$(shell brew --prefix readline)/lib
 	
-$(OBJS) : minishell.h
-
+%.o : %.c minishell.h
+	$(CC) $(CFLAGS) -I$(shell brew --prefix readline)/include -c $< -o $@
+	
 clean :
 	@cd libft && make clean
 	@$(RM) $(OBJS)

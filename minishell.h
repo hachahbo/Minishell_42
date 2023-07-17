@@ -6,7 +6,7 @@
 /*   By: amoukhle <amoukhle@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/21 19:11:14 by hachahbo          #+#    #+#             */
-/*   Updated: 2023/07/14 11:09:42 by amoukhle         ###   ########.fr       */
+/*   Updated: 2023/07/17 05:20:42 by amoukhle         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,9 +17,12 @@
 # include <stdio.h>
 # include <ctype.h>
 # include <errno.h>
+# include <dirent.h>
+#include <termios.h>
 # include <readline/readline.h>
 # include <readline/history.h>
 # include "libft/libft.h"
+
 
 int	state_exit;
 
