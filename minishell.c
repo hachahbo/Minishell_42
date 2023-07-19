@@ -6,7 +6,7 @@
 /*   By: amoukhle <amoukhle@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/19 20:55:43 by hachahbo          #+#    #+#             */
-/*   Updated: 2023/07/19 04:03:21 by amoukhle         ###   ########.fr       */
+/*   Updated: 2023/07/19 05:29:18 by amoukhle         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -205,6 +205,5 @@ int main(int ac, char **av, char **env)
 		else
 			free(input);
 	}
-	ft_lstclear(&env_list);
 	return (0);
 }

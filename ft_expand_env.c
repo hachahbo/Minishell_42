@@ -6,7 +6,7 @@
 /*   By: amoukhle <amoukhle@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/19 23:03:57 by amoukhle          #+#    #+#             */
-/*   Updated: 2023/07/19 03:03:19 by amoukhle         ###   ########.fr       */
+/*   Updated: 2023/07/19 05:29:28 by amoukhle         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,38 +52,15 @@ char *handle_env(t_list *list, t_list *env_list, int num_env)
 	return (list->content);
 }
 
-char	**ft_make_env(char **env)
-{
-	int		i;
-	char	**env_t;
-	
-	i = 0;
-	while (env[i])
-		i++;
-	env_t = (char **)malloc(sizeof(char *) * i);
-	if (!env_t)
-		affiche_error();
-	i = 0;
-	while (env[i])
-	{
-		env_t[i] = ft_strdup(env[i]);
-		i++;
-	}
-	env_t[i] = NULL;
-	return (env_t);
-}
-
 void	make_env_list(char **env, t_list **env_list)
 {
 	int		i;
 	t_list	*new;
-	char	**env_t;
-	
-	env_t = ft_make_env(env);
+
 	i = 0;
 	while(env[i])
 	{
-		new = ft_lstnew(env[i], env_t);
+		new = ft_lstnew(env[i], env);
 		ft_lstadd_back(env_list, new);
 		i++;
 	}
