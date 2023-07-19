@@ -6,7 +6,7 @@
 /*   By: hachahbo <hachahbo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/21 17:56:21 by hachahbo          #+#    #+#             */
-/*   Updated: 2023/07/17 08:54:08 by hachahbo         ###   ########.fr       */
+/*   Updated: 2023/07/19 05:06:50 by hachahbo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,29 +52,49 @@ void	ft_print_export(t_env *export_list)
 void	change_the_value(t_env **env_list, t_env *new_env)
 {	
 	t_env	*save;
+	char	*str =NULL;
 
 	save = *env_list;
 	while ((*env_list))
 	{
-		if (!ft_strcmp((*env_list)->key, new_env->key)
-			&& new_env->c == '=')
+		if (!ft_strcmp((*env_list)->key, new_env->key) && new_env->c == '=')
 		{
 			if (new_env->plus == '+')
-				ft_strcat((*env_list)->val, new_env->val);
+			{
+				str = (*env_list)->val;
+				(*env_list)->val = ft_strjoin((*env_list)->val, new_env->val);
+				free(str);
+				free(new_env->val);
+				free(new_env->key);
+				free(new_env->content);
+			}
 			else
 			{
+				str = (*env_list)->val;
 				(*env_list)->val = new_env->val;
+				free(str);
 				(*env_list)->c = '=';
+				str = (*env_list)->content;
 				(*env_list)->content = new_env->content;
+				free(str);
+				// free(new_env->val);
+				free(new_env->key);
 			}
 			break ;
 		}
 		(*env_list) = (*env_list)->next;
 	}
+	free(new_env);
 	env_list = &save;
 }
-// int first_check_the_value(t_env *new)
+
+// int first_check_the_value(t_env *env_list,t_env *new)
 // {
+// 	if(!ft_strcmp(env_list->val, new->val))
+// 	{
+// 		printf("")
+// 	}
+// 	return (1);
 // }
 int	add_or_change(t_env *env_list, t_list *head)
 {
@@ -95,7 +115,7 @@ int	add_or_change(t_env *env_list, t_list *head)
 		}
 		else
 		{
-			// if(first_check_the_value(new_env))
+			// if(!first_check_the_value(env_list, new_env))
 			// 	return(0);
 			change_the_value(&env_list, new_env);
 		}
@@ -106,31 +126,29 @@ int	add_or_change(t_env *env_list, t_list *head)
 
 int	ft_export(t_list *head, t_env *env_list)
 {
-	t_env	*min;
+	t_env	*help;
 	t_env	*new_env_list;
 	t_env	*export_list;
-	t_env	*ins;
 
-	ins = env_list;
+	help = env_list;
 	new_env_list = NULL;
 	export_list = NULL;
 	if (head->cmd[1])
 		if (!add_or_change(env_list, head))
 			return (0);
-	while (ins)
+	while (help)
 	{
-		insert(&new_env_list, ins);
-		ins = ins -> next;
+		insert(&new_env_list, help);
+		help = help -> next;
 	}
 	while (1)
 	{
 		if (new_env_list == NULL)
 			break ;
-		min = find_small(new_env_list);
-		insert(&export_list, min);
-		remove_node(&new_env_list, min->content);
+		help = find_small(new_env_list);
+		insert(&export_list, help);
+		remove_node(&new_env_list, help->content);
 	}
-	if (!head->cmd[1])
-		ft_print_export(export_list);
+	ft_only_export(head, export_list);
 	return (1);
 }

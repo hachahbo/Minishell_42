@@ -6,7 +6,7 @@
 /*   By: hachahbo <hachahbo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/21 19:11:14 by hachahbo          #+#    #+#             */
-/*   Updated: 2023/07/17 07:42:39 by hachahbo         ###   ########.fr       */
+/*   Updated: 2023/07/18 02:26:49 by hachahbo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -98,5 +98,8 @@ int	    check_double_key(t_env *new_list, t_env *new_env);
 int		check_is_valid(t_env *new_env);
 void	remove_node_2(t_env **head, char *min);
 void	ft_unset(t_list *list, t_env *env_list);
+void	ft_only_export(t_list *head, t_env *export_list);
+void	ft_free(t_env *head);
+void	ft_print_export(t_env *export_list);
 #endif
 

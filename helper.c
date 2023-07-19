@@ -6,7 +6,7 @@
 /*   By: hachahbo <hachahbo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/01 06:49:49 by hachahbo          #+#    #+#             */
-/*   Updated: 2023/07/10 18:38:07 by hachahbo         ###   ########.fr       */
+/*   Updated: 2023/07/17 22:43:52 by hachahbo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,6 +53,7 @@ void	ft_lstclear_env(t_env **lst)
 	}
 	*lst = NULL;
 }
+
 void	ft_lstclear(t_list **lst)
 {
 	t_list	*temp;

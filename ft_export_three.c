@@ -6,7 +6,7 @@
 /*   By: hachahbo <hachahbo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/14 15:44:03 by hachahbo          #+#    #+#             */
-/*   Updated: 2023/07/17 08:58:40 by hachahbo         ###   ########.fr       */
+/*   Updated: 2023/07/19 05:16:59 by hachahbo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,50 +75,47 @@ char	*delete_back_slash(char *str)
 		i++;
 		j++;
 	}
+	// free(str);
 	s[i] = '\0';
 	return (s);
+}
+void ft_print_error(char *s , t_env *new_env, char *str)
+{
+	printf("export : `%s\': not a valid identifier\n", s);
+	free(str);
+	free(new_env->key);
+	free(new_env->content);
+	free(new_env->val);
+	free(new_env);
 }
 
 int	check_is_valid(t_env *new_env)
 {
 	int		i;
-	char	*str;
+	char	*str =NULL;
 
-	i = 0;
 	if (!(ft_isalpha(new_env->key[0]) || new_env->key[0] == '_'))
-	{
-		printf("export : `%s\': not a valid identifier\n", new_env->key);
-		return (0);
-	}
+		return (ft_print_error(new_env->key, new_env, str), 0);
 	i = 1;
 	while (new_env->key[i])
 	{
 		if (!ft_isalpha(new_env->key[i])
 			&& !ft_isdigit(new_env->key[i]) && !(new_env->key[i] == '_'))
-		{
-			printf("export : `%s\': not a valid identifier\n", new_env->key);
-			return (0);
-		}
+			return (ft_print_error(new_env->key, new_env, str), 0);
 		i++;
 	}
 	i = ft_strlen(new_env->content);
-	if (new_env->content[i - 1] == '+' && !new_env->content[i])
-	{
-		printf("export : `%s\': not a valid identifier\n", new_env->content);
-		return (0);
-	}
+	if (new_env->content[i - 1] == '+' && !new_env->content[i])		
+		return (ft_print_error(new_env->content, new_env, str), 0);
 	i = 0;
 	str = until_equal_or_plus(new_env->content, '=');
 	while (str[i])
 	{
 		if (str[i] == '+' && str[i + 1] == '+')
-		{
-			printf("export : `%s\': not a valid identifier\n", new_env->content);
-			return (0);
-		}
+			return (ft_print_error(new_env->content, new_env, str), 0);
 		i++;
 	}
-	return (1);
+	return (free(str), 1);
 }
 
 t_env	*ft_lstnew_env(char *str)
@@ -131,10 +128,7 @@ t_env	*ft_lstnew_env(char *str)
 	if (!tmp)
 		return (0);
 	if (!str)
-	{
-		tmp->key = ft_strdup("000");
-		return (tmp);
-	}
+		return (tmp->key = ft_strdup("000"), tmp);
 	key = until_equal_or_plus(str, '=');
 	tmp->plus = 0;
 	if (check_the_plus(key))
@@ -146,16 +140,19 @@ t_env	*ft_lstnew_env(char *str)
 	val = ft_strchr(str, '=');
 	if (val)
 	{
+
 		val = delete_back_slash(val);
 		tmp->c = val[0];
 	}
 	tmp->content = ft_strdup(str);
-	tmp->key = ft_strdup(key);
+	tmp->key = key;
 	if (val == 0)
 		tmp->val = ft_strdup(NULL);
 	else
 		tmp->val = ft_strdup(val + 1);
 	tmp->next = 0;
+	free(val);
+	// free(key);
 	return (tmp);
 }
 

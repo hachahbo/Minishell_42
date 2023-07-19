@@ -6,7 +6,7 @@
 /*   By: hachahbo <hachahbo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/10 10:20:07 by hachahbo          #+#    #+#             */
-/*   Updated: 2023/07/15 21:14:55 by hachahbo         ###   ########.fr       */
+/*   Updated: 2023/07/18 23:58:25 by hachahbo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -95,7 +95,7 @@ void			*ft_memcpy(void *dst, const void *src, size_t n);
 void			*ft_memmove(void *dst, const void *src, size_t len);
 void			*ft_memchr(const void *s, int c, size_t n);
 int				ft_memcmp(const void *s1, const void *s2, size_t n);
-char			*ft_strdup(const char *s1);
+char			*ft_strdup(char *s1);
 void			*ft_calloc(size_t count, size_t size);
 char			**ft_split(char const *s, char c);
 size_t			ft_strlen(const char *s);

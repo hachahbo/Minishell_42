@@ -6,7 +6,7 @@
 /*   By: hachahbo <hachahbo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/01 06:34:56 by hachahbo          #+#    #+#             */
-/*   Updated: 2023/07/17 09:22:26 by hachahbo         ###   ########.fr       */
+/*   Updated: 2023/07/18 02:26:07 by hachahbo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,4 +55,19 @@ int	check_redirection(t_list *head)
 		head = head ->next;
 	}
 	return (0);
+}
+void ft_free(t_env *head)
+{
+	while(head)
+	{
+		free(head);
+		head = head->next;
+	}
+	free(head);
+}
+void	ft_only_export(t_list *head, t_env *export_list)
+{
+	if (!head->cmd[1])
+		ft_print_export(export_list);
+	ft_free(export_list);
 }
