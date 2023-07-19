@@ -6,7 +6,7 @@
 /*   By: amoukhle <amoukhle@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/19 20:55:43 by hachahbo          #+#    #+#             */
-/*   Updated: 2023/07/17 05:27:49 by amoukhle         ###   ########.fr       */
+/*   Updated: 2023/07/19 04:03:21 by amoukhle         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,17 +79,103 @@ void	parser(t_list *head, t_list *env_list, char *input)
 	free(input);
 }
 
-void	sig_handler(int sig)
-	{
-		if (sig == SIGINT)
-		{
-			state_exit = 131;
-			ioctl(STDIN_FILENO, TIOCSTI, "\n");
-			rl_on_new_line();
-			rl_replace_line("", 0);
-		}
-	}
+int	get_value(int value)
+{
+	static int v;
 
+	if (value != -1)
+		v = value;
+	return (v);
+}
+
+
+void	nothing_minishell(int sig)
+{
+	(void)sig;
+}
+
+void	nothing(int sig)
+{
+	(void)sig;
+
+	write(1, "\n", 1);
+}
+
+
+void	sig_handler(int sig)
+{
+	if (sig == SIGINT)
+	{
+		write(1, "\n", 1);
+		rl_on_new_line();
+		rl_replace_line("", 0);
+		rl_redisplay();
+		state_exit = 1;
+	}
+}
+
+void	ft_change_all_d_s(t_list *env_list, char *new_shlvl, int i)
+{
+	while (env_list)
+	{
+		free(env_list->cmd[i]);
+		env_list->cmd[i] = new_shlvl;
+		env_list = env_list->next;
+	}
+}
+
+int	ft_isall_string_num(char *str)
+{
+	int	i;
+
+	i = 0;
+	while(str[i])
+	{
+		if (str[i] < '0' || str[i] > '9')
+			return (1);
+		i++;
+	}
+	return (0);
+}
+
+void	ft_change_value_of_shlvl(char *value, t_list *env_list, t_list *tm, int i)
+{
+	int		lvl;
+	char	*tmp;
+	char	*new_shlvl;
+	
+	lvl = ft_atoi(value) + 1;
+	tmp = ft_itoa(lvl);
+	new_shlvl = ft_strjoin("SHLVL=", tmp);
+	free(tmp);
+	free(env_list->content);
+	env_list->content = new_shlvl;
+	ft_change_all_d_s(tm, new_shlvl, i);
+}
+
+void	ft_change_shlvl(t_list *env_list)
+{
+	char	*value;
+	int		i;
+	t_list	*tm;
+
+	tm = env_list;
+	value = NULL;
+	i = 0;
+	while (env_list)
+	{
+		if (ft_strncmp("SHLVL=", env_list->content, ft_strlen("SHLVL=")) == 0)
+		{
+			value = &env_list->content[ft_strlen("SHLVL=")];
+			break;
+		}
+		env_list = env_list->next;
+		i++;
+	}
+	if (!value || ft_isall_string_num(value))
+		return ;
+	ft_change_value_of_shlvl(value, env_list, tm, i);
+}
 
 int main(int ac, char **av, char **env)
 {
@@ -101,11 +187,10 @@ int main(int ac, char **av, char **env)
 	(void)av;
 	head = NULL;
 	make_env_list(env, &env_list);
-	env_list->cmd = env;
+	ft_change_shlvl(env_list);
 	state_exit = 0;
-	
+	rl_catch_signals = 0;
 	signal(SIGINT, sig_handler);
-	
 	while(1)
 	{
 		input = readline("[minishell][$]~> ");

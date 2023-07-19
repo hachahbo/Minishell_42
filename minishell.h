@@ -6,7 +6,7 @@
 /*   By: amoukhle <amoukhle@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/21 19:11:14 by hachahbo          #+#    #+#             */
-/*   Updated: 2023/07/17 05:20:42 by amoukhle         ###   ########.fr       */
+/*   Updated: 2023/07/19 00:19:49 by amoukhle         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -125,5 +125,10 @@ void	ft_execution(t_list *last_list, t_list *env_list, t_var *var);
 void	ft_pipe(t_var *var, int num_pipe);
 void	ft_duplicate(t_var *var);
 void	error_fork(void);
+
+int		get_value(int value);
+void	nothing(int sig);
+void	sig_handler(int sig);
+void	nothing_minishell(int sig);
 
 #endif

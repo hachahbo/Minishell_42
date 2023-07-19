@@ -6,42 +6,36 @@
 /*   By: amoukhle <amoukhle@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/14 15:05:41 by amoukhle          #+#    #+#             */
-/*   Updated: 2023/07/16 21:24:43 by amoukhle         ###   ########.fr       */
+/*   Updated: 2023/07/19 04:00:02 by amoukhle         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <libc.h>
 #include <stdio.h>
 #include <stdlib.h>
-#include <signal.h>
 #include <readline/readline.h>
 #include <readline/history.h>
 
-void handlers(int num)
-{
-    rl_on_new_line();
-    rl_redisplay();
-	ioctl(STDIN_FILENO, TIOCSTI, "\n");
-}
+int main() {
+    char *line;
 
-int main()
-{
-	char *line;
-	struct sigaction sa;
-	sa.sa_handler = handlers;
-	sigemptyset(&sa.sa_mask);
-	sa.sa_flags = 0;
+    printf("Enter some text (Ctrl+D to end input):\n");
 
-	if (sigaction(SIGINT, &sa, NULL) == -1) {
-		perror("sigaction");
-		exit(1);
-	}
-    while (1) {
-        line = readline("sssss");
-        // Process the line...
+    while ((line = readline("> ")) != NULL) {
+        // Process the input line (if needed)
+        // ...
+
+        // Add the input to history
         add_history(line);
+
+        // Free the readline buffer
+        free(line);
     }
+
+    printf("EOF (Ctrl+D) detected. Input has ended.\n");
 
     return 0;
 }
+
+
+
 

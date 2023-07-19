@@ -6,7 +6,7 @@
 /*   By: amoukhle <amoukhle@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/22 16:29:59 by amoukhle          #+#    #+#             */
-/*   Updated: 2023/07/17 05:13:49 by amoukhle         ###   ########.fr       */
+/*   Updated: 2023/07/19 04:25:01 by amoukhle         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,6 +85,20 @@ void	init_var(t_var *var, int num_pipe)
 	var->std_out = 1;
 }
 
+int	ft_serche_in_list(t_list *last_list, char *cmd)
+{
+	while (last_list && (last_list)->type_d != PIPE_LINE)
+	{
+		if ((last_list)->type_d == WORD)
+		{
+			if(ft_strcmp(cmd, last_list->cmd[0]) == 0)
+				return (0);
+		}
+		last_list = (last_list)->next;
+	}
+	return (1);
+}
+
 void	exec_child(t_list *last_list, t_list *env_list, t_var *var, int num_pipe)
 {
 	pid_t		pid;
@@ -100,6 +114,10 @@ void	exec_child(t_list *last_list, t_list *env_list, t_var *var, int num_pipe)
 	list_heredoce_tmp = list_heredoce;
 	while (var->num_cmd < var->n_cmd)
 	{
+		if (ft_serche_in_list(last_list, "./minishell") == 0)
+			signal(SIGINT, nothing_minishell);
+		else
+			signal(SIGINT, nothing);
 		pid = fork();
 		if (pid == -1)
 			error_fork();
@@ -111,6 +129,7 @@ void	exec_child(t_list *last_list, t_list *env_list, t_var *var, int num_pipe)
 	last_child = pid;
 	wait_childs(var, last_child);
 	list_strclear(&list_heredoce);
+	signal(SIGINT, sig_handler);
 }
 
 void	wait_childs(t_var *var, pid_t last_child)
@@ -131,7 +150,10 @@ void	wait_childs(t_var *var, pid_t last_child)
 			if (WIFEXITED(state))
 				state_exit = WEXITSTATUS(state);
 			else if (WIFSIGNALED(state))
-				state_exit = WTERMSIG(state);
+			{
+				// state_exit = WTERMSIG(state);
+				state_exit = 130;
+			}
 		}
 		j++;
 	}
@@ -354,6 +376,7 @@ void	ft_serche_for_cmd(t_list **last_list)
 	}
 }
 
+
 void	ft_child_proccess(t_list *last_list, t_list *env_list, t_var *var, t_list_str **list_heredoc)
 {
 	int		j;
@@ -380,6 +403,7 @@ void	ft_child_proccess(t_list *last_list, t_list *env_list, t_var *var, t_list_s
 			write (2, "bash: ", 6);
 			write (2, cmd[0], ft_strlen(cmd[0]));
 			write (2, ": is a directory\n", 17);
+			closedir(dir);
 			exit (126);
 		}
 		len_error = ft_strlen(strerror(errno));
