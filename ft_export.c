@@ -6,7 +6,7 @@
 /*   By: hachahbo <hachahbo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/21 17:56:21 by hachahbo          #+#    #+#             */
-/*   Updated: 2023/07/19 05:06:50 by hachahbo         ###   ########.fr       */
+/*   Updated: 2023/07/19 21:41:49 by hachahbo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,12 +77,18 @@ void	change_the_value(t_env **env_list, t_env *new_env)
 				str = (*env_list)->content;
 				(*env_list)->content = new_env->content;
 				free(str);
-				// free(new_env->val);
 				free(new_env->key);
 			}
 			break ;
 		}
 		(*env_list) = (*env_list)->next;
+	}
+	if(new_env->c != '=')
+	{
+		free(str);
+		free(new_env->val);
+		free(new_env->key);
+		free(new_env->content);
 	}
 	free(new_env);
 	env_list = &save;

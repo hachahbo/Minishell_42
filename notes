@@ -7,4 +7,14 @@ syntax error :
 ?   export hh-ajaj=ls
 ? c+
 ? t t=tete t+=rkew
-after check the first charchater the next charachters must be alphabet or number or underscore 
+after check the first charchater the next charachters must be alphabet or number or underscore
+-------------
+a="a b c"
+export
+b 
+c
+--------
+ export a="1 2 3"
+  export: `1': not a valid identifier
+  export: `2': not a valid identifier
+  export: `3': not a valid identifier

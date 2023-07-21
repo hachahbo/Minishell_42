@@ -6,7 +6,7 @@
 /*   By: hachahbo <hachahbo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/14 15:38:31 by hachahbo          #+#    #+#             */
-/*   Updated: 2023/07/18 23:47:51 by hachahbo         ###   ########.fr       */
+/*   Updated: 2023/07/19 21:19:15 by hachahbo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,6 +56,8 @@ char	*until_equal_or_plus(char *big_str, char c)
 	int		j;
 
 	i = 0;
+	if(!ft_strchr(big_str, '='))
+		return (ft_strdup(big_str));
 	while (big_str[i] != c && big_str[i])
 		i++;
 	str = malloc(sizeof(char) * i + 1);

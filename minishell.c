@@ -6,7 +6,7 @@
 /*   By: hachahbo <hachahbo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/19 20:55:43 by hachahbo          #+#    #+#             */
-/*   Updated: 2023/07/19 04:59:00 by hachahbo         ###   ########.fr       */
+/*   Updated: 2023/07/19 23:32:42 by hachahbo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,7 +65,7 @@ void	parser(t_list *head, t_list *env_list, char *input, t_env *help)
 		ft_lstclear(&new_list);
 		ft_lstclear(&new_list_w_s);
 		ft_lstclear(&last_list);
-		system("leaks minishell");
+		// system("leaks minishell");
 		free(vars);
 	}
 	else
