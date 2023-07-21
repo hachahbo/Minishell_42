@@ -6,7 +6,7 @@
 /*   By: amoukhle <amoukhle@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/22 15:27:30 by amoukhle          #+#    #+#             */
-/*   Updated: 2023/07/14 10:34:15 by amoukhle         ###   ########.fr       */
+/*   Updated: 2023/07/21 18:58:58 by amoukhle         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,6 +29,7 @@ void	fill_file(char *delimiter, int fd, t_var *var)
 	list_str = NULL;
 	while (1)
 	{
+		get_value(3);
 		line = readline("> ");
 		if (!line)
 			break ;
@@ -65,7 +66,7 @@ void	ft_expand_in_heredoc(t_var *var, char *line, t_list_str **list_str, int fd)
 	free(str_with_n);
 }
 
-char	*get_string_delimiter(t_list *list, t_var *var, t_list *env_list, t_list_str **list_str)
+char	*get_string_delimiter(t_list *list, t_var *var, t_env *env_list, t_list_str **list_str)
 {
 	char	*tmp;
 
@@ -99,7 +100,7 @@ void	ft_init_var_delimiter(t_var *var)
 	var->str = NULL;
 }
 
-char	*handle_env_in_heredoc(t_list *list, t_list *env_list, int num_env)
+char	*handle_env_in_heredoc(t_list *list, t_env *env_list, int num_env)
 {
 	if ((list->type == ENV && list->state == GENERAL
 		&& (list->next == NULL || list->next->type == WHITE_SPACE)))

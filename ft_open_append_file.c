@@ -6,13 +6,13 @@
 /*   By: amoukhle <amoukhle@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/20 21:21:37 by amoukhle          #+#    #+#             */
-/*   Updated: 2023/06/20 21:24:20 by amoukhle         ###   ########.fr       */
+/*   Updated: 2023/07/21 18:56:19 by amoukhle         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-int	ft_open_append_file(t_list *node, t_var *var, t_list *env_list)
+int	ft_open_append_file(t_list *node, t_var *var, t_env *env_list)
 {
 	t_list		*list;
 	char		*str_DOC;

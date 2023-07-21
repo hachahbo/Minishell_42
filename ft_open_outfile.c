@@ -6,7 +6,7 @@
 /*   By: amoukhle <amoukhle@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/20 20:38:47 by amoukhle          #+#    #+#             */
-/*   Updated: 2023/06/22 16:01:38 by amoukhle         ###   ########.fr       */
+/*   Updated: 2023/07/21 18:55:59 by amoukhle         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@ void	ft_msg_error_outfile(char *str_DOC)
 	exit(1);
 }
 
-int	ft_open_outfile(t_list *node, t_var *var, t_list *env_list)
+int	ft_open_outfile(t_list *node, t_var *var, t_env *env_list)
 {
 	t_list		*list;
 	char		*str_DOC;

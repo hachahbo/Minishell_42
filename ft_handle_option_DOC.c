@@ -6,13 +6,13 @@
 /*   By: amoukhle <amoukhle@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/20 20:39:45 by amoukhle          #+#    #+#             */
-/*   Updated: 2023/06/21 15:15:28 by amoukhle         ###   ########.fr       */
+/*   Updated: 2023/07/21 18:55:05 by amoukhle         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-char	*handle_env_DOC(t_list *list, t_list *env_list, int num_env)
+char	*handle_env_DOC(t_list *list, t_env *env_list, int num_env)
 {
 	if ((list->type == ENV && list->state == GENERAL
 		&& (list->next == NULL || list->next->type == WHITE_SPACE))
@@ -59,7 +59,7 @@ void	ft_skip_node_DOC(t_list *list, t_var *var)
 	var->skip = 1;
 }
 
-char	*get_string_DOC(t_list *list, t_var *var, t_list *env_list, t_list_str **list_str)
+char	*get_string_DOC(t_list *list, t_var *var, t_env *env_list, t_list_str **list_str)
 {
 	char	*tmp;
 

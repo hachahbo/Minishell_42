@@ -6,13 +6,13 @@
 /*   By: amoukhle <amoukhle@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/22 16:29:59 by amoukhle          #+#    #+#             */
-/*   Updated: 2023/07/19 04:25:01 by amoukhle         ###   ########.fr       */
+/*   Updated: 2023/07/21 20:02:56 by amoukhle         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void	ft_pipe(t_var *var, int num_pipe)
+int	ft_pipe(t_var *var, int num_pipe)
 {
 	int	i;
 
@@ -23,10 +23,11 @@ void	ft_pipe(t_var *var, int num_pipe)
 		{
 			write (2, "Error: Failed to pipe\n", 22);
 			free(var->fd);
-			exit (1);
+			return (1);
 		}
 		i++;
 	}
+	return (0);
 }
 
 int	ft_num_pipe(t_list *last_list)
@@ -43,7 +44,7 @@ int	ft_num_pipe(t_list *last_list)
 	return (n_p);
 }
 
-void	ft_execution(t_list *last_list, t_list *env_list, t_var *var)
+void	ft_execution(t_list *last_list, t_env *env_list, t_var *var)
 {
 	int	num_pipe;
 
@@ -53,7 +54,8 @@ void	ft_execution(t_list *last_list, t_list *env_list, t_var *var)
 		var->fd = (int *)malloc(sizeof(int) * num_pipe * 2);
 		if (!(var->fd))
 			affiche_error();
-		ft_pipe(var, num_pipe);
+		if (ft_pipe(var, num_pipe) == 1)
+			return ;
 	}
 	exec_child(last_list, env_list, var, num_pipe);
 	if (num_pipe != 0)
@@ -99,7 +101,7 @@ int	ft_serche_in_list(t_list *last_list, char *cmd)
 	return (1);
 }
 
-void	exec_child(t_list *last_list, t_list *env_list, t_var *var, int num_pipe)
+void	exec_child(t_list *last_list, t_env *env_list, t_var *var, int num_pipe)
 {
 	pid_t		pid;
 	t_list		*list;
@@ -209,7 +211,7 @@ void	serch_for_heredoc(t_var *var, t_list_str **list_heredoc, int *other_inf)
 	var->std_in = (*list_heredoc)->fd;
 	*list_heredoc = (*list_heredoc)->next;
 }
-void	serch_for_inf(t_list *last_list, t_var *var, t_list *env_list, int *other_inf)
+void	serch_for_inf(t_list *last_list, t_var *var, t_env *env_list, int *other_inf)
 {
 	int	file;
 
@@ -228,7 +230,7 @@ void	serch_for_inf(t_list *last_list, t_var *var, t_list *env_list, int *other_i
 	}
 }
 
-void	serch_for_outf(t_list *last_list, t_list *env_list, t_var *var, int *other_outf)
+void	serch_for_outf(t_list *last_list, t_env *env_list, t_var *var, int *other_outf)
 {
 	if (*other_outf == 1)
 	{
@@ -242,7 +244,7 @@ void	serch_for_outf(t_list *last_list, t_list *env_list, t_var *var, int *other_
 		var->std_out = ft_open_append_file(last_list, var, env_list);
 }
 
-void	ft_serche_for_DOC(t_list *last_list, t_list *env_list, t_var *var, t_list_str **list_heredoc)
+void	ft_serche_for_DOC(t_list *last_list, t_env *env_list, t_var *var, t_list_str **list_heredoc)
 {
 	int	other_inf;
 	int	other_outf;
@@ -315,7 +317,7 @@ char	*check_cmd_is_exit(char **paths, char *cmd)
 }
 
 
-char	**get_paths(t_list *env_list, char **cmd)
+char	**get_paths(t_env *env_list, char **cmd)
 {
 	char	*var;
 	char	*value;
@@ -340,7 +342,7 @@ char	**get_paths(t_list *env_list, char **cmd)
 	return (paths);
 }
 
-char	**check_cmd(t_list *last_list, t_list *env_list)
+char	**check_cmd(t_list *last_list, t_env *env_list)
 {
 	char	**paths;
 	char	**cmd;
@@ -377,7 +379,7 @@ void	ft_serche_for_cmd(t_list **last_list)
 }
 
 
-void	ft_child_proccess(t_list *last_list, t_list *env_list, t_var *var, t_list_str **list_heredoc)
+void	ft_child_proccess(t_list *last_list, t_env *env_list, t_var *var, t_list_str **list_heredoc)
 {
 	int		j;
 	int		len_error;
@@ -395,7 +397,7 @@ void	ft_child_proccess(t_list *last_list, t_list *env_list, t_var *var, t_list_s
 		close(var->fd[j++]);
 	if (!cmd)
 		exit(127);
-	if (execve(cmd[0], cmd, env_list->cmd) == -1)
+	if (execve(cmd[0], cmd, env_list->env) == -1)
 	{
 		dir = opendir(cmd[0]);
 		if (dir)

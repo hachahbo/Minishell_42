@@ -6,7 +6,7 @@
 /*   By: amoukhle <amoukhle@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/10 10:20:07 by hachahbo          #+#    #+#             */
-/*   Updated: 2023/06/24 16:30:49 by amoukhle         ###   ########.fr       */
+/*   Updated: 2023/07/21 19:01:27 by amoukhle         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,6 +48,17 @@ enum e_state
 	GENERAL,
 };
 
+typedef struct s_env
+{
+	char *key;
+	char *val;
+	char *content;
+	char c;
+	char plus;
+	char **env;
+	struct s_env *next;
+}t_env;
+
 typedef struct s_list
 {
 	char	*content;
@@ -76,7 +87,7 @@ typedef struct s_var
 	int	std_in;
 	int	std_out;
 	char	*str;
-	t_list	*env_list;
+	t_env	*env_list;
 }	t_var;
 
 int				ft_isascii(int c);

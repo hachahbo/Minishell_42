@@ -6,7 +6,7 @@
 /*   By: amoukhle <amoukhle@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/19 20:55:43 by hachahbo          #+#    #+#             */
-/*   Updated: 2023/07/19 05:29:18 by amoukhle         ###   ########.fr       */
+/*   Updated: 2023/07/21 22:16:01 by amoukhle         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@ int ft_valid_command(t_list *head)
 	return (0);
 }
 
-t_var *init_vars(t_list *env_list)
+t_var *init_vars(t_env *env_list)
 {
 	t_var	*tmp;
 	
@@ -42,7 +42,7 @@ t_var *init_vars(t_list *env_list)
 	return (tmp);
 }
 
-void	parser(t_list *head, t_list *env_list, char *input)
+void	parser(t_list *head, t_env *env_list, char *input)
 {
 	t_list	*new_list;
 	t_list	*new_list_w_s;
@@ -59,10 +59,11 @@ void	parser(t_list *head, t_list *env_list, char *input)
 		ft_make_new_list(head, &new_list, env_list);
 		ft_make_new_list_w_s(new_list, &new_list_w_s);
 		ft_finale_list(new_list_w_s, &last_list);
-		// print_double_list(last_list);
+		// print_double_list(new_list);
 		// printlist(head);
 		ft_execution(last_list, env_list, vars);
-		// ft_builtins(new_list_w_s, env_list);
+		// ft_builtins(last_list, env_list);
+			
 		ft_lstclear(&head);
 		ft_lstclear(&new_list);
 		ft_lstclear(&new_list_w_s);
@@ -88,7 +89,6 @@ int	get_value(int value)
 	return (v);
 }
 
-
 void	nothing_minishell(int sig)
 {
 	(void)sig;
@@ -97,7 +97,6 @@ void	nothing_minishell(int sig)
 void	nothing(int sig)
 {
 	(void)sig;
-
 	write(1, "\n", 1);
 }
 
@@ -106,20 +105,30 @@ void	sig_handler(int sig)
 {
 	if (sig == SIGINT)
 	{
-		write(1, "\n", 1);
-		rl_on_new_line();
-		rl_replace_line("", 0);
-		rl_redisplay();
-		state_exit = 1;
+		if (get_value(-1) == 3)
+		{
+			close(0);
+			get_value(0);
+			state_exit = 1;
+		}
+		else
+		{
+			write(1, "\n", 1);
+			rl_on_new_line();
+			rl_replace_line("", 0);
+			rl_redisplay();
+			state_exit = 1;
+			get_value(1);
+		}
 	}
 }
 
-void	ft_change_all_d_s(t_list *env_list, char *new_shlvl, int i)
+void	ft_change_all_d_s(t_env *env_list, char *new_shlvl, int i)
 {
 	while (env_list)
 	{
-		free(env_list->cmd[i]);
-		env_list->cmd[i] = new_shlvl;
+		free(env_list->env[i]);
+		env_list->env[i] = new_shlvl;
 		env_list = env_list->next;
 	}
 }
@@ -138,7 +147,7 @@ int	ft_isall_string_num(char *str)
 	return (0);
 }
 
-void	ft_change_value_of_shlvl(char *value, t_list *env_list, t_list *tm, int i)
+void	ft_change_value_of_shlvl(char *value, t_env *env_list, t_env *tm, int i)
 {
 	int		lvl;
 	char	*tmp;
@@ -153,11 +162,11 @@ void	ft_change_value_of_shlvl(char *value, t_list *env_list, t_list *tm, int i)
 	ft_change_all_d_s(tm, new_shlvl, i);
 }
 
-void	ft_change_shlvl(t_list *env_list)
+void	ft_change_shlvl(t_env *env_list)
 {
 	char	*value;
 	int		i;
-	t_list	*tm;
+	t_env	*tm;
 
 	tm = env_list;
 	value = NULL;
@@ -177,22 +186,153 @@ void	ft_change_shlvl(t_list *env_list)
 	ft_change_value_of_shlvl(value, env_list, tm, i);
 }
 
+int	check_the_plus(char *str)
+{
+	int	i;
+
+	i = 0;
+	while (str[i])
+	{
+		if (str[i] == '+' && str[i + 1] == '\0')
+			return (1);
+		i++;
+	}
+	return (0);
+}
+
+char	*delete_back_slash(char *str)
+{
+	char	*s;
+	int		i;
+	int		j;
+
+	i = 0;
+	while (str[i])
+		i++;
+	s = (char *)malloc(i + 1);
+	j = 0;
+	i = 0;
+	while (str[j])
+	{
+		if (str[j] == '\\')
+			j++;
+		s[i] = str[j];
+		i++;
+		j++;
+	}
+	s[i] = '\0';
+	return (s);
+}
+
+t_env	*ft_lstnew_env(char *str, char **env)
+{
+	t_env	*tmp;
+	char	*key;
+	char	*val;
+
+	tmp = (t_env *)malloc(sizeof(t_env));
+	if (!tmp)
+		return (0);
+	if (!str)
+		return (tmp->key = ft_strdup("000"), tmp);
+	key = until_equal_or_plus(str, '=');
+	tmp->plus = 0;
+	if (check_the_plus(key))
+	{
+		tmp->plus = '+';
+		free(key);
+		key = until_equal_or_plus(str, '+');
+	}
+	val = ft_strchr(str, '=');
+	if (val)
+	{
+
+		val = delete_back_slash(val);
+		tmp->c = val[0];
+	}
+	tmp->content = ft_strdup(str);
+	tmp->key = key;
+	tmp->env = ft_str_double_dup(env);
+	if (val == 0)
+		tmp->val = ft_strdup(NULL);
+	else
+		tmp->val = ft_strdup(val + 1);
+	tmp->next = 0;
+	free(val);
+	return (tmp);
+}
+
+t_env	*ft_lstlast_env(t_env *lst)
+{
+	t_env	*tmp;
+
+	if (!lst)
+		return (0);
+	tmp = lst;
+	while (tmp->next != 0)
+		tmp = tmp->next;
+	return (tmp);
+}
+
+void	ft_lstadd_back_env(t_env **lst, t_env *new)
+{
+	t_env	*tmp;
+	int		i;
+
+	i = 0;
+	if (!new)
+		return ;
+	if (!*lst)
+	{
+		*lst = new;
+		return ;
+	}
+	tmp = ft_lstlast_env(*lst);
+	tmp->next = new;
+}
+
+void	make_copy_env_list_char(char **env, t_env **new_env_list)
+{
+	t_env	*new_env;
+	int		i;
+
+	i = 0;
+	if (!env[i])
+	{
+		new_env = ft_lstnew_env(ft_strdup("000=000"), env);
+		ft_lstadd_back_env(new_env_list, new_env);
+		return ;
+	}
+	while (env[i])
+	{
+		new_env = ft_lstnew_env(env[i], env);
+		ft_lstadd_back_env(new_env_list, new_env);
+		i++;
+	}
+}
+
 int main(int ac, char **av, char **env)
 {
 	char	*input;
 	t_list	*head;
-	t_list	*env_list;
+	t_env	*env_list;
+	int		std_in;
 
 	(void)ac;
 	(void)av;
 	head = NULL;
-	make_env_list(env, &env_list);
+	env_list = NULL;
+	make_copy_env_list_char(env, &env_list);
 	ft_change_shlvl(env_list);
 	state_exit = 0;
 	rl_catch_signals = 0;
+	std_in = dup(0);
 	signal(SIGINT, sig_handler);
+	
 	while(1)
 	{
+		get_value(0);
+		dup2(std_in,0);
 		input = readline("[minishell][$]~> ");
 		if (!input || !ft_strcmp(input, "exit"))
 		{

@@ -3,33 +3,71 @@
 /*                                                        :::      ::::::::   */
 /*   builtins.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hachahbo <hachahbo@student.42.fr>          +#+  +:+       +#+        */
+/*   By: amoukhle <amoukhle@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/04 20:13:17 by hachahbo          #+#    #+#             */
-/*   Updated: 2023/06/07 13:53:54 by hachahbo         ###   ########.fr       */
+/*   Updated: 2023/07/21 20:03:12 by amoukhle         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-int ft_builtins(t_list *list, t_list *env_list)
+void	remove_node_2(t_env **head, char *min)
 {
-	while(list)
+	t_env	*current;
+	t_env	*previous;
+
+	previous = NULL;
+	current = *head;
+	while (current != NULL)
 	{
-		if(!ft_strcmp(list->content, "cd"))
-			rendering_cd(list);
-		else if(!ft_strcmp(list->content, "echo"))
-			ft_echo(list);
-		else if(!ft_strcmp(list->content, "env"))
-			ft_env(env_list);
-		else if(!ft_strcmp(list->content, "pwd"))
-			ft_pwd(env_list);
-		else if(!ft_strcmp(list->content, "exit"))
+		if (!ft_strcmp(current->key, min))
 		{
-			printf("exit\n");
-			exit(1);
+			if (previous == NULL)
+				*head = current->next;
+			else
+				previous->next = current->next;
+			free(current);
+			return ;
 		}
-		list = list->next;
+		previous = current;
+		current = current->next;
 	}
+}
+
+void	ft_unset(t_list *list, t_env *env_list)
+{
+	int	i;
+
+	i = 1;
+	while (list->cmd[i])
+	{
+		remove_node_2(&env_list, list->cmd[i]);
+		i++;
+	}
+}
+
+int	ft_builtins(t_list *list, t_env *env_list)
+{
+	(void)env_list;
+	if (!ft_strcmp(list->cmd[0], "cd"))
+		rendering_cd(list);
+	else if (!ft_strcmp(list->cmd[0], "pwd"))
+		ft_pwd(env_list);
+	else if (!ft_strcmp(list->cmd[0], "echo"))
+		ft_echo(list);
+	else if (!ft_strcmp(list->cmd[0], "env"))
+		ft_env(env_list);
+	else if (!ft_strcmp(list->cmd[0], "unset"))
+		ft_unset(list, env_list);
+	else if (!ft_strcmp(list->cmd[0], "export"))
+		ft_export(list, env_list);
+	else if (!ft_strcmp(list->cmd[0], "exit"))
+	{
+		printf("exit\n");
+		exit(1);
+	}
+	else
+		return (1);
 	return (0);
 }
