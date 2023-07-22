@@ -6,7 +6,7 @@
 /*   By: amoukhle <amoukhle@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/19 20:55:43 by hachahbo          #+#    #+#             */
-/*   Updated: 2023/07/21 22:16:01 by amoukhle         ###   ########.fr       */
+/*   Updated: 2023/07/22 15:39:46 by amoukhle         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,6 +41,7 @@ t_var *init_vars(t_env *env_list)
 	tmp->env_list = env_list;
 	return (tmp);
 }
+
 
 void	parser(t_list *head, t_env *env_list, char *input)
 {
@@ -96,8 +97,10 @@ void	nothing_minishell(int sig)
 
 void	nothing(int sig)
 {
-	(void)sig;
-	write(1, "\n", 1);
+	if (sig == SIGINT)
+		write(1, "\n", 1);
+	else if (sig == SIGQUIT)
+		write(1, "Quit: 3\n", 8);
 }
 
 
@@ -108,7 +111,7 @@ void	sig_handler(int sig)
 		if (get_value(-1) == 3)
 		{
 			close(0);
-			get_value(0);
+			get_value(4);
 			state_exit = 1;
 		}
 		else
@@ -120,6 +123,10 @@ void	sig_handler(int sig)
 			state_exit = 1;
 			get_value(1);
 		}
+	}
+	else if (sig == SIGQUIT)
+	{
+		(void)sig;
 	}
 }
 
@@ -327,18 +334,18 @@ int main(int ac, char **av, char **env)
 	state_exit = 0;
 	rl_catch_signals = 0;
 	std_in = dup(0);
-	signal(SIGINT, sig_handler);
-	
 	while(1)
 	{
+		signal(SIGINT, sig_handler);
+		signal(SIGQUIT, sig_handler);
 		get_value(0);
 		dup2(std_in,0);
 		input = readline("[minishell][$]~> ");
-		if (!input || !ft_strcmp(input, "exit"))
+		if (!input)
 		{
-			printf("exit\n");
+			write(1, "exit\n", 5);
 			clear_history();
-			exit (1);
+			exit (0);
 		}
 		if(ft_strisspace(input) == 0)
 			parser(head, env_list, input);

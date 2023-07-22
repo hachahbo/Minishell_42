@@ -6,14 +6,23 @@
 /*   By: amoukhle <amoukhle@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/01 15:43:57 by amoukhle          #+#    #+#             */
-/*   Updated: 2023/07/21 19:30:37 by amoukhle         ###   ########.fr       */
+/*   Updated: 2023/07/22 15:06:17 by amoukhle         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void	ft_pwd(t_env *env_list)
+void	ft_pwd(t_env *env_list, t_var *var)
 {
-    (void) env_list;
-    printf("%s\n", getcwd(NULL, 0));
+    char    *str;
+
+    (void)env_list;
+    str = getcwd(NULL, 0);
+    if (str)
+    {
+        write(var->std_out, str, ft_strlen(str));
+        write(var->std_out, "\n", 1);
+    }
 }
+
+

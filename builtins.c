@@ -6,7 +6,7 @@
 /*   By: amoukhle <amoukhle@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/04 20:13:17 by hachahbo          #+#    #+#             */
-/*   Updated: 2023/07/21 20:03:12 by amoukhle         ###   ########.fr       */
+/*   Updated: 2023/07/22 15:20:54 by amoukhle         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,27 +47,29 @@ void	ft_unset(t_list *list, t_env *env_list)
 	}
 }
 
-int	ft_builtins(t_list *list, t_env *env_list)
+int	ft_builtins(t_list *list, t_env *env_list, t_var *var)
 {
 	(void)env_list;
-	if (!ft_strcmp(list->cmd[0], "cd"))
+	(void)var;
+	if (!ft_strcmp(list->cmd[0], "cd") || !ft_strcmp(list->cmd[0], "/usr/bin/cd"))
 		rendering_cd(list);
-	else if (!ft_strcmp(list->cmd[0], "pwd"))
-		ft_pwd(env_list);
-	else if (!ft_strcmp(list->cmd[0], "echo"))
-		ft_echo(list);
-	else if (!ft_strcmp(list->cmd[0], "env"))
-		ft_env(env_list);
+	else if (!ft_strcmp(list->cmd[0], "pwd") || !ft_strcmp(list->cmd[0], "/bin/pwd"))
+		ft_pwd(env_list, var);
+	else if (!ft_strcmp(list->cmd[0], "echo") || !ft_strcmp(list->cmd[0], "/bin/echo"))
+		ft_echo(list, var);
+	else if (!ft_strcmp(list->cmd[0], "env") || !ft_strcmp(list->cmd[0], "/usr/bin/env"))
+		ft_env(env_list, var);
 	else if (!ft_strcmp(list->cmd[0], "unset"))
 		ft_unset(list, env_list);
 	else if (!ft_strcmp(list->cmd[0], "export"))
-		ft_export(list, env_list);
+		ft_export(list, env_list, var);
 	else if (!ft_strcmp(list->cmd[0], "exit"))
 	{
 		printf("exit\n");
-		exit(1);
+		exit(0);
 	}
 	else
 		return (1);
+	state_exit = 0;
 	return (0);
 }

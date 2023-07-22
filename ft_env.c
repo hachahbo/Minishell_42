@@ -6,13 +6,13 @@
 /*   By: amoukhle <amoukhle@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/01 09:48:53 by amoukhle          #+#    #+#             */
-/*   Updated: 2023/07/21 19:14:21 by amoukhle         ###   ########.fr       */
+/*   Updated: 2023/07/22 14:50:03 by amoukhle         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void	ft_env(t_env *env_list)
+void	ft_env(t_env *env_list, t_var *var)
 {
 	while (env_list)
 	{
@@ -21,7 +21,12 @@ void	ft_env(t_env *env_list)
 		if (!env_list)
 			return ;
 		if (env_list->c == '=')
-			printf("%s=%s\n", env_list->key, env_list->val);
+		{
+			write(var->std_out, env_list->key, ft_strlen(env_list->key));
+			write(var->std_out, "=", 1);
+			write(var->std_out, env_list->val, ft_strlen(env_list->val));
+			write(var->std_out, "\n", 1);
+		}
 		env_list = env_list->next;
 	}
 }

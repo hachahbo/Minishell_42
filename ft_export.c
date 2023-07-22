@@ -6,7 +6,7 @@
 /*   By: amoukhle <amoukhle@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/21 19:15:35 by amoukhle          #+#    #+#             */
-/*   Updated: 2023/07/21 21:34:50 by amoukhle         ###   ########.fr       */
+/*   Updated: 2023/07/22 14:47:09 by amoukhle         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -109,7 +109,7 @@ void	insert(t_env **root, t_env *item)
 	}
 }
 
-void	ft_print_export(t_env *export_list)
+void	ft_print_export(t_env *export_list, t_var *var)
 {
 	if (!ft_strcmp(export_list->key, "000"))
 		export_list = export_list->next;
@@ -118,9 +118,19 @@ void	ft_print_export(t_env *export_list)
 	while (export_list)
 	{	
 		if (!ft_strchr(export_list->content, '='))
-			printf("declare -x %s\n", export_list->key);
+		{
+			write(var->std_out, "declare -x ", 11);
+			write(var->std_out, export_list->key, ft_strlen(export_list->key));
+			write(var->std_out, "\n", 1);
+		}
 		else
-			printf("declare -x %s=\"%s\"\n", export_list->key, export_list->val);
+		{
+			write(var->std_out, "declare -x ", 11);
+			write(var->std_out, export_list->key, ft_strlen(export_list->key));
+			write(var->std_out, "\"", 1);
+			write(var->std_out, export_list->val, ft_strlen(export_list->val));
+			write(var->std_out, "\"\n", 2);
+		}
 		export_list = export_list->next;
 	}
 }
@@ -173,9 +183,11 @@ void	change_the_value(t_env **env_list, t_env *new_env)
 	env_list = &save;
 }
 
-void ft_print_error(char *s , t_env *new_env, char *str)
+void ft_print_error(char *s , t_env *new_env, char *str, t_var *var)
 {
-	printf("export : `%s\': not a valid identifier\n", s);
+	write(var->std_out, "export : `", 10);
+	write(var->std_out, s, ft_strlen(s));
+	write(var->std_out, "\': not a valid identifier\n", 26);
 	free(str);
 	free(new_env->key);
 	free(new_env->content);
@@ -183,36 +195,36 @@ void ft_print_error(char *s , t_env *new_env, char *str)
 	free(new_env);
 }
 
-int	check_is_valid(t_env *new_env)
+int	check_is_valid(t_env *new_env, t_var *var)
 {
 	int		i;
 	char	*str =NULL;
 
 	if (!(ft_isalpha(new_env->key[0]) || new_env->key[0] == '_'))
-		return (ft_print_error(new_env->key, new_env, str), 0);
+		return (ft_print_error(new_env->key, new_env, str, var), 0);
 	i = 1;
 	while (new_env->key[i])
 	{
 		if (!ft_isalpha(new_env->key[i])
 			&& !ft_isdigit(new_env->key[i]) && !(new_env->key[i] == '_'))
-			return (ft_print_error(new_env->key, new_env, str), 0);
+			return (ft_print_error(new_env->key, new_env, str, var), 0);
 		i++;
 	}
 	i = ft_strlen(new_env->content);
 	if (new_env->content[i - 1] == '+' && !new_env->content[i])		
-		return (ft_print_error(new_env->content, new_env, str), 0);
+		return (ft_print_error(new_env->content, new_env, str, var), 0);
 	i = 0;
 	str = until_equal_or_plus(new_env->content, '=');
 	while (str[i])
 	{
 		if (str[i] == '+' && str[i + 1] == '+')
-			return (ft_print_error(new_env->content, new_env, str), 0);
+			return (ft_print_error(new_env->content, new_env, str, var), 0);
 		i++;
 	}
 	return (free(str), 1);
 }
 
-int	add_or_change(t_env *env_list, t_list *head, char **env)
+int	add_or_change(t_env *env_list, t_list *head, char **env, t_var *var)
 {
 	t_env	*new_env;
 	int		i;
@@ -225,7 +237,7 @@ int	add_or_change(t_env *env_list, t_list *head, char **env)
 			return (0);
 		if (!check_double_key(env_list, new_env))
 		{
-			if (!check_is_valid(new_env))
+			if (!check_is_valid(new_env, var))
 				return (0);
 			ft_lstadd_back_env(&env_list, new_env);
 		}
@@ -246,14 +258,14 @@ void ft_free(t_env *head)
 	free(head);
 }
 
-void	ft_only_export(t_list *head, t_env *export_list)
+void	ft_only_export(t_list *head, t_env *export_list, t_var *var)
 {
 	if (!head->cmd[1])
-		ft_print_export(export_list);
+		ft_print_export(export_list, var);
 	ft_free(export_list);
 }
 
-int	ft_export(t_list *head, t_env *env_list)
+int	ft_export(t_list *head, t_env *env_list, t_var *var)
 {
 	t_env	*help;
 	t_env	*new_env_list;
@@ -263,7 +275,7 @@ int	ft_export(t_list *head, t_env *env_list)
 	new_env_list = NULL;
 	export_list = NULL;
 	if (head->cmd[1])
-		if (!add_or_change(env_list, head, env_list->env))
+		if (!add_or_change(env_list, head, env_list->env, var))
 			return (0);
 	while (help)
 	{
@@ -278,6 +290,6 @@ int	ft_export(t_list *head, t_env *env_list)
 		insert(&export_list, help);
 		remove_node(&new_env_list, help->content);
 	}
-	ft_only_export(head, export_list);
+	ft_only_export(head, export_list, var);
 	return (1);
 }

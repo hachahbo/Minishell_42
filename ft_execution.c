@@ -6,7 +6,7 @@
 /*   By: amoukhle <amoukhle@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/22 16:29:59 by amoukhle          #+#    #+#             */
-/*   Updated: 2023/07/21 20:02:56 by amoukhle         ###   ########.fr       */
+/*   Updated: 2023/07/22 15:35:12 by amoukhle         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,6 +85,7 @@ void	init_var(t_var *var, int num_pipe)
 	var->num_cmd = 0;
 	var->std_in = 0;
 	var->std_out = 1;
+	var->error_DOC = 0;
 }
 
 int	ft_serche_in_list(t_list *last_list, char *cmd)
@@ -101,6 +102,26 @@ int	ft_serche_in_list(t_list *last_list, char *cmd)
 	return (1);
 }
 
+int	ft_is_builting_cmd(t_list *last_list, t_var *var)
+{
+	if (ft_serche_in_list(last_list, "/usr/bin/cd") == 0
+		|| ft_serche_in_list(last_list, "cd") == 0
+		|| ft_serche_in_list(last_list, "/bin/pwd") == 0
+		|| ft_serche_in_list(last_list, "pwd") == 0
+		|| ft_serche_in_list(last_list, "/usr/bin/env") == 0
+		|| ft_serche_in_list(last_list, "env") == 0
+		|| ft_serche_in_list(last_list, "/bin/echo") == 0
+		|| ft_serche_in_list(last_list, "echo") == 0
+		|| ft_serche_in_list(last_list, "unset") == 0
+		|| ft_serche_in_list(last_list, "export") == 0
+		|| ft_serche_in_list(last_list, "exit") == 0)
+	{
+		var->is_built = 1;
+		return (0);
+	}
+	return (1);
+}
+
 void	exec_child(t_list *last_list, t_env *env_list, t_var *var, int num_pipe)
 {
 	pid_t		pid;
@@ -113,13 +134,29 @@ void	exec_child(t_list *last_list, t_env *env_list, t_var *var, int num_pipe)
 	list_heredoce = NULL;
 	init_var(var, num_pipe);
 	ft_serche_for_heredoce(last_list, var, &list_heredoce);
+	if (get_value(-1) == 4)
+	{
+		list_strclear(&list_heredoce);
+		return ;
+	}
 	list_heredoce_tmp = list_heredoce;
+	if (var->n_cmd == 1 && ft_is_builting_cmd(last_list, var) == 0)
+	{
+		ft_serche_for_DOC(last_list, env_list, var, &list_heredoce);
+		ft_serche_for_cmd(&last_list);
+		if (var->error_DOC != 1)
+			ft_builtins(last_list, env_list, var);
+		return ;
+	}
 	while (var->num_cmd < var->n_cmd)
 	{
 		if (ft_serche_in_list(last_list, "./minishell") == 0)
 			signal(SIGINT, nothing_minishell);
 		else
+		{
 			signal(SIGINT, nothing);
+			signal(SIGQUIT, nothing);
+		}
 		pid = fork();
 		if (pid == -1)
 			error_fork();
@@ -131,7 +168,6 @@ void	exec_child(t_list *last_list, t_env *env_list, t_var *var, int num_pipe)
 	last_child = pid;
 	wait_childs(var, last_child);
 	list_strclear(&list_heredoce);
-	signal(SIGINT, sig_handler);
 }
 
 void	wait_childs(t_var *var, pid_t last_child)
@@ -153,8 +189,13 @@ void	wait_childs(t_var *var, pid_t last_child)
 				state_exit = WEXITSTATUS(state);
 			else if (WIFSIGNALED(state))
 			{
-				// state_exit = WTERMSIG(state);
-				state_exit = 130;
+				state_exit = WTERMSIG(state);
+				if (state_exit == 3)
+					state_exit = 131;
+				else if (state_exit == 2)
+					state_exit = 130;
+				else if (state_exit == 11)
+					state_exit = 0;
 			}
 		}
 		j++;
@@ -216,32 +257,41 @@ void	serch_for_inf(t_list *last_list, t_var *var, t_env *env_list, int *other_in
 	int	file;
 
 	file = ft_open_infile(last_list, var, env_list);
-	if (ft_listchr(last_list, HERE_DOC) == 0)
-		close(file);
-	else
+	if (file != -1)
 	{
-		if (*other_inf == 1)
+		if (ft_listchr(last_list, HERE_DOC) == 0)
+			close(file);
+		else
 		{
-			close(var->std_in);
-			*other_inf = 0;
+			if (*other_inf == 1)
+			{
+				close(var->std_in);
+				*other_inf = 0;
+			}
+			*other_inf = 1;
+			var->std_in = file;
 		}
-		*other_inf = 1;
-		var->std_in = file;
 	}
 }
 
 void	serch_for_outf(t_list *last_list, t_env *env_list, t_var *var, int *other_outf)
 {
-	if (*other_outf == 1)
-	{
-		close(var->std_out);
-		*other_outf = 0;
-	}
-	*other_outf = 1;
+	int	file;
+
 	if (last_list->type_d == REDIR_OUT)
-		var->std_out = ft_open_outfile(last_list, var, env_list);
+		file = ft_open_outfile(last_list, var, env_list);
 	else
-		var->std_out = ft_open_append_file(last_list, var, env_list);
+		file = ft_open_append_file(last_list, var, env_list);
+	if (file != -1)
+	{
+		if (*other_outf == 1)
+		{
+			close(var->std_out);
+			*other_outf = 0;
+		}
+		*other_outf = 1;
+		var->std_out = file;
+	}
 }
 
 void	ft_serche_for_DOC(t_list *last_list, t_env *env_list, t_var *var, t_list_str **list_heredoc)
@@ -287,7 +337,7 @@ void	ft_duplicate(t_var *var)
 	if (var->std_in != 0)
 		close(var->std_in);
 	if (var->std_out != 1)
-		close(var->std_in);
+		close(var->std_out);
 }
 
 char	**return_cmd(char **cmd, char *str, char **paths, char *cm)
@@ -397,23 +447,27 @@ void	ft_child_proccess(t_list *last_list, t_env *env_list, t_var *var, t_list_st
 		close(var->fd[j++]);
 	if (!cmd)
 		exit(127);
-	if (execve(cmd[0], cmd, env_list->env) == -1)
+	if (ft_builtins(last_list, env_list, var) == 1)
 	{
-		dir = opendir(cmd[0]);
-		if (dir)
+		if (execve(cmd[0], cmd, env_list->env) == -1)
 		{
-			write (2, "bash: ", 6);
+			dir = opendir(cmd[0]);
+			if (dir)
+			{
+				write (2, "bash: ", 6);
+				write (2, cmd[0], ft_strlen(cmd[0]));
+				write (2, ": is a directory\n", 17);
+				closedir(dir);
+				exit (126);
+			}
+			len_error = ft_strlen(strerror(errno));
+			write(2, "bash: ", 6);
 			write (2, cmd[0], ft_strlen(cmd[0]));
-			write (2, ": is a directory\n", 17);
-			closedir(dir);
-			exit (126);
+			write (2, ": ", 2);
+			write(2, strerror(errno), len_error);
+			write (2, "\n", 1);
+			exit (127);
 		}
-		len_error = ft_strlen(strerror(errno));
-		write(2, "bash: ", 6);
-		write (2, cmd[0], ft_strlen(cmd[0]));
-		write (2, ": ", 2);
-		write(2, strerror(errno), len_error);
-		write (2, "\n", 1);
-		exit (127);
 	}
+	exit(0);
 }

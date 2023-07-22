@@ -6,7 +6,7 @@
 /*   By: amoukhle <amoukhle@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/10 10:20:07 by hachahbo          #+#    #+#             */
-/*   Updated: 2023/07/21 19:01:27 by amoukhle         ###   ########.fr       */
+/*   Updated: 2023/07/22 12:30:14 by amoukhle         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -88,6 +88,8 @@ typedef struct s_var
 	int	std_out;
 	char	*str;
 	t_env	*env_list;
+	int		is_built;
+	int		error_DOC;
 }	t_var;
 
 int				ft_isascii(int c);
