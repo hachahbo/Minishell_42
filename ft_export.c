@@ -6,7 +6,7 @@
 /*   By: hachahbo <hachahbo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/21 19:15:35 by amoukhle          #+#    #+#             */
-/*   Updated: 2023/07/22 23:20:11 by hachahbo         ###   ########.fr       */
+/*   Updated: 2023/07/23 08:59:44 by hachahbo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -111,8 +111,6 @@ void	insert(t_env **root, t_env *item)
 
 void	ft_print_export(t_env *export_list)
 {
-	if (!ft_strcmp(export_list->key, "000"))
-		export_list = export_list->next;
 	if (!export_list)
 		return ;
 	while (export_list)
@@ -228,9 +226,8 @@ int	add_or_change(t_env *env_list, t_list *head, char **env)
 			return (0);
 		if (!check_double_key(env_list, new_env))
 		{
-			if (!check_is_valid(new_env))
-				return (0);
-			ft_lstadd_back_env(&env_list, new_env);
+			if (check_is_valid(new_env))
+				ft_lstadd_back_env(&env_list, new_env);
 		}
 		else
 			change_the_value(&env_list, new_env);
