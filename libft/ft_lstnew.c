@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_lstnew.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hachahbo <hachahbo@student.42.fr>          +#+  +:+       +#+        */
+/*   By: amoukhle <amoukhle@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/17 12:25:26 by hachahbo          #+#    #+#             */
-/*   Updated: 2023/07/10 08:52:03 by hachahbo         ###   ########.fr       */
+/*   Updated: 2023/07/19 05:28:03 by amoukhle         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,7 +44,7 @@ int	ft_lexer(t_list *node)
 	return (0);
 }
 
-t_list_str *new_list_str(char *content)
+t_list_str *new_list_str(char *content, int fd)
 {
 	t_list_str	*tmp;
 
@@ -52,6 +52,7 @@ t_list_str *new_list_str(char *content)
 	if (!tmp)
 		return (0);
 	tmp->content = content;
+	tmp->fd = fd;
 	tmp->next = 0;
 	return (tmp);
 }

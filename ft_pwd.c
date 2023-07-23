@@ -3,16 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   ft_pwd.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hachahbo <hachahbo@student.42.fr>          +#+  +:+       +#+        */
+/*   By: amoukhle <amoukhle@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/01 15:43:57 by amoukhle          #+#    #+#             */
-/*   Updated: 2023/07/17 09:16:51 by hachahbo         ###   ########.fr       */
+/*   Updated: 2023/07/21 19:30:37 by amoukhle         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void	ft_pwd(t_list *env_list)
+void	ft_pwd(t_env *env_list)
 {
     (void) env_list;
     printf("%s\n", getcwd(NULL, 0));

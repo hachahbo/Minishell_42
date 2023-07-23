@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_expand_env.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hachahbo <hachahbo@student.42.fr>          +#+  +:+       +#+        */
+/*   By: amoukhle <amoukhle@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/19 23:03:57 by amoukhle          #+#    #+#             */
-/*   Updated: 2023/07/10 18:25:11 by hachahbo         ###   ########.fr       */
+/*   Updated: 2023/07/21 22:17:48 by amoukhle         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,23 +17,24 @@ char	*generate_value_of_env(char *str, char *tmp, t_list_str **list_str, t_list 
 	int		i;
 	char	**str_split;
 
-	str_split = ft_split(tmp, ' ');
+	str_split = ft_spaces_split(tmp);
 	i = 0;
-	while(str_split[i + 1])
+	while(str_split[i] && str_split[i + 1])
 	{
 		str = ft_strjoin(str, str_split[i]);
-		list_stradd_back(list_str, new_list_str(str));
+		printf("%s\n", str);
+		list_stradd_back(list_str, new_list_str(str, 0));
 		i++;
 		ft_lstadd_back(new_list, ft_lstnew(str, NULL));
 		str = NULL;
 	}
 	str = ft_strjoin(str, str_split[i]);
-	list_stradd_back(list_str, new_list_str(str));
+	list_stradd_back(list_str, new_list_str(str, 0));
 	free_double(str_split);
 	return (str);
 }
 
-char *handle_env(t_list *list, t_list *env_list, int num_env)
+char *handle_env(t_list *list, t_env *env_list, int num_env)
 {
 	if ((list->type == ENV && list->state == GENERAL
 		&& (list->next == NULL || list->next->type == WHITE_SPACE))
@@ -41,7 +42,7 @@ char *handle_env(t_list *list, t_list *env_list, int num_env)
 		return (list->content);
 	else if (list->type == ENV && list->state == GENERAL && num_env % 2 != 0
 		&& (list->next->type == QOUTE || list->next->type == DOUBLE_QUOTE))
-		return ("");
+		return (ft_strdup(""));
 	else if (list->type == ENV && (list->state == IN_DQUOTE || list->state == GENERAL))
 	{
 		if (list->next->type == WORD && num_env % 2 != 0 && serche_for_DOC(list) == 1)
@@ -51,20 +52,21 @@ char *handle_env(t_list *list, t_list *env_list, int num_env)
 	}
 	return (list->content);
 }
-void	make_env_list(char **env, t_list **env_list)
-{
-	int		i;
-	t_list	*new;
 
-	i = 0;
-	while(env[i])
-	{
-		new = ft_lstnew(env[i], NULL);
-		ft_lstadd_back(env_list, new);
-		i++;
-	}
-}
-char *ft_expand_value(char *str, t_list *env_list)
+// void	make_env_list(char **env, t_env **env_list)
+// {
+// 	int		i;
+// 	t_list	*new;
+
+// 	i = 0;
+// 	while(env[i])
+// 	{
+// 		new = ft_lstnew(env[i], env);
+// 		ft_lstadd_back(env_list, new);
+// 		i++;
+// 	}
+// }
+char *ft_expand_value(char *str, t_env *env_list)
 {
 	char	*value;
 

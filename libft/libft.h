@@ -6,7 +6,7 @@
 /*   By: hachahbo <hachahbo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/10 10:20:07 by hachahbo          #+#    #+#             */
-/*   Updated: 2023/07/18 23:58:25 by hachahbo         ###   ########.fr       */
+/*   Updated: 2023/07/22 22:48:46 by hachahbo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,7 @@
 typedef struct s_list_str
 {
 	char			*content;
+	int				fd;
 	struct s_list_str	*next;
 }				t_list_str;
 
@@ -40,6 +41,13 @@ enum e_token
 	DREDIR_OUT, // >>
 };
 
+enum e_state
+{
+	IN_DQUOTE,
+	IN_QUOTE,
+	GENERAL,
+};
+
 typedef struct s_env
 {
 	char *key;
@@ -47,15 +55,10 @@ typedef struct s_env
 	char *content;
 	char c;
 	char plus;
+	char **env;
+	char *hide_path;
 	struct s_env *next;
 }t_env;
-
-enum e_state
-{
-	IN_DQUOTE,
-	IN_QUOTE,
-	GENERAL,
-};
 
 typedef struct s_list
 {
@@ -78,8 +81,14 @@ typedef struct s_var
 	int	in_join;
 	int	num_env;
 	int	skip;
+	int	q_dq;
+	int	*fd;
+	int	n_cmd;
+	int	num_cmd;
+	int	std_in;
+	int	std_out;
 	char	*str;
-	t_list	*env_list;
+	t_env	*env_list;
 }	t_var;
 
 int				ft_isascii(int c);
@@ -95,7 +104,7 @@ void			*ft_memcpy(void *dst, const void *src, size_t n);
 void			*ft_memmove(void *dst, const void *src, size_t len);
 void			*ft_memchr(const void *s, int c, size_t n);
 int				ft_memcmp(const void *s1, const void *s2, size_t n);
-char			*ft_strdup(char *s1);
+char			*ft_strdup(const char *s1);
 void			*ft_calloc(size_t count, size_t size);
 char			**ft_split(char const *s, char c);
 size_t			ft_strlen(const char *s);
@@ -117,7 +126,7 @@ int				ft_atoi(const char *str);
 char			*ft_itoa(int n);
 char			*ft_substr(char const *s, unsigned int start, size_t len);
 t_list			*ft_lstnew(void *content, char **cmd);
-t_list_str		*new_list_str(char *content);
+t_list_str		*new_list_str(char *content, int fd);
 void			ft_lstadd_front(t_list **lst, t_list *new);
 t_list			*ft_lstlast(t_list *lst);
 t_list_str		*list_strlast(t_list_str *lst);
@@ -126,6 +135,5 @@ void			list_stradd_back(t_list_str **lst, t_list_str *new);
 int				ft_lstsize(t_list *lst);
 char			*ft_strmapi(char const *s, char (*f)(unsigned int, char));
 void			list_strclear(t_list_str **lst);
-char			*ft_strcat(char *dest, char *src);
 
 #endif
