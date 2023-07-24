@@ -6,7 +6,7 @@
 /*   By: amoukhle <amoukhle@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/22 16:29:59 by amoukhle          #+#    #+#             */
-/*   Updated: 2023/07/22 15:35:12 by amoukhle         ###   ########.fr       */
+/*   Updated: 2023/07/24 01:07:55 by amoukhle         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -176,6 +176,7 @@ void	wait_childs(t_var *var, pid_t last_child)
 	int		state;
 	pid_t	pid;
 
+	(void)last_child;
 	j = 0;
 	while (j < (var->n_cmd - 1) * 2)
 		close(var->fd[j++]);
@@ -372,8 +373,10 @@ char	**get_paths(t_env *env_list, char **cmd)
 	char	*var;
 	char	*value;
 	char	**paths;
+	t_env	*tmp;
 
 	var = "PATH";
+	tmp = env_list;
 	value = NULL;
 	while (env_list)
 	{
@@ -381,6 +384,8 @@ char	**get_paths(t_env *env_list, char **cmd)
 			value = &env_list->content[ft_strlen(var) + 1];
 		env_list = env_list->next;
 	}
+	if (!value)
+		value = tmp->hide_path;
 	if (!value)
 	{
 		write (2, "bash: ", 6);

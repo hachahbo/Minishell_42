@@ -6,7 +6,7 @@
 /*   By: amoukhle <amoukhle@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/19 20:55:43 by hachahbo          #+#    #+#             */
-/*   Updated: 2023/07/22 15:39:46 by amoukhle         ###   ########.fr       */
+/*   Updated: 2023/07/24 00:48:47 by amoukhle         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -116,7 +116,7 @@ void	sig_handler(int sig)
 		}
 		else
 		{
-			write(1, "\n", 1);
+			write( 1, "\n", 1);
 			rl_on_new_line();
 			rl_replace_line("", 0);
 			rl_redisplay();
@@ -257,6 +257,7 @@ t_env	*ft_lstnew_env(char *str, char **env)
 		val = delete_back_slash(val);
 		tmp->c = val[0];
 	}
+	tmp->hide_path = ft_strdup("/usr/gnu/bin:/usr/local/bin:/bin:/usr/bin:.");
 	tmp->content = ft_strdup(str);
 	tmp->key = key;
 	tmp->env = ft_str_double_dup(env);
@@ -298,23 +299,62 @@ void	ft_lstadd_back_env(t_env **lst, t_env *new)
 	tmp->next = new;
 }
 
+char	**creat_env(void)
+{
+	char	**env;
+	char	*str;
+
+	env = (char **)malloc((sizeof(char *) * 4));
+	if (!env)
+		affiche_error();
+	str = getcwd(NULL, 0);
+	env[0] = ft_strjoin(("PWD="), str);
+	env[1] = ft_strdup("SHLVL=1");
+	env[2] = ft_strdup("_=/usr/bin/env");
+	env[3] = NULL;
+	free(str);
+	return(env);
+}
+
 void	make_copy_env_list_char(char **env, t_env **new_env_list)
 {
 	t_env	*new_env;
 	int		i;
+	char	*str;
+	char	*get_cwd;
 
 	i = 0;
 	if (!env[i])
 	{
-		new_env = ft_lstnew_env(ft_strdup("000=000"), env);
+		env = creat_env();
+		get_cwd = getcwd(NULL, 0);
+		str = ft_strjoin(("PWD="), get_cwd);
+		new_env = ft_lstnew_env(str, env);
 		ft_lstadd_back_env(new_env_list, new_env);
-		return ;
+		free(str);
+		str = ft_strjoin(("SHLVL="), "1");
+		new_env = ft_lstnew_env(str, env);
+		ft_lstadd_back_env(new_env_list, new_env);
+		free(str);
+		str = ft_strjoin(("_="), "/usr/bin/env");
+		new_env = ft_lstnew_env(str, env);
+		ft_lstadd_back_env(new_env_list, new_env);
+		free(str);
+		str = ft_strdup("OLDPWD");
+		new_env = ft_lstnew_env(str, env);
+		ft_lstadd_back_env(new_env_list, new_env);
+		free(str);
+		free_double(env);
+		free(get_cwd);
 	}
-	while (env[i])
+	else
 	{
-		new_env = ft_lstnew_env(env[i], env);
-		ft_lstadd_back_env(new_env_list, new_env);
-		i++;
+		while (env[i])
+		{
+			new_env = ft_lstnew_env(env[i], env);
+			ft_lstadd_back_env(new_env_list, new_env);
+			i++;
+		}
 	}
 }
 

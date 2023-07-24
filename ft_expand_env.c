@@ -6,7 +6,7 @@
 /*   By: amoukhle <amoukhle@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/19 23:03:57 by amoukhle          #+#    #+#             */
-/*   Updated: 2023/07/21 22:17:48 by amoukhle         ###   ########.fr       */
+/*   Updated: 2023/07/24 01:01:43 by amoukhle         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,6 @@ char	*generate_value_of_env(char *str, char *tmp, t_list_str **list_str, t_list 
 	while(str_split[i] && str_split[i + 1])
 	{
 		str = ft_strjoin(str, str_split[i]);
-		printf("%s\n", str);
 		list_stradd_back(list_str, new_list_str(str, 0));
 		i++;
 		ft_lstadd_back(new_list, ft_lstnew(str, NULL));
@@ -53,24 +52,13 @@ char *handle_env(t_list *list, t_env *env_list, int num_env)
 	return (list->content);
 }
 
-// void	make_env_list(char **env, t_env **env_list)
-// {
-// 	int		i;
-// 	t_list	*new;
-
-// 	i = 0;
-// 	while(env[i])
-// 	{
-// 		new = ft_lstnew(env[i], env);
-// 		ft_lstadd_back(env_list, new);
-// 		i++;
-// 	}
-// }
 char *ft_expand_value(char *str, t_env *env_list)
 {
 	char	*value;
+	t_env	*tmp;
 
 	value = NULL;
+	tmp = env_list;
 	while (env_list)
 	{
 		if (ft_strncmp(str, env_list->content, ft_strlen(str)) == 0
@@ -78,5 +66,7 @@ char *ft_expand_value(char *str, t_env *env_list)
 			value = &env_list->content[ft_strlen(str) + 1];
 		env_list = env_list->next;
 	}
+	if (!env_list && ft_strcmp("PATH", str) == 0)
+		value = tmp->hide_path;
 	return (value);
 }

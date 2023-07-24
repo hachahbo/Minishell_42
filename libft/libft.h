@@ -6,7 +6,7 @@
 /*   By: amoukhle <amoukhle@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/10 10:20:07 by hachahbo          #+#    #+#             */
-/*   Updated: 2023/07/22 12:30:14 by amoukhle         ###   ########.fr       */
+/*   Updated: 2023/07/23 23:27:06 by amoukhle         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,12 +50,13 @@ enum e_state
 
 typedef struct s_env
 {
-	char *key;
-	char *val;
-	char *content;
-	char c;
-	char plus;
-	char **env;
+	char	*key;
+	char	*val;
+	char	*content;
+	char	c;
+	char	plus;
+	char	**env;
+	char	*hide_path;
 	struct s_env *next;
 }t_env;
 

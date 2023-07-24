@@ -6,7 +6,7 @@
 /*   By: amoukhle <amoukhle@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/21 19:15:35 by amoukhle          #+#    #+#             */
-/*   Updated: 2023/07/22 14:47:09 by amoukhle         ###   ########.fr       */
+/*   Updated: 2023/07/23 21:59:08 by amoukhle         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -127,7 +127,7 @@ void	ft_print_export(t_env *export_list, t_var *var)
 		{
 			write(var->std_out, "declare -x ", 11);
 			write(var->std_out, export_list->key, ft_strlen(export_list->key));
-			write(var->std_out, "\"", 1);
+			write(var->std_out, "=\"", 2);
 			write(var->std_out, export_list->val, ft_strlen(export_list->val));
 			write(var->std_out, "\"\n", 2);
 		}
