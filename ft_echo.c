@@ -6,7 +6,7 @@
 /*   By: amoukhle <amoukhle@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/01 06:26:17 by hachahbo          #+#    #+#             */
-/*   Updated: 2023/07/22 14:42:05 by amoukhle         ###   ########.fr       */
+/*   Updated: 2023/07/24 19:51:28 by amoukhle         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,29 +50,27 @@ int	ft_echo(t_list *head, t_var *var)
 	int		j;
 	char	**d_str;
 
-	i = 0;
 	j = 0;
 	d_str = head->cmd;
-	i = -1;
-	while (head->cmd[++i])
+	i = 1;
+	while (head->cmd[i])
 	{
 		if (!check_is_n_line(head->cmd[i]))
 			break ;
 		if (head->cmd[i] && check_is_n_line(head->cmd[i]))
 			j = 1;
+		i++;
 	}
-	while (head->cmd[++i])
+	while (head->cmd[i])
 	{
 		if (head->cmd[i + 1] == NULL)
-		{
 			write(var->std_out, head->cmd[i], ft_strlen(head->cmd[i]));
-			write(var->std_out, " ", 1);
-		}
 		else
 		{
 			write(var->std_out, head->cmd[i], ft_strlen(head->cmd[i]));
 			write(var->std_out, " ", 1);
 		}
+		i++;
 	}
 	if (j == 0)
 		write(var->std_out, "\n", 1);

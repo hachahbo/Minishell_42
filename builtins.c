@@ -6,13 +6,13 @@
 /*   By: amoukhle <amoukhle@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/04 20:13:17 by hachahbo          #+#    #+#             */
-/*   Updated: 2023/07/24 01:16:15 by amoukhle         ###   ########.fr       */
+/*   Updated: 2023/07/24 21:31:04 by amoukhle         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void	remove_node_2(t_env **head, char *min)
+void	 remove_node_2(t_env **head, char *min)
 {
 	t_env	*current;
 	t_env	*previous;
@@ -49,8 +49,6 @@ void	ft_unset(t_list *list, t_env *env_list)
 
 int	ft_builtins(t_list *list, t_env *env_list, t_var *var)
 {
-	(void)env_list;
-	(void)var;
 	if (!ft_strcmp(list->cmd[0], "cd") || !ft_strcmp(list->cmd[0], "/usr/bin/cd"))
 		rendering_cd(list, env_list);
 	else if (!ft_strcmp(list->cmd[0], "pwd") || !ft_strcmp(list->cmd[0], "/bin/pwd"))

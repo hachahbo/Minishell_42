@@ -6,7 +6,7 @@
 /*   By: amoukhle <amoukhle@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/19 20:55:43 by hachahbo          #+#    #+#             */
-/*   Updated: 2023/07/24 00:48:47 by amoukhle         ###   ########.fr       */
+/*   Updated: 2023/07/24 20:22:01 by amoukhle         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -253,7 +253,6 @@ t_env	*ft_lstnew_env(char *str, char **env)
 	val = ft_strchr(str, '=');
 	if (val)
 	{
-
 		val = delete_back_slash(val);
 		tmp->c = val[0];
 	}
@@ -365,8 +364,13 @@ int main(int ac, char **av, char **env)
 	t_env	*env_list;
 	int		std_in;
 
-	(void)ac;
-	(void)av;
+	if (ac != 1)
+	{
+		write (2, "bash: ", 6);
+		write (2, av[1], ft_strlen(av[1]));
+		write (2, ": No such file or directory\n", 28);
+		exit(1);
+	}
 	head = NULL;
 	env_list = NULL;
 	make_copy_env_list_char(env, &env_list);

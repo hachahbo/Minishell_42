@@ -6,7 +6,7 @@
 /*   By: amoukhle <amoukhle@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/19 23:03:57 by amoukhle          #+#    #+#             */
-/*   Updated: 2023/07/24 01:01:43 by amoukhle         ###   ########.fr       */
+/*   Updated: 2023/07/24 16:16:26 by amoukhle         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,7 @@ char *handle_env(t_list *list, t_env *env_list, int num_env)
 		return (list->content);
 	else if (list->type == ENV && list->state == GENERAL && num_env % 2 != 0
 		&& (list->next->type == QOUTE || list->next->type == DOUBLE_QUOTE))
-		return (ft_strdup(""));
+		return ("");
 	else if (list->type == ENV && (list->state == IN_DQUOTE || list->state == GENERAL))
 	{
 		if (list->next->type == WORD && num_env % 2 != 0 && serche_for_DOC(list) == 1)
