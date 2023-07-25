@@ -6,7 +6,7 @@
 /*   By: amoukhle <amoukhle@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/19 20:55:43 by hachahbo          #+#    #+#             */
-/*   Updated: 2023/07/25 12:49:37 by amoukhle         ###   ########.fr       */
+/*   Updated: 2023/07/25 13:31:07 by amoukhle         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -163,9 +163,11 @@ void	ft_change_value_of_shlvl(char *value, t_env *env_list, t_env *tm, int i)
 	lvl = ft_atoi(value) + 1;
 	tmp = ft_itoa(lvl);
 	new_shlvl = ft_strjoin("SHLVL=", tmp);
-	free(tmp);
 	free(env_list->content);
 	env_list->content = new_shlvl;
+	free(env_list->val);
+	env_list->val = ft_strdup(tmp);
+	free(tmp);
 	ft_change_all_d_s(tm, new_shlvl, i);
 }
 
