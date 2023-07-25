@@ -6,7 +6,7 @@
 /*   By: amoukhle <amoukhle@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/19 20:55:43 by hachahbo          #+#    #+#             */
-/*   Updated: 2023/07/24 20:22:01 by amoukhle         ###   ########.fr       */
+/*   Updated: 2023/07/25 11:41:02 by amoukhle         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,7 +43,7 @@ t_var *init_vars(t_env *env_list)
 }
 
 
-void	parser(t_list *head, t_env *env_list, char *input)
+void	parser(t_list *head, t_env **env_list, char *input)
 {
 	t_list	*new_list;
 	t_list	*new_list_w_s;
@@ -53,11 +53,11 @@ void	parser(t_list *head, t_env *env_list, char *input)
 	new_list = NULL;
 	new_list_w_s = NULL;
 	last_list = NULL;
-	vars = init_vars(env_list);
+	vars = init_vars(*env_list);
 	ft_make_list(input, &head, vars);
 	if (ft_valid_command(head) == 0)
 	{
-		ft_make_new_list(head, &new_list, env_list);
+		ft_make_new_list(head, &new_list, *env_list);
 		ft_make_new_list_w_s(new_list, &new_list_w_s);
 		ft_finale_list(new_list_w_s, &last_list);
 		// print_double_list(new_list);
@@ -135,7 +135,7 @@ void	ft_change_all_d_s(t_env *env_list, char *new_shlvl, int i)
 	while (env_list)
 	{
 		free(env_list->env[i]);
-		env_list->env[i] = new_shlvl;
+		env_list->env[i] = ft_strdup(new_shlvl);
 		env_list = env_list->next;
 	}
 }
@@ -331,7 +331,7 @@ void	make_copy_env_list_char(char **env, t_env **new_env_list)
 		new_env = ft_lstnew_env(str, env);
 		ft_lstadd_back_env(new_env_list, new_env);
 		free(str);
-		str = ft_strjoin(("SHLVL="), "1");
+		str = ft_strdup("SHLVL=1");
 		new_env = ft_lstnew_env(str, env);
 		ft_lstadd_back_env(new_env_list, new_env);
 		free(str);
@@ -392,7 +392,7 @@ int main(int ac, char **av, char **env)
 			exit (0);
 		}
 		if(ft_strisspace(input) == 0)
-			parser(head, env_list, input);
+			parser(head, &env_list, input);
 		else
 			free(input);
 	}

@@ -6,7 +6,7 @@
 /*   By: amoukhle <amoukhle@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/01 15:43:57 by amoukhle          #+#    #+#             */
-/*   Updated: 2023/07/22 15:06:17 by amoukhle         ###   ########.fr       */
+/*   Updated: 2023/07/25 11:21:55 by amoukhle         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,6 +23,7 @@ void	ft_pwd(t_env *env_list, t_var *var)
         write(var->std_out, str, ft_strlen(str));
         write(var->std_out, "\n", 1);
     }
+    free(str);
 }
 
 

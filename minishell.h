@@ -6,7 +6,7 @@
 /*   By: amoukhle <amoukhle@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/21 19:11:14 by hachahbo          #+#    #+#             */
-/*   Updated: 2023/07/24 01:16:03 by amoukhle         ###   ########.fr       */
+/*   Updated: 2023/07/25 11:35:35 by amoukhle         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,7 +51,7 @@ void	ft_cd(char *path);
 char	*ft_expand_value(char *str, t_env *env_list);
 int		rendering_cd(t_list *list, t_env *env_list);
 int		ft_echo(t_list *head, t_var *var);
-int		ft_builtins(t_list *list, t_env *env_list, t_var *var);
+int		ft_builtins(t_list *list, t_env **env_list, t_var *var);
 char	*handle_env(t_list *list, t_env *env_list, int num_env);
 int		serche_for_DOC(t_list *list);
 void	ft_make_new_list_w_s(t_list *new_list, t_list **new_list_w_s);
@@ -63,7 +63,7 @@ void	free_double(char **str);
 void	get_command(t_list *new_list_w_s, t_list **last_list);
 void	sit_type(t_list *list);
 void	ft_split_list(t_list **new_list_w_s, t_list **last_list, int *is_cmd, int *is_doc);
-void	parser(t_list *head, t_env *env_list, char *input);
+void	parser(t_list *head, t_env **env_list, char *input);
 void	affiche_error(void);
 int		is_DOC(t_list *list);
 char	*generate_value_of_env(char *str, char *tmp, t_list_str **list_str, t_list **new_list);
@@ -110,7 +110,7 @@ char	*ft_name_file(void);
 int		ft_num_pipe(t_list *last_list);
 char	**ft_spaces_split(char *s);
 //---------------------------| child process |----------------------------------
-void	ft_child_proccess(t_list *last_list, t_env *env_list, t_var *var, t_list_str **list_heredoc);
+void	ft_child_proccess(t_list *last_list, t_env **env_list, t_var *var, t_list_str **list_heredoc);
 void	ft_serche_for_DOC(t_list *last_list, t_env *env_list, t_var *var, t_list_str **list_heredoc);
 void	ft_serche_for_cmd(t_list **last_list);
 void	serch_for_heredoc(t_var *var, t_list_str **list_heredoc, int *other_inf);
@@ -120,9 +120,9 @@ int		ft_listchr(t_list *list, int type);
 void	ft_serche_for_heredoce(t_list *last_list, t_var *var, t_list_str **list_heredoc);
 int		ft_serche_for_redir_in(t_list *last_list);
 void	wait_childs(t_var *var, pid_t last_child);
-void	exec_child(t_list *last_list, t_env *env_list, t_var *var, int num_pipe);
+void	exec_child(t_list *last_list, t_env **env_list, t_var *var, int num_pipe);
 void	ft_position_start_end(t_list **last_list, t_list_str **list_heredoce_tmp);
-void	ft_execution(t_list *last_list, t_env *env_list, t_var *var);
+void	ft_execution(t_list *last_list, t_env **env_list, t_var *var);
 int		ft_pipe(t_var *var, int num_pipe);
 void	ft_duplicate(t_var *var);
 void	error_fork(void);
@@ -132,6 +132,7 @@ int		get_value(int value);
 void	nothing(int sig);
 void	sig_handler(int sig);
 void	nothing_minishell(int sig);
+void	print_doble_string(char **str);
 //----------------------------------ex-----------------------
 void	make_copy_env_list_char(char **env, t_env **new_env_list);
 void	ft_lstadd_back_env(t_env **lst, t_env *new);
@@ -144,5 +145,6 @@ void	ft_change_shlvl(t_env *env_list);
 void	ft_change_value_of_shlvl(char *value, t_env *env_list, t_env *tm, int i);
 int		ft_isall_string_num(char *str);
 void	ft_change_all_d_s(t_env *env_list, char *new_shlvl, int i);
-int		ft_export(t_list *head, t_env *env_list, t_var *var);
+int		ft_export(t_list *head, t_env **env_list, t_var *var);
+void	ft_unset(t_list *list, t_env **env_list);
 #endif

@@ -6,7 +6,7 @@
 /*   By: amoukhle <amoukhle@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/01 17:25:45 by amoukhle          #+#    #+#             */
-/*   Updated: 2023/07/24 01:18:24 by amoukhle         ###   ########.fr       */
+/*   Updated: 2023/07/25 10:41:00 by amoukhle         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -90,8 +90,6 @@ int ft_check_args_of_cd(t_list *head, t_env *env_list)
 		cd_change_pwd(env_list, head->cmd[1], x);
 	else
 		cd_change_pwd(env_list, head->cmd[1], x);
-		
-	
 	return (0);
 }
 int rendering_cd(t_list *list, t_env *env_list)

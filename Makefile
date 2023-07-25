@@ -6,7 +6,7 @@
 #    By: amoukhle <amoukhle@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/05/20 15:02:26 by hachahbo          #+#    #+#              #
-#    Updated: 2023/07/21 19:29:18 by amoukhle         ###   ########.fr        #
+#    Updated: 2023/07/25 11:41:31 by amoukhle         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -15,7 +15,7 @@ NAME = minishell
 # CC = cc -Wall -Werror - Wextra
 
 CC = cc
-CFLAGS = -Werror -Wall -Wextra
+CFLAGS = -Werror -Wall -Wextra #-fsanitize=address -g3
 
 OBJS = minishell.o make_list.o ft_space.o ft_echo.o \
 		d_quotes.o check_pipes.o redirections.o status.o \

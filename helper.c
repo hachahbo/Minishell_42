@@ -6,7 +6,7 @@
 /*   By: amoukhle <amoukhle@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/01 06:49:49 by hachahbo          #+#    #+#             */
-/*   Updated: 2023/07/19 03:04:52 by amoukhle         ###   ########.fr       */
+/*   Updated: 2023/07/25 11:00:17 by amoukhle         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,6 +53,18 @@ void	ft_lstclear(t_list **lst)
 		free(freed);
 	}
 	*lst = NULL;
+}
+
+void	print_doble_string(char **str)
+{
+	int i;
+
+	i = 0;
+	while (str[i])
+	{
+		printf("%s\n", str[i]);
+		i++;
+	}
 }
 
 void printlist(t_list *head)

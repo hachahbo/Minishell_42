@@ -6,7 +6,7 @@
 /*   By: amoukhle <amoukhle@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/22 16:29:59 by amoukhle          #+#    #+#             */
-/*   Updated: 2023/07/24 17:28:23 by amoukhle         ###   ########.fr       */
+/*   Updated: 2023/07/25 10:03:30 by amoukhle         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,7 +44,7 @@ int	ft_num_pipe(t_list *last_list)
 	return (n_p);
 }
 
-void	ft_execution(t_list *last_list, t_env *env_list, t_var *var)
+void	ft_execution(t_list *last_list, t_env **env_list, t_var *var)
 {
 	int	num_pipe;
 
@@ -122,7 +122,7 @@ int	ft_is_builting_cmd(t_list *last_list, t_var *var)
 	return (1);
 }
 
-void	exec_child(t_list *last_list, t_env *env_list, t_var *var, int num_pipe)
+void	exec_child(t_list *last_list, t_env **env_list, t_var *var, int num_pipe)
 {
 	pid_t		pid;
 	t_list		*list;
@@ -142,7 +142,7 @@ void	exec_child(t_list *last_list, t_env *env_list, t_var *var, int num_pipe)
 	list_heredoce_tmp = list_heredoce;
 	if (var->n_cmd == 1 && ft_is_builting_cmd(last_list, var) == 0)
 	{
-		ft_serche_for_DOC(last_list, env_list, var, &list_heredoce);
+		ft_serche_for_DOC(last_list, *env_list, var, &list_heredoce);
 		ft_serche_for_cmd(&last_list);
 		if (var->error_DOC != 1)
 			ft_builtins(last_list, env_list, var);
@@ -434,18 +434,18 @@ void	ft_serche_for_cmd(t_list **last_list)
 }
 
 
-void	ft_child_proccess(t_list *last_list, t_env *env_list, t_var *var, t_list_str **list_heredoc)
+void	ft_child_proccess(t_list *last_list, t_env **env_list, t_var *var, t_list_str **list_heredoc)
 {
 	int		j;
 	int		len_error;
 	char	**cmd;
 	DIR		*dir;
 
-	ft_serche_for_DOC(last_list, env_list, var, list_heredoc);
+	ft_serche_for_DOC(last_list, *env_list, var, list_heredoc);
 	ft_serche_for_cmd(&last_list);
 	if (last_list->type_d != WORD)
 		exit (0);
-	cmd = check_cmd(last_list, env_list);
+	cmd = check_cmd(last_list, *env_list);
 	ft_duplicate(var);
 	j = 0;
 	while (j < (var->n_cmd - 1) * 2)
@@ -454,7 +454,7 @@ void	ft_child_proccess(t_list *last_list, t_env *env_list, t_var *var, t_list_st
 		exit(127);
 	if (ft_builtins(last_list, env_list, var) == 1)
 	{
-		if (execve(cmd[0], cmd, env_list->env) == -1)
+		if (execve(cmd[0], cmd, (*env_list)->env) == -1)
 		{
 			dir = opendir(cmd[0]);
 			if (dir)

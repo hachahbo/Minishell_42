@@ -6,7 +6,7 @@
 /*   By: amoukhle <amoukhle@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/19 23:01:49 by amoukhle          #+#    #+#             */
-/*   Updated: 2023/06/20 11:40:45 by amoukhle         ###   ########.fr       */
+/*   Updated: 2023/07/25 10:52:44 by amoukhle         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,6 @@ void	free_double(char **str)
 		free(str[i]);
 		i++;
 	}
-	free(str[i]);
 	free(str);
 }
 
