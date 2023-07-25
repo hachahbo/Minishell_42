@@ -6,7 +6,7 @@
 /*   By: amoukhle <amoukhle@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/04 20:13:17 by hachahbo          #+#    #+#             */
-/*   Updated: 2023/07/25 11:50:16 by amoukhle         ###   ########.fr       */
+/*   Updated: 2023/07/25 12:28:49 by amoukhle         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,6 +33,7 @@ void	 remove_node_2(t_env **head, char *min)
 			free_double(current->env);
 			free(current->hide_path);
 			free(current);
+			return ;
 		}
 		previous = current;
 		current = current->next;
