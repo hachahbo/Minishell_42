@@ -6,7 +6,7 @@
 /*   By: amoukhle <amoukhle@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/19 23:03:57 by amoukhle          #+#    #+#             */
-/*   Updated: 2023/07/24 16:16:26 by amoukhle         ###   ########.fr       */
+/*   Updated: 2023/07/25 15:29:37 by amoukhle         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,7 +66,7 @@ char *ft_expand_value(char *str, t_env *env_list)
 			value = &env_list->content[ft_strlen(str) + 1];
 		env_list = env_list->next;
 	}
-	if (!env_list && ft_strcmp("PATH", str) == 0)
+	if (!value && ft_strcmp("PATH", str) == 0)
 		value = tmp->hide_path;
 	return (value);
 }

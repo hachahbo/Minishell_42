@@ -6,7 +6,7 @@
 /*   By: amoukhle <amoukhle@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/21 19:11:14 by hachahbo          #+#    #+#             */
-/*   Updated: 2023/07/25 11:35:35 by amoukhle         ###   ########.fr       */
+/*   Updated: 2023/07/25 15:46:38 by amoukhle         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,7 +49,7 @@ void	ft_make_new_list(t_list *head, t_list **new_list, t_env *env_list);
 void	ft_pwd(t_env *env_list, t_var *var);
 void	ft_cd(char *path);
 char	*ft_expand_value(char *str, t_env *env_list);
-int		rendering_cd(t_list *list, t_env *env_list);
+int		rendering_cd(t_list *list, t_env **env_list);
 int		ft_echo(t_list *head, t_var *var);
 int		ft_builtins(t_list *list, t_env **env_list, t_var *var);
 char	*handle_env(t_list *list, t_env *env_list, int num_env);

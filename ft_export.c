@@ -6,7 +6,7 @@
 /*   By: amoukhle <amoukhle@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/21 19:15:35 by amoukhle          #+#    #+#             */
-/*   Updated: 2023/07/25 11:06:57 by amoukhle         ###   ########.fr       */
+/*   Updated: 2023/07/25 14:43:17 by amoukhle         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -141,35 +141,37 @@ void	change_the_value(t_env **env_list, t_env *new_env)
 	char	*str =NULL;
 
 	save = *env_list;
-	while ((*env_list))
+	while (save)
 	{
-		if (!ft_strcmp((*env_list)->key, new_env->key) && new_env->c == '=')
+		if (!ft_strcmp(save->key, new_env->key) && new_env->c == '=')
 		{
 			if (new_env->plus == '+')
 			{
-				str = (*env_list)->val;
-				(*env_list)->val = ft_strjoin((*env_list)->val, new_env->val);
+				str = save->val;
+				save->val = ft_strjoin(save->val, new_env->val);
 				free(str);
 				free(new_env->val);
 				free(new_env->key);
+				free(new_env->hide_path);
 				free_double(new_env->env);
 				free(new_env->content);
 			}
 			else
 			{
-				str = (*env_list)->val;
-				(*env_list)->val = new_env->val;
+				str = save->val;
+				save->val = new_env->val;
 				free(str);
-				(*env_list)->c = '=';
-				str = (*env_list)->content;
-				(*env_list)->content = new_env->content;
+				save->c = '=';
+				str = save->content;
+				save->content = new_env->content;
 				free(str);
 				free(new_env->key);
 				free_double(new_env->env);
+				free(new_env->hide_path);
 			}
 			break ;
 		}
-		(*env_list) = (*env_list)->next;
+		save = save->next;
 	}
 	if(new_env->c != '=')
 	{
@@ -178,9 +180,9 @@ void	change_the_value(t_env **env_list, t_env *new_env)
 		free(new_env->key);
 		free(new_env->content);
 		free_double(new_env->env);
+		free(new_env->hide_path);
 	}
 	free(new_env);
-	env_list = &save;
 }
 
 void ft_print_error(char *s , t_env *new_env, char *str, t_var *var)
@@ -192,6 +194,8 @@ void ft_print_error(char *s , t_env *new_env, char *str, t_var *var)
 	free(new_env->key);
 	free(new_env->content);
 	free(new_env->val);
+	free(new_env->hide_path);
+	free_double(new_env->env);
 	free(new_env);
 }
 

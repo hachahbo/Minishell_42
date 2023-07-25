@@ -6,7 +6,7 @@
 /*   By: amoukhle <amoukhle@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/04 20:13:17 by hachahbo          #+#    #+#             */
-/*   Updated: 2023/07/25 12:28:49 by amoukhle         ###   ########.fr       */
+/*   Updated: 2023/07/25 15:44:47 by amoukhle         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,8 +16,10 @@ void	 remove_node_2(t_env **head, char *min)
 {
 	t_env	*current;
 	t_env	*previous;
+	t_env	*env_tmp;
 
 	previous = NULL;
+	env_tmp = *head;
 	current = *head;
 	while (current != NULL)
 	{
@@ -33,12 +35,20 @@ void	 remove_node_2(t_env **head, char *min)
 			free_double(current->env);
 			free(current->hide_path);
 			free(current);
-			return ;
+			break;
 		}
 		previous = current;
 		current = current->next;
 	}
-	
+	if (!ft_strcmp("PATH", min))
+	{
+		while (env_tmp)
+		{
+			free(env_tmp->hide_path);
+			env_tmp->hide_path = NULL;
+			env_tmp = env_tmp->next;
+		}
+	}
 }
 
 void	ft_unset(t_list *list, t_env **env_list)
@@ -56,7 +66,7 @@ void	ft_unset(t_list *list, t_env **env_list)
 int	ft_builtins(t_list *list, t_env **env_list, t_var *var)
 {
 	if (!ft_strcmp(list->cmd[0], "cd") || !ft_strcmp(list->cmd[0], "/usr/bin/cd"))
-		rendering_cd(list, *env_list);
+		rendering_cd(list, env_list);
 	else if (!ft_strcmp(list->cmd[0], "pwd") || !ft_strcmp(list->cmd[0], "/bin/pwd"))
 		ft_pwd(*env_list, var);
 	else if (!ft_strcmp(list->cmd[0], "echo") || !ft_strcmp(list->cmd[0], "/bin/echo"))
