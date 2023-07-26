@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hachahbo <hachahbo@student.42.fr>          +#+  +:+       +#+        */
+/*   By: amoukhle <amoukhle@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/19 20:55:43 by hachahbo          #+#    #+#             */
-/*   Updated: 2023/07/26 14:01:54 by hachahbo         ###   ########.fr       */
+/*   Updated: 2023/07/26 14:57:58 by amoukhle         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,8 @@ int ft_valid_command(t_list *head)
 	if(check_d_quote(head))
 		return (1);
 	if(check_redirection(head))
+		return (1);
+	if(check_num_herdoc(head))
 		return (1);
 	if(check_pipes(head))
 		return (1);
@@ -190,7 +192,7 @@ void	ft_change_shlvl(t_env *env_list)
 		env_list = env_list->next;
 		i++;
 	}
-	if (!value || ft_isall_string_num(value))
+	if (!value)
 		return ;
 	ft_change_value_of_shlvl(value, env_list, tm, i);
 }

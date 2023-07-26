@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   redirections.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hachahbo <hachahbo@student.42.fr>          +#+  +:+       +#+        */
+/*   By: amoukhle <amoukhle@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/01 06:34:56 by hachahbo          #+#    #+#             */
-/*   Updated: 2023/06/01 06:53:02 by hachahbo         ###   ########.fr       */
+/*   Updated: 2023/07/26 15:04:53 by amoukhle         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,15 +25,45 @@ int is_redirection(char *str)
 	return (0);
 }
 
+
+int	check_num_herdoc(t_list *head)
+{
+	int	num;
+
+	num = 0;
+	while (head)
+	{
+		if (head->type == HERE_DOC)
+			num++;
+		head = head->next;
+	}
+	if (num > 16)
+	{
+		printf("bash: maximum here-document count exceeded\n");
+		return (1);
+	}
+	return (0);
+}
+
 int check_redirection(t_list *head)
 {
 	while(head)
 	{
-		if(is_redirection(head->content) 
-			&& (!head->next || ft_empty(head->next)))
+		if(is_redirection(head->content))
 		{
-			printf("syntax Error\n");
-			return (1);
+			head = head->next;
+			while (head && is_spaces(head->content))
+				head = head->next;
+			if(!head || head->type == PIPE_LINE || is_redirection(head->content))
+			{
+				if (!head)
+					printf("bash: syntax error near unexpected token `newline'\n");
+				else if (head->type == PIPE_LINE)
+					printf("bash: syntax error near unexpected token `|'\n");
+				else if (is_redirection(head->content))
+					printf("bash: syntax error near unexpected token `%s'\n", head->content);
+				return (1);
+			}
 		}
 		head = head ->next;
 	}

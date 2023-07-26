@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hachahbo <hachahbo@student.42.fr>          +#+  +:+       +#+        */
+/*   By: amoukhle <amoukhle@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/21 19:11:14 by hachahbo          #+#    #+#             */
-/*   Updated: 2023/07/26 13:58:55 by hachahbo         ###   ########.fr       */
+/*   Updated: 2023/07/26 14:56:18 by amoukhle         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,6 +40,7 @@ int		check_d_quote(t_list *head);
 int		ft_empty(t_list *head);
 int		check_pipes(t_list *head);
 int		check_redirection(t_list *head);
+int		check_num_herdoc(t_list *head);
 void	ft_status(t_list *new, int *flag1, int *flag2);
 char	*check_data(char *input, int *start, int *end);
 void	printlist(t_list *head);
