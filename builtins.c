@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   builtins.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: amoukhle <amoukhle@student.42.fr>          +#+  +:+       +#+        */
+/*   By: hachahbo <hachahbo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/04 20:13:17 by hachahbo          #+#    #+#             */
-/*   Updated: 2023/07/25 15:44:47 by amoukhle         ###   ########.fr       */
+/*   Updated: 2023/07/26 13:58:23 by hachahbo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,21 +51,25 @@ void	 remove_node_2(t_env **head, char *min)
 	}
 }
 
-void	ft_unset(t_list *list, t_env **env_list)
+void	ft_unset(t_list *list, t_env **env_list, t_var *var)
 {
 	int	i;
+	t_env *new_env;
 
 	i = 1;
 	while (list->cmd[i])
 	{
-		remove_node_2(env_list, list->cmd[i]);
+		new_env = ft_lstnew_env(list->cmd[i], NULL);
+		if (!check_is_valid(new_env, var))
+			remove_node_2(env_list, list->cmd[i]);
 		i++;
 	}
 }
 
 int	ft_builtins(t_list *list, t_env **env_list, t_var *var)
 {
-	if (!ft_strcmp(list->cmd[0], "cd") || !ft_strcmp(list->cmd[0], "/usr/bin/cd"))
+	if (!ft_strcmp(list->cmd[0], "cd") || !ft_strcmp(list->cmd[0], "rm")
+		|| !ft_strcmp(list->cmd[0], "/usr/bin/cd"))
 		rendering_cd(list, env_list);
 	else if (!ft_strcmp(list->cmd[0], "pwd") || !ft_strcmp(list->cmd[0], "/bin/pwd"))
 		ft_pwd(*env_list, var);
@@ -74,7 +78,7 @@ int	ft_builtins(t_list *list, t_env **env_list, t_var *var)
 	else if (!ft_strcmp(list->cmd[0], "env") || !ft_strcmp(list->cmd[0], "/usr/bin/env"))
 		ft_env(*env_list, var);
 	else if (!ft_strcmp(list->cmd[0], "unset"))
-		ft_unset(list, env_list);
+		ft_unset(list, env_list, var);
 	else if (!ft_strcmp(list->cmd[0], "export"))
 		ft_export(list, env_list, var);
 	else if (!ft_strcmp(list->cmd[0], "exit"))

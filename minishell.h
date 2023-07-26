@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: amoukhle <amoukhle@student.42.fr>          +#+  +:+       +#+        */
+/*   By: hachahbo <hachahbo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/21 19:11:14 by hachahbo          #+#    #+#             */
-/*   Updated: 2023/07/25 15:46:38 by amoukhle         ###   ########.fr       */
+/*   Updated: 2023/07/26 13:58:55 by hachahbo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,7 @@
 # include <dirent.h>
 #include <termios.h>
 # include <readline/readline.h>
+#include <sys/stat.h>
 # include <readline/history.h>
 # include "libft/libft.h"
 
@@ -109,6 +110,7 @@ void	ft_delete_here_doc(char *name_file);
 char	*ft_name_file(void);
 int		ft_num_pipe(t_list *last_list);
 char	**ft_spaces_split(char *s);
+int     check_is_valid(t_env *new_env, t_var *var);
 //---------------------------| child process |----------------------------------
 void	ft_child_proccess(t_list *last_list, t_env **env_list, t_var *var, t_list_str **list_heredoc);
 void	ft_serche_for_DOC(t_list *last_list, t_env *env_list, t_var *var, t_list_str **list_heredoc);
@@ -146,5 +148,5 @@ void	ft_change_value_of_shlvl(char *value, t_env *env_list, t_env *tm, int i);
 int		ft_isall_string_num(char *str);
 void	ft_change_all_d_s(t_env *env_list, char *new_shlvl, int i);
 int		ft_export(t_list *head, t_env **env_list, t_var *var);
-void	ft_unset(t_list *list, t_env **env_list);
+void    ft_unset(t_list *list, t_env **env_list, t_var *var);
 #endif
