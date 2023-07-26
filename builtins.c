@@ -6,7 +6,7 @@
 /*   By: hachahbo <hachahbo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/04 20:13:17 by hachahbo          #+#    #+#             */
-/*   Updated: 2023/07/26 13:58:23 by hachahbo         ###   ########.fr       */
+/*   Updated: 2023/07/26 17:02:55 by hachahbo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,8 +66,37 @@ void	ft_unset(t_list *list, t_env **env_list, t_var *var)
 	}
 }
 
+int	ft_check_after_exit(t_list *head)
+{
+	int	i;
+
+	i = 1;
+	while(head->cmd[i])
+	{
+		if(i > 1)
+		{
+			printf("bash: exit: too many arguments\n");
+			return(0);
+		}
+		i++;
+	}
+	i = 1;
+	while(head->cmd[1][i])
+	{
+		if(!ft_isdigit(head->cmd[1][i]))
+		{
+			printf("bash: exit: %s: numeric argument required", head->cmd[1]);
+			return (0);
+		}
+		i++;
+	}
+	return (1);
+}
 int	ft_builtins(t_list *list, t_env **env_list, t_var *var)
 {
+	unsigned char x;
+
+	x = 0;
 	if (!ft_strcmp(list->cmd[0], "cd") || !ft_strcmp(list->cmd[0], "rm")
 		|| !ft_strcmp(list->cmd[0], "/usr/bin/cd"))
 		rendering_cd(list, env_list);
@@ -84,7 +113,13 @@ int	ft_builtins(t_list *list, t_env **env_list, t_var *var)
 	else if (!ft_strcmp(list->cmd[0], "exit"))
 	{
 		printf("exit\n");
-		exit(0);
+		if(list->cmd[1])
+		{
+			if(ft_check_after_exit(list))
+				x = ft_atoi(list->cmd[1]);
+		}
+		// if()
+		exit(x);
 	}
 	else
 		return (1);
