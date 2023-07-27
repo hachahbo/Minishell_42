@@ -6,7 +6,7 @@
 /*   By: hachahbo <hachahbo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/04 20:13:17 by hachahbo          #+#    #+#             */
-/*   Updated: 2023/07/27 10:12:57 by hachahbo         ###   ########.fr       */
+/*   Updated: 2023/07/27 13:51:30 by hachahbo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,11 +57,18 @@ void	ft_unset(t_list *list, t_env **env_list, t_var *var)
 	t_env *new_env;
 
 	i = 1;
+	(void)var;
 	while (list->cmd[i])
 	{
 		new_env = ft_lstnew_env(list->cmd[i], NULL);
-		if (!check_is_valid(new_env, var))
+		if (check_is_valid(new_env, var))
 			remove_node_2(env_list, list->cmd[i]);
+		free(new_env->key);
+		free(new_env->content);
+		free(new_env->val);
+		free(new_env->hide_path);
+		free_double(new_env->env);
+		free(new_env);
 		i++;
 	}
 }

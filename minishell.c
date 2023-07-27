@@ -6,7 +6,7 @@
 /*   By: hachahbo <hachahbo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/19 20:55:43 by hachahbo          #+#    #+#             */
-/*   Updated: 2023/07/27 09:38:33 by hachahbo         ###   ########.fr       */
+/*   Updated: 2023/07/27 13:48:48 by hachahbo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -399,7 +399,7 @@ int main(int ac, char **av, char **env)
 			parser(head, &env_list, input);
 		else
 			free(input);
-		system("leaks minishell");
+		// system("leaks minishell")
 	}
 	return (0);
 }
