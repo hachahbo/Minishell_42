@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_atoi.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: amoukhle <amoukhle@student.42.fr>          +#+  +:+       +#+        */
+/*   By: hachahbo <hachahbo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/07 04:14:20 by hachahbo          #+#    #+#             */
-/*   Updated: 2023/07/16 18:35:43 by amoukhle         ###   ########.fr       */
+/*   Updated: 2023/07/27 16:50:45 by hachahbo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,12 +31,12 @@ void	ft_sign_space(char *str, int *i, int *sign)
 	}
 }
 
-int	ft_atoi(const char *str)
+unsigned long long int ft_atoi(const char *str)
 {
-	long int	res;
+	unsigned long int	res;
 	int			sign;
 	int			i;
-	long int	prv;
+	unsigned long  int	prv;
 
 	i = 0;
 	res = 0;

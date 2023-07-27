@@ -6,7 +6,7 @@
 /*   By: hachahbo <hachahbo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/04 20:13:17 by hachahbo          #+#    #+#             */
-/*   Updated: 2023/07/27 13:51:30 by hachahbo         ###   ########.fr       */
+/*   Updated: 2023/07/27 16:49:58 by hachahbo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,13 +62,15 @@ void	ft_unset(t_list *list, t_env **env_list, t_var *var)
 	{
 		new_env = ft_lstnew_env(list->cmd[i], NULL);
 		if (check_is_valid(new_env, var))
+		{
 			remove_node_2(env_list, list->cmd[i]);
-		free(new_env->key);
-		free(new_env->content);
-		free(new_env->val);
-		free(new_env->hide_path);
-		free_double(new_env->env);
-		free(new_env);
+			free_double(new_env->env);
+			free(new_env->key);
+			free(new_env->content);
+			free(new_env->val);
+			free(new_env->hide_path);
+			free(new_env);
+		}
 		i++;
 	}
 }
@@ -102,8 +104,10 @@ int	ft_check_after_exit(t_list *head)
 int	ft_builtins(t_list *list, t_env **env_list, t_var *var)
 {
 	unsigned char x;
+	unsigned long long a;
 
 	x = 0;
+	a = 0;
 	if (!ft_strcmp(list->cmd[0], "cd") || !ft_strcmp(list->cmd[0], "rm")
 		|| !ft_strcmp(list->cmd[0], "/usr/bin/cd"))
 		rendering_cd(list, env_list);
@@ -123,7 +127,13 @@ int	ft_builtins(t_list *list, t_env **env_list, t_var *var)
 		if(list->cmd[1])
 		{
 			if(ft_check_after_exit(list))
-				x = ft_atoi(list->cmd[1]);
+				a = ft_atoi(list->cmd[1]);
+			if(a > 9223372036854775807)
+			{
+				printf("bash: exit: %s: numeric argument required", list->cmd[1]);
+			}
+			else
+				x = a;
 		}
 		exit(x);
 	}
