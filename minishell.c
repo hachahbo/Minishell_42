@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: amoukhle <amoukhle@student.42.fr>          +#+  +:+       +#+        */
+/*   By: hachahbo <hachahbo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/19 20:55:43 by hachahbo          #+#    #+#             */
-/*   Updated: 2023/07/26 14:57:58 by amoukhle         ###   ########.fr       */
+/*   Updated: 2023/07/27 09:38:33 by hachahbo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,7 +66,6 @@ void	parser(t_list *head, t_env **env_list, char *input)
 		// printlist(head);
 		ft_execution(last_list, env_list, vars);
 		// ft_builtins(last_list, env_list);
-			
 		ft_lstclear(&head);
 		ft_lstclear(&new_list);
 		ft_lstclear(&new_list_w_s);
@@ -395,10 +394,12 @@ int main(int ac, char **av, char **env)
 			clear_history();
 			exit (0);
 		}
+		
 		if(ft_strisspace(input) == 0)
 			parser(head, &env_list, input);
 		else
 			free(input);
+		system("leaks minishell");
 	}
 	return (0);
 }

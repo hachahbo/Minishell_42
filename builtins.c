@@ -6,7 +6,7 @@
 /*   By: hachahbo <hachahbo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/04 20:13:17 by hachahbo          #+#    #+#             */
-/*   Updated: 2023/07/26 17:02:55 by hachahbo         ###   ########.fr       */
+/*   Updated: 2023/07/27 10:12:57 by hachahbo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -118,7 +118,6 @@ int	ft_builtins(t_list *list, t_env **env_list, t_var *var)
 			if(ft_check_after_exit(list))
 				x = ft_atoi(list->cmd[1]);
 		}
-		// if()
 		exit(x);
 	}
 	else
