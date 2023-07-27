@@ -6,20 +6,22 @@
 /*   By: amoukhle <amoukhle@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/19 23:03:57 by amoukhle          #+#    #+#             */
-/*   Updated: 2023/07/25 15:29:37 by amoukhle         ###   ########.fr       */
+/*   Updated: 2023/07/28 00:19:00 by amoukhle         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-char	*generate_value_of_env(char *str, char *tmp, t_list_str **list_str, t_list **new_list)
+char	*generate_value_of_env(char *str, char *tmp,
+				t_list_str **list_str, t_list **new_list)
 {
 	int		i;
 	char	**str_split;
 
 	str_split = ft_spaces_split(tmp);
+	free(tmp);
 	i = 0;
-	while(str_split[i] && str_split[i + 1])
+	while (str_split[i] && str_split[i + 1])
 	{
 		str = ft_strjoin(str, str_split[i]);
 		list_stradd_back(list_str, new_list_str(str, 0));
@@ -33,26 +35,36 @@ char	*generate_value_of_env(char *str, char *tmp, t_list_str **list_str, t_list 
 	return (str);
 }
 
-char *handle_env(t_list *list, t_env *env_list, int num_env)
+char	*handle_env(t_list *list, t_env *env_list, int num_env)
 {
+	char	*str;
+
 	if ((list->type == ENV && list->state == GENERAL
-		&& (list->next == NULL || list->next->type == WHITE_SPACE))
+			&& (list->next == NULL || list->next->type == WHITE_SPACE))
 		|| (list->type == ENV && list->state == IN_QUOTE))
 		return (list->content);
 	else if (list->type == ENV && list->state == GENERAL && num_env % 2 != 0
 		&& (list->next->type == QOUTE || list->next->type == DOUBLE_QUOTE))
-		return ("");
-	else if (list->type == ENV && (list->state == IN_DQUOTE || list->state == GENERAL))
+		return (ft_strdup(""));
+	else if (list->type == ENV && (list->state == IN_DQUOTE
+			|| list->state == GENERAL))
 	{
-		if (list->next->type == WORD && num_env % 2 != 0 && serche_for_DOC(list) == 1)
-				return (ft_expand_value(list->next->content, env_list));
-		else if (list->next->type == Q_MARK && num_env % 2 != 0 && serche_for_DOC(list) == 1)
-				return (ft_itoa(state_exit));
+		if (list->next->type == WORD && num_env % 2 != 0
+			&& serche_for_doc(list) == 1)
+		{
+			str = ft_expand_value(list->next->content, env_list);
+			if (str)
+				return (ft_strdup(str));
+			return (str);
+		}
+		else if (list->next->type == Q_MARK && num_env % 2 != 0
+			&& serche_for_doc(list) == 1)
+			return (ft_itoa(g_state_exit));
 	}
 	return (list->content);
 }
 
-char *ft_expand_value(char *str, t_env *env_list)
+char	*ft_expand_value(char *str, t_env *env_list)
 {
 	char	*value;
 	t_env	*tmp;

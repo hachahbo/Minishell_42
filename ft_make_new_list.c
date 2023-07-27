@@ -6,7 +6,7 @@
 /*   By: amoukhle <amoukhle@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/19 23:06:26 by amoukhle          #+#    #+#             */
-/*   Updated: 2023/07/21 22:15:25 by amoukhle         ###   ########.fr       */
+/*   Updated: 2023/07/27 23:21:30 by amoukhle         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 void	ft_make_new_list(t_list *head, t_list **new_list, t_env *env_list)
 {
-	t_var	var;
+	t_var		var;
 	t_list_str	*list_str;
 
 	list_str = NULL;
@@ -25,10 +25,7 @@ void	ft_make_new_list(t_list *head, t_list **new_list, t_env *env_list)
 		var.in_join = 0;
 		var.str = NULL;
 		if (is_word(head))
-		{
-			
 			var.str = head->content;
-		}
 		while (head && !join_node(head))
 		{
 			creat_word(head, new_list, &list_str, &var);
@@ -38,15 +35,15 @@ void	ft_make_new_list(t_list *head, t_list **new_list, t_env *env_list)
 		if (var.str)
 			add_node(new_list, var.str, var.in_join);
 		if (var.in_join == 0 && head)
-		{
 			head = head->next;
-		}
 	}
 	list_strclear(&list_str);
 }
-void	creat_word(t_list *head, t_list **new_list, t_list_str	**list_str, t_var *var)
+
+void	creat_word(t_list *head, t_list **new_list,
+				t_list_str	**list_str, t_var *var)
 {
-	char *tmp;
+	char	*tmp;
 
 	var->skip = 0;
 	if (!skip_node(head, var->num_env))
@@ -68,6 +65,7 @@ void	creat_word(t_list *head, t_list **new_list, t_list_str	**list_str, t_var *v
 	else if (!var->skip)
 		var->str = join_list_str(var->str, head->content, list_str);
 }
+
 char	*join_list_str(char *s1, char *s2, t_list_str **list_str)
 {
 	s1 = ft_strjoin(s1, s2);

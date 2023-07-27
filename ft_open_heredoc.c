@@ -6,7 +6,7 @@
 /*   By: amoukhle <amoukhle@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/20 21:30:36 by amoukhle          #+#    #+#             */
-/*   Updated: 2023/07/19 01:38:31 by amoukhle         ###   ########.fr       */
+/*   Updated: 2023/07/27 23:56:25 by amoukhle         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,7 +64,7 @@ char	*ft_name_file(void)
 	static int	i;
 	char		*name;
 	char		*num;
-	
+
 	num = ft_itoa(i++);
 	name = ft_strjoin("/tmp/here_doc", num);
 	free(num);

@@ -6,7 +6,7 @@
 /*   By: amoukhle <amoukhle@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/22 15:53:51 by amoukhle          #+#    #+#             */
-/*   Updated: 2023/06/22 21:47:15 by amoukhle         ###   ########.fr       */
+/*   Updated: 2023/07/27 23:54:27 by amoukhle         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,8 +31,9 @@ void	ft_skip_node_heredoc(t_list *list, t_var *var)
 
 int	skip_node_delimiter(t_list *list, t_var *var)
 {
-	if (((list->type == WORD || list->type == Q_MARK) && list->prev && list->prev->type == ENV
-		&& var->num_env % 2 != 0))
+	if (((list->type == WORD || list->type == Q_MARK)
+			&& list->prev && list->prev->type == ENV
+			&& var->num_env % 2 != 0))
 		return (0);
 	return (1);
 }
@@ -42,6 +43,7 @@ void	ft_skip_node_delimiter(t_var *var)
 	var->num_env = 0;
 	var->skip = 1;
 }
+
 void	ft_delete_here_doc(char *name_file)
 {
 	int	status;

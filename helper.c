@@ -6,22 +6,23 @@
 /*   By: amoukhle <amoukhle@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/01 06:49:49 by hachahbo          #+#    #+#             */
-/*   Updated: 2023/07/25 11:00:17 by amoukhle         ###   ########.fr       */
+/*   Updated: 2023/07/28 00:06:33 by amoukhle         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-int    ft_strcmp(char *s1, char *s2)
+int	ft_strcmp(char *s1, char *s2)
 {
-	int i;
+	int	i;
+
 	i = 0;
-	while(s1[i] && s2[i] && s1[i] == s2 [i])
+	while (s1[i] && s2[i] && s1[i] == s2 [i])
 		i++;
-	return(s1[i] - s2[i]);
+	return (s1[i] - s2[i]);
 }
 
-void list_strclear(t_list_str **lst)
+void	list_strclear(t_list_str **lst)
 {
 	t_list_str	*temp;
 	t_list_str	*freed;
@@ -55,59 +56,14 @@ void	ft_lstclear(t_list **lst)
 	*lst = NULL;
 }
 
-void	print_doble_string(char **str)
-{
-	int i;
-
-	i = 0;
-	while (str[i])
-	{
-		printf("%s\n", str[i]);
-		i++;
-	}
-}
-
-void printlist(t_list *head)
-{
-	printf("command			state			token\n");
-	while(head)
-	{
-		printf("%s			%d			%d\n", head->content, head->state, head->type);
-		head= head->next;
-	}
-	printf("\n");
-}
-
-void print_double_list(t_list *head)
+int	ft_empty(t_list *head)
 {
 	int	i;
 
 	i = 0;
-	while(head)
-	{
-		while (head->cmd[i])
-		{
-			printf("str: [%s]\n",head->cmd[i]);
-			i++;
-		}
-		i = 0;
-		// printf("         %d", head->type_d);
-		// printf("\n");
+	while (head->next)
 		head = head->next;
-	}
-	printf("\n");
-}
-
-int ft_empty(t_list *head)
-{
-	int i;
-
-	i = 0;
-	while(head->next)
-	{
-		head = head->next;
-	}
-	if(is_spaces(head->content) && !head->next)
+	if (is_spaces(head->content) && !head->next)
 		return (1);
 	return (0);
 }

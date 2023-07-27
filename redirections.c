@@ -6,25 +6,24 @@
 /*   By: amoukhle <amoukhle@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/01 06:34:56 by hachahbo          #+#    #+#             */
-/*   Updated: 2023/07/26 15:04:53 by amoukhle         ###   ########.fr       */
+/*   Updated: 2023/07/28 00:15:49 by amoukhle         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-int is_redirection(char *str)
+int	is_redirection(char *str)
 {
-	if(!ft_strcmp(str, "<<"))
+	if (!ft_strcmp(str, "<<"))
 		return (1);
-	if(!ft_strcmp(str, "<"))
+	if (!ft_strcmp(str, "<"))
 		return (1);
-	if(!ft_strcmp(str, ">>"))
+	if (!ft_strcmp(str, ">>"))
 		return (1);
-	if(!ft_strcmp(str, ">"))
+	if (!ft_strcmp(str, ">"))
 		return (1);
 	return (0);
 }
-
 
 int	check_num_herdoc(t_list *head)
 {
@@ -45,23 +44,35 @@ int	check_num_herdoc(t_list *head)
 	return (0);
 }
 
-int check_redirection(t_list *head)
+void	print_sysntax_error(t_list *head)
 {
-	while(head)
+	if (!head)
 	{
-		if(is_redirection(head->content))
+		printf("bash: syntax error near unexpected ");
+		printf("token `newline'\n");
+	}
+	else if (head->type == PIPE_LINE)
+		printf("bash: syntax error near unexpected token `|'\n");
+	else if (is_redirection(head->content))
+	{
+		printf("bash: syntax error near unexpected token ");
+		printf("`%s'\n", head->content);
+	}
+}
+
+int	check_redirection(t_list *head)
+{
+	while (head)
+	{
+		if (is_redirection(head->content))
 		{
 			head = head->next;
 			while (head && is_spaces(head->content))
 				head = head->next;
-			if(!head || head->type == PIPE_LINE || is_redirection(head->content))
+			if (!head || head->type == PIPE_LINE
+				|| is_redirection(head->content))
 			{
-				if (!head)
-					printf("bash: syntax error near unexpected token `newline'\n");
-				else if (head->type == PIPE_LINE)
-					printf("bash: syntax error near unexpected token `|'\n");
-				else if (is_redirection(head->content))
-					printf("bash: syntax error near unexpected token `%s'\n", head->content);
+				print_sysntax_error(head);
 				return (1);
 			}
 		}

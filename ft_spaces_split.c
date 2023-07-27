@@ -6,7 +6,7 @@
 /*   By: amoukhle <amoukhle@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/14 07:43:51 by amoukhle          #+#    #+#             */
-/*   Updated: 2023/07/14 07:51:59 by amoukhle         ###   ########.fr       */
+/*   Updated: 2023/07/28 00:00:57 by amoukhle         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,7 +45,7 @@ static void	ft_skip(char const *s, size_t *start, size_t *end)
 		*start = *start + 1;
 	*end = *start;
 	while (s[*end] != ' ' && s[*end] != '\t' && s[*end] != '\0')
-			*end = *end + 1;
+		*end = *end + 1;
 }
 
 char	**ft_spaces_split(char *s)

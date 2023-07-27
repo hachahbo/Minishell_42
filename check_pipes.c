@@ -6,15 +6,15 @@
 /*   By: amoukhle <amoukhle@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/01 06:31:48 by hachahbo          #+#    #+#             */
-/*   Updated: 2023/07/26 15:06:13 by amoukhle         ###   ########.fr       */
+/*   Updated: 2023/07/27 23:41:42 by amoukhle         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-int check_pipes(t_list *head)
+int	check_pipes(t_list *head)
 {
-	int x;
+	int	x;
 
 	x = 0;
 	while (head)
@@ -24,7 +24,7 @@ int check_pipes(t_list *head)
 		if (head->type == PIPE_LINE)
 		{
 			head = head->next;
-			while(head && is_spaces(head->content))
+			while (head && is_spaces(head->content))
 				head = head->next;
 			if (!head || head->type == PIPE_LINE || x == 0)
 			{

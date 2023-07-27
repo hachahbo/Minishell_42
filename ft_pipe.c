@@ -1,42 +1,45 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   d_quotes.c                                         :+:      :+:    :+:   */
+/*   ft_pipe.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: amoukhle <amoukhle@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/06/01 06:28:18 by hachahbo          #+#    #+#             */
-/*   Updated: 2023/07/27 23:44:55 by amoukhle         ###   ########.fr       */
+/*   Created: 2023/07/27 22:46:25 by amoukhle          #+#    #+#             */
+/*   Updated: 2023/07/27 22:46:57 by amoukhle         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-int	check_d_quote(t_list *head)
+int	ft_pipe(t_var *var, int num_pipe)
 {
-	int		x;
-	int		i;
-	t_list	*help;
+	int	i;
 
-	x = 0;
-	help = head;
-	while (head)
-	{
-		if (ft_strcmp(head->content, "\"") == 0 && head->state == GENERAL)
-			x++;
-		head = head ->next;
-	}
 	i = 0;
-	while (help)
+	while (i < num_pipe)
 	{
-		if (ft_strcmp(help->content, "\'") == 0 && help->state == GENERAL)
-			i++;
-		help = help ->next;
-	}
-	if ((x % 2 != 0) || (i % 2 != 0))
-	{
-		printf("syntax error\n");
-		return (1);
+		if (pipe(var->fd + i * 2) == -1)
+		{
+			write (2, "Error: Failed to pipe\n", 22);
+			free(var->fd);
+			return (1);
+		}
+		i++;
 	}
 	return (0);
+}
+
+int	ft_num_pipe(t_list *last_list)
+{
+	int	n_p;
+
+	n_p = 0;
+	while (last_list)
+	{
+		if (last_list->type_d == PIPE_LINE)
+			n_p++;
+		last_list = last_list->next;
+	}
+	return (n_p);
 }

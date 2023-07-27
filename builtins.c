@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   builtins.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hachahbo <hachahbo@student.42.fr>          +#+  +:+       +#+        */
+/*   By: amoukhle <amoukhle@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/04 20:13:17 by hachahbo          #+#    #+#             */
-/*   Updated: 2023/07/27 16:49:58 by hachahbo         ###   ########.fr       */
+/*   Updated: 2023/07/28 00:18:54 by amoukhle         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -101,6 +101,7 @@ int	ft_check_after_exit(t_list *head)
 	}
 	return (1);
 }
+
 int	ft_builtins(t_list *list, t_env **env_list, t_var *var)
 {
 	unsigned char x;
@@ -129,16 +130,33 @@ int	ft_builtins(t_list *list, t_env **env_list, t_var *var)
 			if(ft_check_after_exit(list))
 				a = ft_atoi(list->cmd[1]);
 			if(a > 9223372036854775807)
-			{
 				printf("bash: exit: %s: numeric argument required", list->cmd[1]);
-			}
-			else
-				x = a;
+			x = a;
 		}
 		exit(x);
 	}
 	else
 		return (1);
-	state_exit = 0;
+	g_state_exit = 0;
 	return (0);
+}
+
+int	ft_is_builting_cmd(t_list *last_list, t_var *var)
+{
+	if (ft_serche_in_list(last_list, "/usr/bin/cd") == 0
+		|| ft_serche_in_list(last_list, "cd") == 0
+		|| ft_serche_in_list(last_list, "/bin/pwd") == 0
+		|| ft_serche_in_list(last_list, "pwd") == 0
+		|| ft_serche_in_list(last_list, "/usr/bin/env") == 0
+		|| ft_serche_in_list(last_list, "env") == 0
+		|| ft_serche_in_list(last_list, "/bin/echo") == 0
+		|| ft_serche_in_list(last_list, "echo") == 0
+		|| ft_serche_in_list(last_list, "unset") == 0
+		|| ft_serche_in_list(last_list, "export") == 0
+		|| ft_serche_in_list(last_list, "exit") == 0)
+	{
+		var->is_built = 1;
+		return (0);
+	}
+	return (1);
 }

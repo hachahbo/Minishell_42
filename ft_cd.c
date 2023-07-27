@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_cd.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hachahbo <hachahbo@student.42.fr>          +#+  +:+       +#+        */
+/*   By: amoukhle <amoukhle@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/01 17:25:45 by amoukhle          #+#    #+#             */
-/*   Updated: 2023/07/26 14:22:21 by hachahbo         ###   ########.fr       */
+/*   Updated: 2023/07/27 21:30:45 by amoukhle         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,9 +14,8 @@
 
 void	change_the_PWD(t_env **env_list)
 {
-	t_env *save;
-	char *help;
-	// char *str;
+	t_env	*save;
+	char	*help;
 
 	save = *env_list;
 	while(save)
@@ -30,7 +29,7 @@ void	change_the_PWD(t_env **env_list)
 				save->c = '=';
 				free(save->content);
 				save->content = ft_strjoin("PWD=", save->val);
-				free(help);	
+				free(help);
 			}
 			else
 			{
@@ -47,10 +46,11 @@ void	change_the_PWD(t_env **env_list)
 
 void	change_the_OLDPWD(t_env **env_list)
 {
-	t_env *save;
-	char *str;
-	char *str2;
-	char *help;
+	t_env	*save;
+	char	*str;
+	char	*str2;
+	char	*help;
+
 	save = *env_list;
 	while(save)
 	{

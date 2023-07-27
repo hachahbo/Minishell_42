@@ -6,13 +6,13 @@
 /*   By: amoukhle <amoukhle@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/20 11:29:40 by amoukhle          #+#    #+#             */
-/*   Updated: 2023/07/22 12:43:53 by amoukhle         ###   ########.fr       */
+/*   Updated: 2023/07/27 23:56:58 by amoukhle         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void	ft_msg_null_DOC(t_list *node, t_var *var)
+void	ft_msg_null_doc(t_list *node, t_var *var)
 {
 	write(2, "bash: ", 6);
 	write(2, node->cmd[1], ft_strlen(node->cmd[1]));
@@ -40,23 +40,23 @@ void	ft_msg_error_infile(char *str_DOC, t_var *var)
 int	ft_open_infile(t_list *node, t_var *var, t_env *env_list)
 {
 	t_list		*list;
-	char		*str_DOC;
+	char		*str_doc;
 	t_list_str	*list_str;
 	int			infile;
-	
+
 	list = NULL;
 	list_str = NULL;
 	infile = -1;
 	ft_init_var(var);
 	ft_make_list(node->cmd[1], &list, var);
-	str_DOC = get_string_DOC(list, var, env_list, &list_str);
-	if (!str_DOC)
-		ft_msg_null_DOC(node, var);
+	str_doc = get_string_doc(list, var, env_list, &list_str);
+	if (!str_doc)
+		ft_msg_null_doc(node, var);
 	if (var->error_DOC != 1)
 	{
-		infile = open(str_DOC, O_RDONLY, 0777);
+		infile = open(str_doc, O_RDONLY, 0777);
 		if (infile == -1)
-			ft_msg_error_infile(str_DOC, var);
+			ft_msg_error_infile(str_doc, var);
 	}
 	ft_lstclear(&list);
 	list_strclear(&list_str);

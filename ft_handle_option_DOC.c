@@ -6,30 +6,32 @@
 /*   By: amoukhle <amoukhle@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/20 20:39:45 by amoukhle          #+#    #+#             */
-/*   Updated: 2023/07/21 18:55:05 by amoukhle         ###   ########.fr       */
+/*   Updated: 2023/07/28 00:19:05 by amoukhle         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-char	*handle_env_DOC(t_list *list, t_env *env_list, int num_env)
+char	*handle_env_doc(t_list *list, t_env *env_list, int num_env)
 {
 	if ((list->type == ENV && list->state == GENERAL
-		&& (list->next == NULL || list->next->type == WHITE_SPACE))
+			&& (list->next == NULL || list->next->type == WHITE_SPACE))
 		|| (list->type == ENV && list->state == IN_QUOTE))
 		return (list->content);
 	else if (list->type == ENV && list->state == GENERAL && num_env % 2 != 0
 		&& (list->next->type == QOUTE || list->next->type == DOUBLE_QUOTE))
 		return ("");
-	else if (list->type == ENV && (list->state == IN_DQUOTE || list->state == GENERAL))
+	else if (list->type == ENV && (list->state == IN_DQUOTE
+			|| list->state == GENERAL))
 	{
 		if (list->next->type == WORD && num_env % 2 != 0)
-				return (ft_expand_value(list->next->content, env_list));
+			return (ft_expand_value(list->next->content, env_list));
 		else if (list->next->type == Q_MARK && num_env % 2 != 0)
-				return (ft_itoa(state_exit));
+			return (ft_itoa(g_state_exit));
 	}
 	return (list->content);
 }
+
 void	ft_init_var(t_var *var)
 {
 	var->start = 0;
@@ -41,17 +43,18 @@ void	ft_init_var(t_var *var)
 	var->str = NULL;
 }
 
-int	skip_node_DOC(t_list *list, t_var *var)
+int	skip_node_doc(t_list *list, t_var *var)
 {
 	if ((list->type == QOUTE && list->state == GENERAL)
 		|| (list->type == DOUBLE_QUOTE && list->state == GENERAL)
-		|| ((list->type == WORD || list->type == Q_MARK) && list->prev && list->prev->type == ENV
-		&& list->state != IN_QUOTE && var->num_env % 2 != 0))
+		|| ((list->type == WORD || list->type == Q_MARK)
+			&& list->prev && list->prev->type == ENV
+			&& list->state != IN_QUOTE && var->num_env % 2 != 0))
 		return (0);
 	return (1);
 }
 
-void	ft_skip_node_DOC(t_list *list, t_var *var)
+void	ft_skip_node_doc(t_list *list, t_var *var)
 {
 	if (!var->str && (list->type == DOUBLE_QUOTE || list->type == QOUTE))
 		var->str = "";
@@ -59,20 +62,22 @@ void	ft_skip_node_DOC(t_list *list, t_var *var)
 	var->skip = 1;
 }
 
-char	*get_string_DOC(t_list *list, t_var *var, t_env *env_list, t_list_str **list_str)
+char	*get_string_doc(t_list *list, t_var *var,
+				t_env *env_list, t_list_str **list_str)
 {
 	char	*tmp;
 
 	while (list)
 	{
 		var->skip = 0;
-		if (!skip_node_DOC(list, var))
-			ft_skip_node_DOC(list, var);
+		if (!skip_node_doc(list, var))
+			ft_skip_node_doc(list, var);
 		if (!var->skip && list->type == ENV)
 		{
 			var->num_env++;
-			tmp = handle_env_DOC(list, env_list, var->num_env);
-			if (!tmp || (list->state == GENERAL && ft_strcmp(tmp, "$") && ft_strchr(tmp, ' ')))
+			tmp = handle_env_doc(list, env_list, var->num_env);
+			if (!tmp || (list->state == GENERAL
+					&& ft_strcmp(tmp, "$") && ft_strchr(tmp, ' ')))
 				var->skip = 1;
 			if (!var->skip)
 				var->str = join_list_str(var->str, tmp, list_str);
