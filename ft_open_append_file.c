@@ -6,7 +6,7 @@
 /*   By: amoukhle <amoukhle@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/20 21:21:37 by amoukhle          #+#    #+#             */
-/*   Updated: 2023/07/27 23:55:43 by amoukhle         ###   ########.fr       */
+/*   Updated: 2023/07/28 00:24:15 by amoukhle         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,7 @@ int	ft_open_append_file(t_list *node, t_var *var, t_env *env_list)
 	str_doc = get_string_doc(list, var, env_list, &list_str);
 	if (!str_doc)
 		ft_msg_null_doc(node, var);
-	if (var->error_DOC != 1)
+	if (var->error_doc != 1)
 	{
 		outfile = open(str_doc, O_RDWR | O_CREAT | O_APPEND, 0777);
 		if (outfile == -1)

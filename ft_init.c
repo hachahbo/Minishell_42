@@ -6,7 +6,7 @@
 /*   By: amoukhle <amoukhle@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/27 22:50:44 by amoukhle          #+#    #+#             */
-/*   Updated: 2023/07/27 23:51:12 by amoukhle         ###   ########.fr       */
+/*   Updated: 2023/07/28 00:24:30 by amoukhle         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,7 @@ void	init_var(t_var *var, int num_pipe)
 	var->num_cmd = 0;
 	var->std_in = 0;
 	var->std_out = 1;
-	var->error_DOC = 0;
+	var->error_doc = 0;
 }
 
 void	ft_duplicate(t_var *var)

@@ -6,7 +6,7 @@
 /*   By: amoukhle <amoukhle@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/22 16:29:59 by amoukhle          #+#    #+#             */
-/*   Updated: 2023/07/27 23:28:44 by amoukhle         ###   ########.fr       */
+/*   Updated: 2023/07/28 00:24:23 by amoukhle         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -90,7 +90,7 @@ void	exec_child(t_list *last_list, t_env **env_list,
 	{
 		ft_serche_for_doc(last_list, *env_list, var, &list_heredoce);
 		ft_serche_for_cmd(&last_list);
-		if (var->error_DOC != 1)
+		if (var->error_doc != 1)
 			ft_builtins(last_list, env_list, var);
 		return ;
 	}

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   libft.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hachahbo <hachahbo@student.42.fr>          +#+  +:+       +#+        */
+/*   By: amoukhle <amoukhle@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/10 10:20:07 by hachahbo          #+#    #+#             */
-/*   Updated: 2023/07/27 16:49:15 by hachahbo         ###   ########.fr       */
+/*   Updated: 2023/07/28 00:23:19 by amoukhle         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -90,7 +90,7 @@ typedef struct s_var
 	char	*str;
 	t_env	*env_list;
 	int		is_built;
-	int		error_DOC;
+	int		error_doc;
 }	t_var;
 
 int				ft_isascii(int c);

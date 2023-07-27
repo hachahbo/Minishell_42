@@ -6,7 +6,7 @@
 /*   By: amoukhle <amoukhle@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/20 20:38:47 by amoukhle          #+#    #+#             */
-/*   Updated: 2023/07/27 23:57:26 by amoukhle         ###   ########.fr       */
+/*   Updated: 2023/07/28 00:24:07 by amoukhle         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ void	ft_msg_error_outfile(char *str_DOC, t_var *var)
 	write (2, ": ", 2);
 	write(2, strerror(errno), len_error);
 	write (2, "\n", 1);
-	var->error_DOC = 1;
+	var->error_doc = 1;
 	if (var->n_cmd != 1 || var->is_built != 1)
 		exit(1);
 }
@@ -42,7 +42,7 @@ int	ft_open_outfile(t_list *node, t_var *var, t_env *env_list)
 	str_doc = get_string_doc(list, var, env_list, &list_str);
 	if (!str_doc)
 		ft_msg_null_doc(node, var);
-	if (var->error_DOC != 1)
+	if (var->error_doc != 1)
 	{
 		outfile = open(str_doc, O_RDWR | O_CREAT | O_TRUNC, 0777);
 		if (outfile == -1)
