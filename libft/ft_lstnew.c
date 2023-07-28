@@ -6,7 +6,7 @@
 /*   By: hachahbo <hachahbo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/17 12:25:26 by hachahbo          #+#    #+#             */
-/*   Updated: 2023/07/27 16:18:23 by hachahbo         ###   ########.fr       */
+/*   Updated: 2023/07/28 11:13:29 by hachahbo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,7 +44,7 @@ int	ft_lexer(t_list *node)
 	return (0);
 }
 
-t_list_str *new_list_str(char *content, int fd)
+t_list_str	*new_list_str(char *content, int fd)
 {
 	t_list_str	*tmp;
 
@@ -57,7 +57,7 @@ t_list_str *new_list_str(char *content, int fd)
 	return (tmp);
 }
 
-char **ft_str_double_dup(char **str)
+char	**ft_str_double_dup(char **str)
 {
 	int	count;
 	int	i;

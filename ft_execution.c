@@ -3,16 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   ft_execution.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: amoukhle <amoukhle@student.42.fr>          +#+  +:+       +#+        */
+/*   By: hachahbo <hachahbo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/22 16:29:59 by amoukhle          #+#    #+#             */
-/*   Updated: 2023/07/28 00:24:23 by amoukhle         ###   ########.fr       */
+/*   Updated: 2023/07/28 11:26:54 by hachahbo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void	ft_execution(t_list *last_list, t_env **env_list, t_var *var)
+void	ft_execution(t_list *last_list, t_env **env_list, t_var *var, char **env)
 {
 	int	num_pipe;
 
@@ -25,7 +25,7 @@ void	ft_execution(t_list *last_list, t_env **env_list, t_var *var)
 		if (ft_pipe(var, num_pipe) == 1)
 			return ;
 	}
-	exec_child(last_list, env_list, var, num_pipe);
+	exec_child(last_list, env_list, var, num_pipe, env);
 	if (num_pipe != 0)
 		free(var->fd);
 }
@@ -44,7 +44,7 @@ void	ft_position_start_end(t_list **last_list,
 }
 
 pid_t	ft_fork(t_var *var, t_list **list,
-			t_list_str **list_heredoce_tmp, t_env **env_list)
+			t_list_str **list_heredoce_tmp, t_env **env_list, char **env)
 {
 	pid_t	pid;
 
@@ -61,7 +61,7 @@ pid_t	ft_fork(t_var *var, t_list **list,
 		if (pid == -1)
 			error_fork();
 		if (pid == 0)
-			ft_child_proccess(*list, env_list, var, list_heredoce_tmp);
+			ft_child_proccess(*list, env_list, var, list_heredoce_tmp, env);
 		(var->num_cmd)++;
 		ft_position_start_end(list, list_heredoce_tmp);
 	}
@@ -69,7 +69,7 @@ pid_t	ft_fork(t_var *var, t_list **list,
 }
 
 void	exec_child(t_list *last_list, t_env **env_list,
-				t_var *var, int num_pipe)
+				t_var *var, int num_pipe, char **env)
 {
 	t_list		*list;
 	t_list_str	*list_heredoce;
@@ -91,15 +91,15 @@ void	exec_child(t_list *last_list, t_env **env_list,
 		ft_serche_for_doc(last_list, *env_list, var, &list_heredoce);
 		ft_serche_for_cmd(&last_list);
 		if (var->error_doc != 1)
-			ft_builtins(last_list, env_list, var);
+			ft_builtins(last_list, env_list, var, env);
 		return ;
 	}
-	last_child = ft_fork(var, &list, &list_heredoce_tmp, env_list);
+	last_child = ft_fork(var, &list, &list_heredoce_tmp, env_list, env);
 	ft_wait(var, last_child, &list_heredoce);
 }
 
 void	ft_child_proccess(t_list *last_list, t_env **env_list,
-				t_var *var, t_list_str **list_heredoc)
+				t_var *var, t_list_str **list_heredoc, char **env)
 {
 	int		j;
 	char	**cmd;
@@ -112,7 +112,7 @@ void	ft_child_proccess(t_list *last_list, t_env **env_list,
 	j = 0;
 	while (j < (var->n_cmd - 1) * 2)
 		close(var->fd[j++]);
-	if (ft_builtins(last_list, env_list, var) == 1)
+	if (ft_builtins(last_list, env_list, var, env) == 1)
 	{
 		cmd = check_cmd(last_list, *env_list);
 		if (!cmd)

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   builtins.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: amoukhle <amoukhle@student.42.fr>          +#+  +:+       +#+        */
+/*   By: hachahbo <hachahbo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/04 20:13:17 by hachahbo          #+#    #+#             */
-/*   Updated: 2023/07/28 00:18:54 by amoukhle         ###   ########.fr       */
+/*   Updated: 2023/07/28 11:19:58 by hachahbo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -102,7 +102,7 @@ int	ft_check_after_exit(t_list *head)
 	return (1);
 }
 
-int	ft_builtins(t_list *list, t_env **env_list, t_var *var)
+int	ft_builtins(t_list *list, t_env **env_list, t_var *var, char **env)
 {
 	unsigned char x;
 	unsigned long long a;
@@ -111,7 +111,7 @@ int	ft_builtins(t_list *list, t_env **env_list, t_var *var)
 	a = 0;
 	if (!ft_strcmp(list->cmd[0], "cd") || !ft_strcmp(list->cmd[0], "rm")
 		|| !ft_strcmp(list->cmd[0], "/usr/bin/cd"))
-		rendering_cd(list, env_list);
+		rendering_cd(list, env_list, env);
 	else if (!ft_strcmp(list->cmd[0], "pwd") || !ft_strcmp(list->cmd[0], "/bin/pwd"))
 		ft_pwd(*env_list, var);
 	else if (!ft_strcmp(list->cmd[0], "echo") || !ft_strcmp(list->cmd[0], "/bin/echo"))

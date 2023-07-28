@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: amoukhle <amoukhle@student.42.fr>          +#+  +:+       +#+        */
+/*   By: hachahbo <hachahbo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/19 20:55:43 by hachahbo          #+#    #+#             */
-/*   Updated: 2023/07/28 00:18:43 by amoukhle         ###   ########.fr       */
+/*   Updated: 2023/07/28 11:23:24 by hachahbo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@ int	ft_valid_command(t_list *head)
 	return (0);
 }
 
-void	parser(t_list *head, t_env **env_list, char *input)
+void	parser(t_list *head, t_env **env_list, char *input, char **env)
 {
 	t_list	*new_list;
 	t_list	*new_list_w_s;
@@ -42,7 +42,7 @@ void	parser(t_list *head, t_env **env_list, char *input)
 		ft_make_new_list(head, &new_list, *env_list);
 		ft_make_new_list_w_s(new_list, &new_list_w_s);
 		ft_finale_list(new_list_w_s, &last_list);
-		ft_execution(last_list, env_list, vars);
+		ft_execution(last_list, env_list, vars, env);
 		ft_lstclear(&head);
 		ft_lstclear(&new_list);
 		ft_lstclear(&new_list_w_s);
@@ -54,7 +54,7 @@ void	parser(t_list *head, t_env **env_list, char *input)
 	ft_add_to_history(input);
 }
 
-void	ft_begin(int std_in, t_env **env_list)
+void	ft_begin(int std_in, t_env **env_list, char **env)
 {
 	char	*input;
 	t_list	*head;
@@ -74,7 +74,7 @@ void	ft_begin(int std_in, t_env **env_list)
 			exit (127);
 		}
 		if (ft_strisspace(input) == 0)
-			parser(head, env_list, input);
+			parser(head, env_list, input, env);
 		else
 			free(input);
 	}
@@ -98,6 +98,6 @@ int	main(int ac, char **av, char **env)
 	g_state_exit = 0;
 	rl_catch_signals = 0;
 	std_in = dup(0);
-	ft_begin(std_in, &env_list);
+	ft_begin(std_in, &env_list, env);
 	return (0);
 }
