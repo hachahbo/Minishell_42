@@ -6,7 +6,7 @@
 /*   By: amoukhle <amoukhle@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/19 23:06:26 by amoukhle          #+#    #+#             */
-/*   Updated: 2023/07/27 23:21:30 by amoukhle         ###   ########.fr       */
+/*   Updated: 2023/07/29 18:21:33 by amoukhle         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,7 +60,10 @@ void	creat_word(t_list *head, t_list **new_list,
 		if (!var->skip && head->state == GENERAL && ft_strcmp(tmp, "$"))
 			var->str = generate_value_of_env(var->str, tmp, list_str, new_list);
 		else if (!var->skip)
+		{
 			var->str = join_list_str(var->str, tmp, list_str);
+			free(tmp);
+		}
 	}
 	else if (!var->skip)
 		var->str = join_list_str(var->str, head->content, list_str);
