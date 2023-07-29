@@ -3,18 +3,18 @@
 /*                                                        :::      ::::::::   */
 /*   ft_echo.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: amoukhle <amoukhle@student.42.fr>          +#+  +:+       +#+        */
+/*   By: hachahbo <hachahbo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/01 06:26:17 by hachahbo          #+#    #+#             */
-/*   Updated: 2023/07/24 19:51:28 by amoukhle         ###   ########.fr       */
+/*   Updated: 2023/07/28 14:36:00 by hachahbo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-int is_spaces_char(char c)
+int	is_spaces_char(char c)
 {
-	if(c == ' ' || c == '\n' ||  c == '\t')
+	if (c == ' ' || c == '\n' || c == '\t')
 		return (1);
 	return (0);
 }
@@ -44,6 +44,22 @@ int	check_is_n_line(char *str)
 	}
 	return (0);
 }
+
+void	print_echo(t_list *head, t_var *var, int i)
+{
+	while (head->cmd[i])
+	{
+		if (head->cmd[i + 1] == NULL)
+			write(var->std_out, head->cmd[i], ft_strlen(head->cmd[i]));
+		else
+		{
+			write(var->std_out, head->cmd[i], ft_strlen(head->cmd[i]));
+			write(var->std_out, " ", 1);
+		}
+		i++;
+	}
+}
+
 int	ft_echo(t_list *head, t_var *var)
 {
 	int		i;
@@ -61,17 +77,7 @@ int	ft_echo(t_list *head, t_var *var)
 			j = 1;
 		i++;
 	}
-	while (head->cmd[i])
-	{
-		if (head->cmd[i + 1] == NULL)
-			write(var->std_out, head->cmd[i], ft_strlen(head->cmd[i]));
-		else
-		{
-			write(var->std_out, head->cmd[i], ft_strlen(head->cmd[i]));
-			write(var->std_out, " ", 1);
-		}
-		i++;
-	}
+	print_echo(head, var, i);
 	if (j == 0)
 		write(var->std_out, "\n", 1);
 	return (0);

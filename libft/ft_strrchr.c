@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_strrchr.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: amoukhle <amoukhle@student.42.fr>          +#+  +:+       +#+        */
+/*   By: hachahbo <hachahbo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/07 00:32:54 by hachahbo          #+#    #+#             */
-/*   Updated: 2023/07/25 11:03:05 by amoukhle         ###   ########.fr       */
+/*   Updated: 2023/07/28 18:20:53 by hachahbo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ char	*ft_strrchr(const char *str, int c)
 	i = 0;
 	c = (unsigned char)c;
 	while (str[i] != '\0')
-	i++;
+		i++;
 	if (c == '\0')
 	{
 		j = 0;

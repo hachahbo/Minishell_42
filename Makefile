@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: amoukhle <amoukhle@student.42.fr>          +#+  +:+       +#+         #
+#    By: hachahbo <hachahbo@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/05/20 15:02:26 by hachahbo          #+#    #+#              #
-#    Updated: 2023/07/27 23:11:03 by amoukhle         ###   ########.fr        #
+#    Updated: 2023/07/29 10:11:23 by hachahbo         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -29,7 +29,8 @@ OBJS = minishell.o make_list.o ft_space.o ft_echo.o \
 		ft_handle_signals.o ft_error.o ft_tools_for_cmd.o\
 		ft_tools_for_DOC.o ft_wait_func.o ft_pipe.o\
 		ft_tools_for_list.o ft_init.o ft_treatment_env.o\
-		ft_shlvl.o ft_more_tools.o\
+		ft_shlvl.o ft_more_tools.o builtins_two.o\
+		ft_cd_two.o ft_export_three.o ft_export_two.o\
 
 RM = rm -f
 

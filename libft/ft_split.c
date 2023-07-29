@@ -6,7 +6,7 @@
 /*   By: hachahbo <hachahbo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/10 11:17:01 by hachahbo          #+#    #+#             */
-/*   Updated: 2022/10/23 13:55:43 by hachahbo         ###   ########.fr       */
+/*   Updated: 2023/07/28 18:22:25 by hachahbo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,7 +45,7 @@ static void	ft_skip(char const *s, size_t *start, size_t *end, char c)
 		*start = *start + 1;
 	*end = *start;
 	while (s[*end] != c && s[*end] != '\0')
-			*end = *end + 1;
+		*end = *end + 1;
 }
 
 char	**ft_split(char const *s, char c)

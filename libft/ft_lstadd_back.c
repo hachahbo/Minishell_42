@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_lstadd_back.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: amoukhle <amoukhle@student.42.fr>          +#+  +:+       +#+        */
+/*   By: hachahbo <hachahbo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/20 10:50:41 by hachahbo          #+#    #+#             */
-/*   Updated: 2023/07/21 19:05:59 by amoukhle         ###   ########.fr       */
+/*   Updated: 2023/07/28 18:28:08 by hachahbo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 void	list_stradd_back(t_list_str **lst, t_list_str *new)
 {
 	t_list_str	*tmp;
-	int		i;
+	int			i;
 
 	i = 0;
 	if (!new)

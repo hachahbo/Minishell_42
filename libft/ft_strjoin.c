@@ -6,7 +6,7 @@
 /*   By: hachahbo <hachahbo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/07 16:04:36 by hachahbo          #+#    #+#             */
-/*   Updated: 2023/07/28 12:20:55 by hachahbo         ###   ########.fr       */
+/*   Updated: 2023/07/28 18:21:22 by hachahbo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 size_t	count_extralen(char const *s1, char const *s2)
 {
 	size_t	extralen;
-	
+
 	if (!s1)
 		extralen = ft_strlen((char *)s2);
 	else if (!s2)

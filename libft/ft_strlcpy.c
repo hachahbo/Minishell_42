@@ -6,7 +6,7 @@
 /*   By: hachahbo <hachahbo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/10 01:17:42 by hachahbo          #+#    #+#             */
-/*   Updated: 2022/10/23 21:42:00 by hachahbo         ###   ########.fr       */
+/*   Updated: 2023/07/28 18:21:03 by hachahbo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,4 +29,4 @@ size_t	ft_strlcpy(char *dest, const char *src, size_t size)
 		dest[i] = '\0';
 	}
 	return (len);
-}	
+}

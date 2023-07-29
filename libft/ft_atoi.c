@@ -6,7 +6,7 @@
 /*   By: hachahbo <hachahbo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/07 04:14:20 by hachahbo          #+#    #+#             */
-/*   Updated: 2023/07/27 16:50:45 by hachahbo         ###   ########.fr       */
+/*   Updated: 2023/07/28 18:31:25 by hachahbo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,16 +27,16 @@ void	ft_sign_space(char *str, int *i, int *sign)
 	{
 		if (str[*i] == '-')
 			*sign *= -1;
-			*i += 1;
+		*i += 1;
 	}
 }
 
-unsigned long long int ft_atoi(const char *str)
+unsigned long long int	ft_atoi(const char *str)
 {
 	unsigned long int	res;
-	int			sign;
-	int			i;
-	unsigned long  int	prv;
+	int					sign;
+	int					i;
+	unsigned long int	prv;
 
 	i = 0;
 	res = 0;

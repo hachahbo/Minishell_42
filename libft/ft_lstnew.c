@@ -6,7 +6,7 @@
 /*   By: hachahbo <hachahbo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/17 12:25:26 by hachahbo          #+#    #+#             */
-/*   Updated: 2023/07/28 11:13:29 by hachahbo         ###   ########.fr       */
+/*   Updated: 2023/07/29 10:13:19 by hachahbo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,32 +15,28 @@
 
 int	ft_lexer(t_list *node)
 {
-	char *str;
-
-	str = node->content; 
-	if(ft_strcmp(str, " ") == 0)
+	if (ft_strcmp(node->content, " ") == 0)
 		node->type = WHITE_SPACE;
-	else if(ft_strcmp(str, "\'")== 0)
+	else if (ft_strcmp(node->content, "\'") == 0)
 		node->type = QOUTE;
-	else if(ft_strcmp(str, "\"")== 0)
+	else if (ft_strcmp(node->content, "\"") == 0)
 		node->type = DOUBLE_QUOTE;
-	else if(ft_strcmp(str, "$") == 0)
+	else if (ft_strcmp(node->content, "$") == 0)
 		node->type = ENV;
-	else if(ft_strcmp(str, "?") == 0)
+	else if (ft_strcmp(node->content, "?") == 0)
 		node->type = Q_MARK;
-	else if(ft_strcmp(str, "|")== 0)
+	else if (ft_strcmp(node->content, "|") == 0)
 		node->type = PIPE_LINE;
-	else if(ft_strcmp(str, "<")== 0)
+	else if (ft_strcmp(node->content, "<") == 0)
 		node->type = REDIR_IN;
-	else if(ft_strcmp(str, ">") == 0)
+	else if (ft_strcmp(node->content, ">") == 0)
 		node->type = REDIR_OUT;
-	else if(ft_strcmp(str, "<<") == 0)
+	else if (ft_strcmp(node->content, "<<") == 0)
 		node->type = HERE_DOC;
-	else if(ft_strcmp(str, ">>") == 0)
+	else if (ft_strcmp(node->content, ">>") == 0)
 		node->type = DREDIR_OUT;
 	else
 		node->type = WORD; 
-
 	return (0);
 }
 
@@ -59,9 +55,9 @@ t_list_str	*new_list_str(char *content, int fd)
 
 char	**ft_str_double_dup(char **str)
 {
-	int	count;
-	int	i;
-	char **strdup;
+	int		count;
+	int		i;
+	char	**strdup;
 
 	i = 0;
 	count = 0;
@@ -95,7 +91,7 @@ void	sit_type(t_list *list)
 			list->type_d = HERE_DOC;
 		else if (ft_strcmp(list->cmd[0], ">>") == 0)
 			list->type_d = DREDIR_OUT;
-		else if(ft_strcmp(list->cmd[0], "|")== 0)
+		else if (ft_strcmp(list->cmd[0], "|") == 0)
 			list->type_d = PIPE_LINE;
 		else
 			list->type_d = WORD;
