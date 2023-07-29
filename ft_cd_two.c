@@ -6,7 +6,7 @@
 /*   By: hachahbo <hachahbo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/29 09:59:51 by hachahbo          #+#    #+#             */
-/*   Updated: 2023/07/29 10:04:50 by hachahbo         ###   ########.fr       */
+/*   Updated: 2023/07/29 15:02:38 by hachahbo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,6 +84,7 @@ void	change_the_oldpwd(t_env **env_list)
 void	cd_change_pwd(t_env **env_list, char *str)
 {
 	change_the_oldpwd(env_list);
-	chdir(str);
+	if (chdir(str) == -1)
+		printf("bash: cd: %s: No such file or directory\n", str);
 	change_the_pwd(env_list);
 }
