@@ -6,7 +6,7 @@
 /*   By: hachahbo <hachahbo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/21 19:15:35 by amoukhle          #+#    #+#             */
-/*   Updated: 2023/07/29 10:09:05 by hachahbo         ###   ########.fr       */
+/*   Updated: 2023/07/30 11:49:20 by hachahbo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,9 +54,8 @@ int	add_or_change(t_env **env_list, t_list *head, char **env, t_var *var)
 			return (0);
 		if (!check_double_key(*env_list, new_env))
 		{
-			if (!check_is_valid(new_env, var))
-				return (0);
-			ft_lstadd_back_env(env_list, new_env);
+			if (check_is_valid(new_env, var))
+				ft_lstadd_back_env(env_list, new_env);
 		}
 		else
 			change_the_value(env_list, new_env);

@@ -6,7 +6,7 @@
 /*   By: hachahbo <hachahbo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/21 19:11:14 by hachahbo          #+#    #+#             */
-/*   Updated: 2023/07/29 10:18:35 by hachahbo         ###   ########.fr       */
+/*   Updated: 2023/07/30 13:59:27 by hachahbo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -116,7 +116,7 @@ char	**ft_spaces_split(char *s);
 int		check_is_valid(t_env *new_env, t_var *var);
 void	ft_free_head_vars(t_var *vars, t_list **head);
 void	ft_add_to_history(char *input);
-void	ft_creat_list_env(char **env, t_env **new_env_list);
+int		ft_creat_list_env(char **env, t_env **new_env_list);
 void	ft_begin(int std_in, t_env **env_list);
 void	init_var(t_var *var, int num_pipe);
 char	**creat_env(void);

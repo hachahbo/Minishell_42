@@ -6,7 +6,7 @@
 /*   By: hachahbo <hachahbo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/04 20:13:17 by hachahbo          #+#    #+#             */
-/*   Updated: 2023/07/29 09:55:47 by hachahbo         ###   ########.fr       */
+/*   Updated: 2023/07/30 11:40:46 by hachahbo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,7 +60,7 @@ void	ft_exit(t_list *list)
 
 int	ft_builtins(t_list *list, t_env **env_list, t_var *var)
 {
-	if (!ft_strcmp(list->cmd[0], "cd") || !ft_strcmp(list->cmd[0], "rm")
+	if (!ft_strcmp(list->cmd[0], "cd")
 		|| !ft_strcmp(list->cmd[0], "/usr/bin/cd"))
 		rendering_cd(list, env_list);
 	else if (!ft_strcmp(list->cmd[0], "pwd") 

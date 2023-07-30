@@ -6,7 +6,7 @@
 /*   By: hachahbo <hachahbo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/29 10:09:31 by hachahbo          #+#    #+#             */
-/*   Updated: 2023/07/29 10:11:44 by hachahbo         ###   ########.fr       */
+/*   Updated: 2023/07/30 13:52:25 by hachahbo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,12 +14,15 @@
 
 void	ft_print_export(t_env *export_list, t_var *var)
 {
-	if (!ft_strcmp(export_list->key, "000"))
-		export_list = export_list->next;
 	if (!export_list)
 		return ;
 	while (export_list)
 	{
+		if (!ft_strcmp(export_list->val,
+				"/usr/gnu/bin:/usr/local/bin:/bin:/usr/bin:."))
+			export_list = export_list->next;
+		if (export_list == NULL)
+			break ;
 		if (!ft_strchr(export_list->content, '='))
 		{
 			write(var->std_out, "declare -x ", 11);
