@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_pwd.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hachahbo <hachahbo@student.42.fr>          +#+  +:+       +#+        */
+/*   By: amoukhle <amoukhle@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/01 15:43:57 by amoukhle          #+#    #+#             */
-/*   Updated: 2023/07/28 18:19:07 by hachahbo         ###   ########.fr       */
+/*   Updated: 2023/07/30 21:13:52 by amoukhle         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,7 @@ void	ft_pwd(t_env *env_list, t_var *var)
 	t_env	*save;
 
 	save = env_list;
+	str = NULL;
 	while (save)
 	{
 		if (!ft_strcmp(save->key, "PWD"))

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hachahbo <hachahbo@student.42.fr>          +#+  +:+       +#+        */
+/*   By: amoukhle <amoukhle@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/19 20:55:43 by hachahbo          #+#    #+#             */
-/*   Updated: 2023/07/28 18:36:29 by hachahbo         ###   ########.fr       */
+/*   Updated: 2023/07/31 12:59:06 by amoukhle         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -94,7 +94,6 @@ int	main(int ac, char **av, char **env)
 	}
 	env_list = NULL;
 	make_copy_env_list_char(env, &env_list);
-	ft_change_shlvl(env_list);
 	g_state_exit = 0;
 	rl_catch_signals = 0;
 	std_in = dup(0);

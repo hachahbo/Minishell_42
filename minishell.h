@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hachahbo <hachahbo@student.42.fr>          +#+  +:+       +#+        */
+/*   By: amoukhle <amoukhle@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/21 19:11:14 by hachahbo          #+#    #+#             */
-/*   Updated: 2023/07/30 13:59:27 by hachahbo         ###   ########.fr       */
+/*   Updated: 2023/07/31 12:55:06 by amoukhle         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -149,7 +149,6 @@ int		get_value(int value);
 void	nothing(int sig);
 void	sig_handler(int sig);
 void	nothing_minishell(int sig);
-void	print_doble_string(char **str);
 void	error_isdir(char **cmd);
 void	error_cmd(char **cmd);
 void	set_state_exit(int state);

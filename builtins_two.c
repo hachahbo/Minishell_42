@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   builtins_two.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hachahbo <hachahbo@student.42.fr>          +#+  +:+       +#+        */
+/*   By: amoukhle <amoukhle@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/29 09:54:25 by hachahbo          #+#    #+#             */
-/*   Updated: 2023/07/30 13:51:13 by hachahbo         ###   ########.fr       */
+/*   Updated: 2023/07/31 12:44:38 by amoukhle         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,11 +54,34 @@ void	remove_node_2(t_env **head, char *min)
 			else
 				previous->next = current->next;
 			free_here(current);
+			hide_path(head, min);
 			break ;
 		}
 		previous = current;
 		current = current->next;
-		hide_path(head, min);
+	}
+}
+
+void	remove_str_env(t_env **env_list, char *str)
+{
+	int	i;
+	t_env	*tmp;
+
+	tmp = *env_list;
+	while (tmp)
+	{
+		i = 0;
+		while (tmp->env[i]
+			&& ft_strncmp(str, tmp->env[i], ft_strlen(str)))
+			i++;
+		if (tmp->env[i])
+		{
+			free(tmp->env[i]);
+			tmp->env[i] = ft_strdup("");
+		}
+		else
+			break ;
+		tmp = tmp->next;
 	}
 }
 
@@ -74,6 +97,7 @@ void	ft_unset(t_list *list, t_env **env_list, t_var *var)
 		if (check_is_valid(new_env, var))
 		{
 			remove_node_2(env_list, list->cmd[i]);
+			remove_str_env(env_list, list->cmd[i]);
 			free_double(new_env->env);
 			free(new_env->key);
 			free(new_env->content);
