@@ -3,16 +3,14 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: amoukhle <amoukhle@student.42.fr>          +#+  +:+       +#+         #
+#    By: hachahbo <hachahbo@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/05/20 15:02:26 by hachahbo          #+#    #+#              #
-#    Updated: 2023/07/31 13:02:30 by amoukhle         ###   ########.fr        #
+#    Updated: 2023/07/31 22:12:04 by hachahbo         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 NAME = minishell
-
-# CC = cc -Wall -Werror - Wextra
 
 CC = cc
 CFLAGS = -Werror -Wall -Wextra #-fsanitize=address -g3
@@ -45,18 +43,18 @@ all : $(NAME)
 	@echo "																	 "			
 
 $(NAME) : $(OBJS)
-	@cd libft && make
+	@make -C libft
 	@$(CC) $(CFLAGS) $(OBJS) ./libft/libft.a -o $(NAME) -lreadline -L$(shell brew --prefix readline)/lib
 	
-%.o : %.c minishell.h
+%.o : %.c minishell.h 
 	$(CC) $(CFLAGS) -I$(shell brew --prefix readline)/include -c $< -o $@
 	
 clean :
-	@cd libft && make clean
+	@make -C libft $@
 	@$(RM) $(OBJS)
 
 fclean : clean
-	@cd libft && make fclean
+	@make -C libft $@
 	@$(RM) $(NAME)
 	
 re : fclean all

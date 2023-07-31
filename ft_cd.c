@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_cd.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: amoukhle <amoukhle@student.42.fr>          +#+  +:+       +#+        */
+/*   By: hachahbo <hachahbo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/01 17:25:45 by amoukhle          #+#    #+#             */
-/*   Updated: 2023/07/31 00:15:49 by amoukhle         ###   ########.fr       */
+/*   Updated: 2023/07/31 21:05:39 by hachahbo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,7 +56,7 @@ void	check_cd_one_case(t_env **env_list, t_list *head)
 	{
 		while (save)
 		{
-			if (!ft_strcmp(save->val, "/Users/hachahbo"))
+			if (!ft_strcmp(save->key, "HOME"))
 			{
 				str = save->val;
 				break ;

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   builtins_two.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: amoukhle <amoukhle@student.42.fr>          +#+  +:+       +#+        */
+/*   By: hachahbo <hachahbo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/29 09:54:25 by hachahbo          #+#    #+#             */
-/*   Updated: 2023/07/31 12:44:38 by amoukhle         ###   ########.fr       */
+/*   Updated: 2023/07/31 18:19:28 by hachahbo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,17 +54,17 @@ void	remove_node_2(t_env **head, char *min)
 			else
 				previous->next = current->next;
 			free_here(current);
-			hide_path(head, min);
 			break ;
 		}
 		previous = current;
 		current = current->next;
 	}
+	hide_path(head, min);
 }
 
 void	remove_str_env(t_env **env_list, char *str)
 {
-	int	i;
+	int		i;
 	t_env	*tmp;
 
 	tmp = *env_list;

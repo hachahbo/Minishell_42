@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_cd_two.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: amoukhle <amoukhle@student.42.fr>          +#+  +:+       +#+        */
+/*   By: hachahbo <hachahbo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/29 09:59:51 by hachahbo          #+#    #+#             */
-/*   Updated: 2023/07/31 00:17:11 by amoukhle         ###   ########.fr       */
+/*   Updated: 2023/07/31 19:11:03 by hachahbo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,10 +21,9 @@ void	inside_change_the_pwd(t_env *save)
 	str = getcwd(NULL, 0);
 	if (!str)
 	{
-		save->val = ft_strjoin(save->val, ft_strdup("/.."));
+		save->val = ft_strjoin(save->val, "/..");
 		save->c = '=';
 		free(save->content);
-		free(save->val);
 		save->content = ft_strjoin("PWD=", save->val);
 		free(help);
 	}
