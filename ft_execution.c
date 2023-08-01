@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_execution.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hachahbo <hachahbo@student.42.fr>          +#+  +:+       +#+        */
+/*   By: amoukhle <amoukhle@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/22 16:29:59 by amoukhle          #+#    #+#             */
-/*   Updated: 2023/07/28 18:41:27 by hachahbo         ###   ########.fr       */
+/*   Updated: 2023/08/01 23:23:57 by amoukhle         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -92,6 +92,7 @@ void	exec_child(t_list *last_list, t_env **env_list,
 		ft_serche_for_cmd(&last_list);
 		if (var->error_doc != 1)
 			ft_builtins(last_list, env_list, var);
+		ft_close_fd(var);
 		return ;
 	}
 	last_child = ft_fork(var, &list, &list_heredoce_tmp, env_list);

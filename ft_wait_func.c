@@ -6,7 +6,7 @@
 /*   By: amoukhle <amoukhle@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/27 22:44:16 by amoukhle          #+#    #+#             */
-/*   Updated: 2023/07/28 00:19:44 by amoukhle         ###   ########.fr       */
+/*   Updated: 2023/08/01 23:10:27 by amoukhle         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,6 +50,14 @@ void	set_state_exit(int state)
 
 void	ft_wait(t_var *var, pid_t last_child, t_list_str **list_heredoce)
 {
+	t_list_str	*tmp;
+
+	tmp = *list_heredoce;
+	while (tmp)
+	{
+		close(tmp->fd);
+		tmp = tmp->next;
+	}
 	wait_childs(var, last_child);
 	list_strclear(list_heredoce);
 }

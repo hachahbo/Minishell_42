@@ -6,7 +6,7 @@
 /*   By: amoukhle <amoukhle@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/21 19:11:14 by hachahbo          #+#    #+#             */
-/*   Updated: 2023/07/31 12:55:06 by amoukhle         ###   ########.fr       */
+/*   Updated: 2023/08/01 23:23:45 by amoukhle         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -169,10 +169,6 @@ t_env	*ft_lstnew_env(char *str, char **env);
 char	*delete_back_slash(char *str);
 int		check_the_plus(char *str);
 char	*until_equal_or_plus(char *big_str, char c);
-void	ft_change_shlvl(t_env *env_list);
-void	ft_change_value_of_shlvl(char *value,
-			t_env *env_list, t_env *tm, int i);
-void	ft_change_all_d_s(t_env *env_list, char *new_shlvl, int i);
 int		ft_export(t_list *head, t_env **env_list, t_var *var);
 void	ft_unset(t_list *list, t_env **env_list, t_var *var);
 void	print_sysntax_error(t_list *head);
@@ -197,5 +193,6 @@ void	change_the_value(t_env **env_list, t_env *new_env);
 void	chaange_the_value_part_two(t_env *save, t_env *new_env);
 void	ft_free_this(t_env *new_env, char *str);
 void	ft_print_export(t_env *export_list, t_var *var);
+void	ft_close_fd(t_var *var);
 
 #endif

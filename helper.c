@@ -6,7 +6,7 @@
 /*   By: amoukhle <amoukhle@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/01 06:49:49 by hachahbo          #+#    #+#             */
-/*   Updated: 2023/07/28 00:06:33 by amoukhle         ###   ########.fr       */
+/*   Updated: 2023/08/01 23:23:22 by amoukhle         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,3 +67,12 @@ int	ft_empty(t_list *head)
 		return (1);
 	return (0);
 }
+
+void	ft_close_fd(t_var *var)
+{
+	if (var->std_in != 0)
+		close(var->std_in);
+	if (var->std_out != 1)
+		close(var->std_out);
+}
+
