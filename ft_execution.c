@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_execution.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: amoukhle <amoukhle@student.42.fr>          +#+  +:+       +#+        */
+/*   By: hachahbo <hachahbo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/22 16:29:59 by amoukhle          #+#    #+#             */
-/*   Updated: 2023/08/01 23:23:57 by amoukhle         ###   ########.fr       */
+/*   Updated: 2023/08/04 12:29:21 by hachahbo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,7 +68,7 @@ pid_t	ft_fork(t_var *var, t_list **list,
 	return (pid);
 }
 
-void	exec_child(t_list *last_list, t_env **env_list,
+int	exec_child(t_list *last_list, t_env **env_list,
 				t_var *var, int num_pipe)
 {
 	t_list		*list;
@@ -81,10 +81,7 @@ void	exec_child(t_list *last_list, t_env **env_list,
 	init_var(var, num_pipe);
 	ft_serche_for_heredoce(last_list, var, &list_heredoce);
 	if (get_value(-1) == 4)
-	{
-		list_strclear(&list_heredoce);
-		return ;
-	}
+		return (list_strclear(&list_heredoce), 0);
 	list_heredoce_tmp = list_heredoce;
 	if (var->n_cmd == 1 && ft_is_builting_cmd(last_list, var) == 0)
 	{
@@ -92,11 +89,11 @@ void	exec_child(t_list *last_list, t_env **env_list,
 		ft_serche_for_cmd(&last_list);
 		if (var->error_doc != 1)
 			ft_builtins(last_list, env_list, var);
-		ft_close_fd(var);
-		return ;
+		return (ft_close_fd(var), 0);
 	}
 	last_child = ft_fork(var, &list, &list_heredoce_tmp, env_list);
 	ft_wait(var, last_child, &list_heredoce);
+	return (0);
 }
 
 void	ft_child_proccess(t_list *last_list, t_env **env_list,

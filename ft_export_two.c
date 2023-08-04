@@ -6,7 +6,7 @@
 /*   By: hachahbo <hachahbo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/29 10:09:31 by hachahbo          #+#    #+#             */
-/*   Updated: 2023/07/30 13:52:25 by hachahbo         ###   ########.fr       */
+/*   Updated: 2023/08/04 14:58:57 by hachahbo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -101,6 +101,7 @@ void	ft_print_error(char *s, t_env *new_env, char *str, t_var *var)
 	write(var->std_out, "export : `", 10);
 	write(var->std_out, s, ft_strlen(s));
 	write(var->std_out, "\': not a valid identifier\n", 26);
+	g_state_exit = 1;
 	free(str);
 	free(new_env->key);
 	free(new_env->content);

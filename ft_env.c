@@ -6,14 +6,20 @@
 /*   By: hachahbo <hachahbo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/01 09:48:53 by amoukhle          #+#    #+#             */
-/*   Updated: 2023/07/30 14:31:25 by hachahbo         ###   ########.fr       */
+/*   Updated: 2023/08/04 15:09:23 by hachahbo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void	ft_env(t_env *env_list, t_var *var)
+void	ft_env(t_env *env_list, t_var *var, t_list *head)
 {
+	if (head->cmd[1])
+	{
+		printf("env: %s: No such file or directory\n", head->cmd[1]);
+		g_state_exit = 1;
+		return ;
+	}
 	while (env_list)
 	{
 		if (!ft_strcmp(env_list->val,

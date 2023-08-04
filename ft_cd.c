@@ -6,7 +6,7 @@
 /*   By: hachahbo <hachahbo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/01 17:25:45 by amoukhle          #+#    #+#             */
-/*   Updated: 2023/07/31 21:05:39 by hachahbo         ###   ########.fr       */
+/*   Updated: 2023/08/04 15:14:22 by hachahbo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,7 +48,7 @@ void	check_cd_one_case(t_env **env_list, t_list *head)
 	if (!check_home(save))
 	{
 		if (!head->cmd[1])
-			printf("bash: cd: HOME not set\n");
+			print_error_home();
 		else if (!ft_strcmp(head ->cmd[1], "~"))
 			cd_change_pwd(env_list, "/Users/hachahbo");
 	}

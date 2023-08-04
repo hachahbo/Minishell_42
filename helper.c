@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   helper.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: amoukhle <amoukhle@student.42.fr>          +#+  +:+       +#+        */
+/*   By: hachahbo <hachahbo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/01 06:49:49 by hachahbo          #+#    #+#             */
-/*   Updated: 2023/08/01 23:23:22 by amoukhle         ###   ########.fr       */
+/*   Updated: 2023/08/04 12:06:26 by hachahbo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,4 +75,3 @@ void	ft_close_fd(t_var *var)
 	if (var->std_out != 1)
 		close(var->std_out);
 }
-

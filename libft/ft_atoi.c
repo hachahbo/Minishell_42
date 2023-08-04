@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_atoi.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: amoukhle <amoukhle@student.42.fr>          +#+  +:+       +#+        */
+/*   By: hachahbo <hachahbo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/07 04:14:20 by hachahbo          #+#    #+#             */
-/*   Updated: 2023/07/31 00:21:15 by amoukhle         ###   ########.fr       */
+/*   Updated: 2023/08/04 15:07:55 by hachahbo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,12 +31,12 @@ void	ft_sign_space(char *str, int *i, int *sign)
 	}
 }
 
-unsigned long long int	ft_atoi(const char *str)
+long long int	ft_atoi(const char *str)
 {
-	unsigned long int	res;
-	int					sign;
-	int					i;
-	unsigned long int	prv;
+	long long int	res;
+	int				sign;
+	int				i;
+	long long int	prv;
 
 	i = 0;
 	res = 0;
@@ -50,7 +50,8 @@ unsigned long long int	ft_atoi(const char *str)
 		{
 			if (sign == -1)
 				return (0);
-			return (-1);
+			return (printf("bash: exit: %s: numeric argument required",
+					str), -1);
 		}
 	}
 	return (res * sign);

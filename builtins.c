@@ -6,7 +6,7 @@
 /*   By: hachahbo <hachahbo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/04 20:13:17 by hachahbo          #+#    #+#             */
-/*   Updated: 2023/07/30 11:40:46 by hachahbo         ###   ########.fr       */
+/*   Updated: 2023/08/04 15:07:10 by hachahbo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,21 +20,23 @@ int	ft_check_after_exit(t_list *head)
 	while (head->cmd[i])
 	{
 		if (i > 1)
-		{
-			printf("bash: exit: too many arguments\n");
-			return (0);
-		}
+			return (printf("bash: exit: too many arguments\n"), 0);
 		i++;
 	}
-	i = 1;
-	while (head->cmd[1][i])
+	i = -1;
+	while (head->cmd[1][++i])
 	{
+		if (head->cmd[1][i] == '-')
+			i++;
+		while (ft_isdigit(head->cmd[1][i]))
+			i++;
 		if (!ft_isdigit(head->cmd[1][i]))
 		{
+			if (head->cmd[1][i] == '\0')
+				break ;
 			printf("bash: exit: %s: numeric argument required", head->cmd[1]);
 			return (0);
 		}
-		i++;
 	}
 	return (1);
 }
@@ -42,7 +44,7 @@ int	ft_check_after_exit(t_list *head)
 void	ft_exit(t_list *list)
 {
 	unsigned char		x;
-	unsigned long long	a;
+	long long			a;
 
 	x = 0;
 	a = 0;
@@ -51,8 +53,6 @@ void	ft_exit(t_list *list)
 	{
 		if (ft_check_after_exit(list))
 			a = ft_atoi(list->cmd[1]);
-		if (a > 9223372036854775807)
-			printf("bash: exit: %s: numeric argument required", list->cmd[1]);
 		x = a;
 	}
 	exit(x);
@@ -60,6 +60,7 @@ void	ft_exit(t_list *list)
 
 int	ft_builtins(t_list *list, t_env **env_list, t_var *var)
 {
+	g_state_exit = 0;
 	if (!ft_strcmp(list->cmd[0], "cd")
 		|| !ft_strcmp(list->cmd[0], "/usr/bin/cd"))
 		rendering_cd(list, env_list);
@@ -69,9 +70,9 @@ int	ft_builtins(t_list *list, t_env **env_list, t_var *var)
 	else if (!ft_strcmp(list->cmd[0], "echo") 
 		|| !ft_strcmp(list->cmd[0], "/bin/echo"))
 		ft_echo(list, var);
-	else if (!ft_strcmp(list->cmd[0], "env") 
+	else if ((!ft_strcmp(list->cmd[0], "env")) 
 		|| !ft_strcmp(list->cmd[0], "/usr/bin/env"))
-		ft_env(*env_list, var);
+		ft_env(*env_list, var, list);
 	else if (!ft_strcmp(list->cmd[0], "unset"))
 		ft_unset(list, env_list, var);
 	else if (!ft_strcmp(list->cmd[0], "export"))
@@ -80,7 +81,6 @@ int	ft_builtins(t_list *list, t_env **env_list, t_var *var)
 		ft_exit(list);
 	else
 		return (1);
-	g_state_exit = 0;
 	return (0);
 }
 

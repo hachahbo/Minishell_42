@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: amoukhle <amoukhle@student.42.fr>          +#+  +:+       +#+        */
+/*   By: hachahbo <hachahbo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/21 19:11:14 by hachahbo          #+#    #+#             */
-/*   Updated: 2023/08/01 23:23:45 by amoukhle         ###   ########.fr       */
+/*   Updated: 2023/08/04 15:13:31 by hachahbo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,7 +43,7 @@ int		check_num_herdoc(t_list *head);
 void	ft_status(t_list *new, int *flag1, int *flag2);
 char	*check_data(char *input, int *start, int *end);
 void	ft_lstclear(t_list **lst);
-void	ft_env(t_env *env_list, t_var *var);
+void	ft_env(t_env *env_list, t_var *var, t_list *head);
 void	ft_make_new_list(t_list *head, t_list **new_list, t_env *env_list);
 void	ft_pwd(t_env *env_list, t_var *var);
 char	*ft_expand_value(char *str, t_env *env_list);
@@ -136,7 +136,7 @@ void	ft_serche_for_heredoce(t_list *last_list,
 			t_var *var, t_list_str **list_heredoc);
 int		ft_serche_for_redir_in(t_list *last_list);
 void	wait_childs(t_var *var, pid_t last_child);
-void	exec_child(t_list *last_list,
+int		exec_child(t_list *last_list,
 			t_env **env_list, t_var *var, int num_pipe);
 void	ft_position_start_end(t_list **last_list,
 			t_list_str **list_heredoce_tmp);
@@ -194,5 +194,6 @@ void	chaange_the_value_part_two(t_env *save, t_env *new_env);
 void	ft_free_this(t_env *new_env, char *str);
 void	ft_print_export(t_env *export_list, t_var *var);
 void	ft_close_fd(t_var *var);
+void	print_error_home(void);
 
 #endif

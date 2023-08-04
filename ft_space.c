@@ -6,7 +6,7 @@
 /*   By: hachahbo <hachahbo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/01 06:21:24 by hachahbo          #+#    #+#             */
-/*   Updated: 2023/07/31 21:38:28 by hachahbo         ###   ########.fr       */
+/*   Updated: 2023/08/04 13:31:59 by hachahbo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,11 +20,18 @@ int	is_spaces(char *str)
 	return (0);
 }
 
+int	ft_isspace(char c)
+{
+	if (c == '\n' || c == ' ' || c == '\t')
+		return (1);
+	return (0);
+}
+
 int	ft_strisspace(const char *str)
 {
 	while (*str)
 	{
-		if (!isspace(*str))
+		if (!ft_isspace(*str))
 			return (0);
 		str++;
 	}
